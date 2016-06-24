@@ -52,6 +52,8 @@ public class Filechain {
 
 	private static Boolean flagNewBlock = Boolean.TRUE;
 
+	private Boolean flagRunningMinining;
+
 
 	/**
 	 * 
@@ -472,8 +474,6 @@ public class Filechain {
 	/**
 	 * @param b
 	 *            blocco che cerco
-	 * @param blockRepository
-	 * @param serviceMiner
 	 * @return
 	 * @throws InterruptedException
 	 * @throws ExecutionException
@@ -599,13 +599,12 @@ public class Filechain {
 
 		miningService.initializeService();
 		Future<Boolean> response = null;
-		while (true) {// TODO FLAG DA GUI
+			while (flagRunningMinining) {
 			if (response != null) {
 				response.cancel(Boolean.TRUE);
 				response = null;
 			}
 			System.out.println("richiesta asincrona");
-
 			try {
 				miningService.updateMiningService();
 				flagNewBlock = Boolean.FALSE;
@@ -625,17 +624,37 @@ public class Filechain {
 					e.printStackTrace();
 				}
 
-			} while (!response.isDone() && flagNewBlock == Boolean.FALSE);
-			System.out.println("ho aspettato la risposta" + response.isDone() + " oppure è arrivao il blocco " + flagNewBlock);
+			} while (!response.isDone() && flagNewBlock == Boolean.FALSE && flagRunningMinining);
 
-			try {
-				System.out.println(" con valore " + response.get());
-			} catch (InterruptedException | ExecutionException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				if(response!=null){
+					try {
+						System.out.println(" con valore " + response.get());
+					} catch (InterruptedException | ExecutionException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}else
+					System.out.println("Il miner era fermo");
+					System.out.println("ho aspettato la risposta" + response.isDone() + " oppure è arrivao il blocco " + flagNewBlock+ "oppure ho fermato il mining");
+
 			}
-		}
+
+		if(response!=null)
+		response.cancel(Boolean.TRUE);
+		System.out.println("Il miner è stato fermato con successo");
 	}
+
+
+	@Async
+	public void startMining(){
+		initializeFilechain();
+		update();
+		setFlagRunningMinining(Boolean.TRUE);
+		manageMine();
+	}
+
+
+
 
 	/*
 	 * (non-Javadoc)
@@ -703,6 +722,13 @@ public class Filechain {
 		this.miningService = miningService;
 	}
 
+	public Boolean getFlagRunningMinining() {
+		return flagRunningMinining;
+	}
+
+	public void setFlagRunningMinining(Boolean flagRunningMinining) {
+		this.flagRunningMinining = flagRunningMinining;
+	}
 	// @Override
 	// public void inject(BeansManager beansManager) {
 	//

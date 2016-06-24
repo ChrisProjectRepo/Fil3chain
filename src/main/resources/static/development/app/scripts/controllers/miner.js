@@ -23,19 +23,37 @@ angular.module('blockchainApp')
   $scope.buttonMiner = buttonMinerStart;
   function minerButtonClick(event){
     console.log('minerCtrl',start);
-    // Simple GET request example:
-    $http({
-      method: 'POST',
-      url: '/user_ping'
-    }).then(function successCallback(response) {
-      // this callback will be called asynchronously
-      // when the response is available
-      console.log('minerCtrl','success',response)
-    }, function errorCallback(response) {
-      // called asynchronously if an error occurs
-      // or server returns response with an error status.
-      console.log('minerCtrl','error',response)
-    });
+
+    if(!start) {
+      // Simple GET request example:
+      $http({
+        method: 'GET',
+        url: '/fil3chain/starMining'
+      }).then(function successCallback(response) {
+        // this callback will be called asynchronously
+        // when the response is available
+        console.log('minerStart','success',response)
+      }, function errorCallback(response) {
+        // called asynchronously if an error occurs
+        // or server returns response with an error status.
+        console.log('minerStart','error',response)
+      });
+    }
+    else {
+      // Simple GET request example:
+      $http({
+        method: 'GET',
+        url: '/fil3chain/stopMining'
+      }).then(function successCallback(response) {
+        // this callback will be called asynchronously
+        // when the response is available
+        console.log('minerStop','success',response)
+      }, function errorCallback(response) {
+        // called asynchronously if an error occurs
+        // or server returns response with an error status.
+        console.log('minerStop','error',response)
+      });
+    }
 
 
     //Qui si deve avviare il metodo di mining
@@ -49,6 +67,7 @@ angular.module('blockchainApp')
     start=!start;
     return;
   }
+
   $scope.minerButtonClick = minerButtonClick;
   function showAlert(ev) {
     var useFullScreen = ($mdMedia('sm') || $mdMedia('xs')) ;// && $scope.customFullscreen;

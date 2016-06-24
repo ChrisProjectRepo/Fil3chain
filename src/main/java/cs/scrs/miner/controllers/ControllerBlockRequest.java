@@ -44,13 +44,7 @@ public class ControllerBlockRequest {
 	
 	@Autowired
 	private Filechain filechain;
-	/*
-	 * @RequestMapping(value="/provaJson", method= RequestMethod.GET)
-	 * public @ResponseBody requestBlocks(@RequestParam("chainLevel")Integer
-	 * chainLevel){ Block block=new
-	 * Block("adas","sadsa","dsadsa",12,23,chainLevel); return
-	 * "redirect:/fi3chain/newBlock"+block; }
-	 */
+
 
 	@RequestMapping(value = "/provaJson", method = RequestMethod.GET)
 	public Block requestBlocks() {
@@ -134,65 +128,6 @@ public class ControllerBlockRequest {
 		System.out.println("Il miner "+request.getRemoteAddr()+"mi ha chiesto il mio Chain Level");
 		return blockRepository.findFirstByOrderByChainLevelDesc().getChainLevel();
 	}
-
-	// Controller che intercetta la connessione di un utente
-	@RequestMapping(value = "/user_connect", method = RequestMethod.POST)
-	public void newUserConnection(@RequestBody String ip) {
-		JsonObject jobj = new Gson().fromJson(ip, JsonObject.class);
-		String ipHost = jobj.get("user_ip").getAsString();
-		ipService.addIP(new IP(ipHost));
-		// IPManager.getManager().getIPList().forEach(i ->
-		// System.out.println(i));
-	}
-
-	// Controller che intercetta la disconnessione di un utente
-	@RequestMapping(value = "/user_disconnect", method = RequestMethod.POST)
-	public void newUserDisconnection(@RequestBody String ip) {
-		JsonObject jobj = new Gson().fromJson(ip, JsonObject.class);
-		String ipHost = jobj.get("user_ip").getAsString();
-		ipService.removeIP(new IP(ipHost));
-		// IPManager.getManager().getIPList().forEach(i ->
-		// System.out.println(i));
-	}
-
-	// Controller che intercetta i ping
-	@RequestMapping(value = "/user_ping", method = RequestMethod.POST)
-	public @ResponseBody String user_ping() { // response body fa si che il
-												// return diventa campo dati
-												// della risposta
-		return "{\"response\":\"ACK\"}";
-	}
-
-
-
-	/////////MAPPING USER ITERFACE///////////
-
-	@RequestMapping(value = "/fil3chain/starMining", method = RequestMethod.GET)
-	public void startMining() {
-		// Inutile che ritorno si/no con accodato il chain level basta che torno
-		// il chain level e il ricevente sa a chi chiedere tutti i blocchi di cui ha bisogno
-		//filechain.manageMine();
-		//return blockRepository.findFirstByOrderByChainLevelDesc().getChainLevel();
-	}
-
-	@RequestMapping(value = "/fil3chain/stopMining", method = RequestMethod.GET)
-	public void stopMining() {
-		// Inutile che ritorno si/no con accodato il chain level basta che torno
-		// il chain level e il ricevente sa a chi chiedere tutti i blocchi di cui ha bisogno
-		//filechain.manageMine();
-		//return blockRepository.findFirstByOrderByChainLevelDesc().getChainLevel();
-	}
-
-	@RequestMapping(value = "/fil3chain/sendTransaction", method = RequestMethod.GET)
-	public void sendTransaction() {
-		//TODO inviare transazioni ad arcieri
-		// Inutile che ritorno si/no con accodato il chain level basta che torno
-		// il chain level e il ricevente sa a chi chiedere tutti i blocchi di cui ha bisogno
-		//filechain.manageMine();
-		//return blockRepository.findFirstByOrderByChainLevelDesc().getChainLevel();
-	}
-
-
 
 
 	/**

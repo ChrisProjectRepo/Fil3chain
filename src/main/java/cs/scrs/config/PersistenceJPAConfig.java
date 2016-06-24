@@ -64,7 +64,7 @@ public class PersistenceJPAConfig {
         } catch (SQLException e) {
             System.out.println("Database già presente, aggiorno le proprietà.");
             properties.remove("hibernate.hbm2ddl.auto");
-            properties.setProperty("hibernate.hbm2ddl.auto", "update");
+            //properties.setProperty("hibernate.hbm2ddl.auto", "update");
             // e.printStackTrace();
         }
 

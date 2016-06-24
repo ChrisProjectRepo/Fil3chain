@@ -45,9 +45,9 @@ public class Fil3Chain implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 
-		filechain.initializeFilechain();
-		filechain.update();
-		filechain.manageMine();
+//		filechain.initializeFilechain();
+//		filechain.update();
+//		filechain.manageMine();
 
 		// inizializzazione dell apllicazione
 		// filechain.update();
