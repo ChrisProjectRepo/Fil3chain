@@ -18,10 +18,13 @@ import java.util.concurrent.Future;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.MediaType;
 import org.springframework.util.MultiValueMap;
+
+import javax.servlet.http.HttpServletRequest;
 
 @Component
 @RestController
@@ -89,44 +92,46 @@ public class ControllerBlockRequest {
 	// Controller che intercetta arrivo di un nuovo blocco
 	@RequestMapping(value = "/fil3chain/newBlock", method = RequestMethod.POST)
 	@ResponseBody
-	public String newBlock(@RequestBody Block block) {
+	public String newBlock(@RequestBody Block block, HttpServletRequest request) {
 		// Block newBlock = block;
-		System.out.println("Il blocco che mi è stato mandato è " + block);
+		//System.out.println("Il blocco che mi è stato mandato è " + block);
 		// TODO dobbiamo verificare il blocco appena arrivato se è valido
 		// blocco il thread di mining e lo riavvio sulla fil3chain aggiornata
 
 		//MinersListenerRegister.getInstance().notifyListenersNewBlock(newBlock);
 		//TODO POSSIAMO TOGLIERE IL LISTENER E FARE COSI
-		
-		
+
+		System.out.println("Il miner "+request.getRemoteAddr()+"mi ha mandato il blocco: "+block);
 		filechain.onNewBlockArrived(block);
 		System.out.println("rispondo");
-		
 		return Boolean.TRUE.toString();
 	}
 
 	@RequestMapping(value = "/fil3chain/getBlockByChain", method = RequestMethod.GET)
 	@ResponseBody
-	public List<Block> getBlock(Integer chainLevel) {
+	public List<Block> getBlock(Integer chainLevel,HttpServletRequest request) {
 		// System.err.println("Rispondo con: " +
 		// blockRepository.findBychainLevel(chainLevel));
+		System.out.println("Il miner "+request.getRemoteAddr()+"mi ha chiesto un blocco con ChainLevel "+chainLevel);
 		return blockRepository.findBychainLevel(chainLevel);
 	}
 
 	@RequestMapping(value = "/fil3chain/getBlockByhash", method = RequestMethod.GET)
 	@ResponseBody
-	public Block getBlock(String hash) {
+	public Block getBlock(String hash,HttpServletRequest request) {
 		// System.err.println("Rispondo con: " +
 		// blockRepository.findBychainLevel(chainLevel));
+		System.out.println("Il miner "+request.getRemoteAddr()+"mi ha chiesto un blocco con questo Hash: "+hash);
 		return blockRepository.findByhashBlock(hash);
 	}
 
 	// Mappiamo la richiesta di invio di blocchi ad un Peer che la richiede
 	@RequestMapping(value = "/fil3chain/updateAtMaxLevel", method = RequestMethod.GET)
-	public Integer updateAtMaxLevel() {
+	public Integer updateAtMaxLevel(HttpServletRequest request) {
 		// Inutile che ritorno si/no con accodato il chain level basta che torno
 		// il chain level e
 		// il ricevente sa a chi chiedere tutti i blocchi di cui ha bisogno
+		System.out.println("Il miner "+request.getRemoteAddr()+"mi ha chiesto il mio Chain Level");
 		return blockRepository.findFirstByOrderByChainLevelDesc().getChainLevel();
 	}
 
@@ -158,7 +163,38 @@ public class ControllerBlockRequest {
 		return "{\"response\":\"ACK\"}";
 	}
 
-	
+
+
+	/////////MAPPING USER ITERFACE///////////
+
+	@RequestMapping(value = "/fil3chain/starMining", method = RequestMethod.GET)
+	public void startMining() {
+		// Inutile che ritorno si/no con accodato il chain level basta che torno
+		// il chain level e il ricevente sa a chi chiedere tutti i blocchi di cui ha bisogno
+		//filechain.manageMine();
+		//return blockRepository.findFirstByOrderByChainLevelDesc().getChainLevel();
+	}
+
+	@RequestMapping(value = "/fil3chain/stopMining", method = RequestMethod.GET)
+	public void stopMining() {
+		// Inutile che ritorno si/no con accodato il chain level basta che torno
+		// il chain level e il ricevente sa a chi chiedere tutti i blocchi di cui ha bisogno
+		//filechain.manageMine();
+		//return blockRepository.findFirstByOrderByChainLevelDesc().getChainLevel();
+	}
+
+	@RequestMapping(value = "/fil3chain/sendTransaction", method = RequestMethod.GET)
+	public void sendTransaction() {
+		//TODO inviare transazioni ad arcieri
+		// Inutile che ritorno si/no con accodato il chain level basta che torno
+		// il chain level e il ricevente sa a chi chiedere tutti i blocchi di cui ha bisogno
+		//filechain.manageMine();
+		//return blockRepository.findFirstByOrderByChainLevelDesc().getChainLevel();
+	}
+
+
+
+
 	/**
 	 * @return the transactionRepository
 	 */
@@ -247,29 +283,5 @@ public class ControllerBlockRequest {
 	
 		this.filechain = filechain;
 	}
-
-	/*
-	 * @RequestMapping(value = "/generateValidateBlock", method =
-	 * RequestMethod.GET) public Block generateBlock() {
-	 * 
-	 * Block block = new Block("sadsa", "dsadsa", 12, 23, 3);
-	 * block.generateHashBlock(); return block; }
-	 */
-
-	/*
-	 * @RequestMapping(value = "/fil3chain/newBlock", method =
-	 * RequestMethod.GET)
-	 * 
-	 * @ResponseBody public Block requestBlock(String hashBlock, String
-	 * merkleRoot, String creationTime, Integer minerPublicKey, Integer nonce,
-	 * Integer chainLevel) {
-	 * 
-	 * 
-	 * Block block = new Block(hashBlock, merkleRoot, creationTime,
-	 * minerPublicKey, nonce, chainLevel); if(block.verify()){ //aggiungerei al
-	 * db //
-	 * 
-	 * }
-	 */
 
 }

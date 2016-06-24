@@ -4,6 +4,8 @@ package cs.scrs.config;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import cs.scrs.ui.config.AUiConfig;
+import cs.scrs.ui.config.UiConfig;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -85,7 +87,6 @@ public class MinerConfig {
 		return miningService;
 
 	}
-
 
 	@Bean
 	public Filechain Filechain() {
