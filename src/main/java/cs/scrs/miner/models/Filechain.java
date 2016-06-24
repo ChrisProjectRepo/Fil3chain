@@ -627,20 +627,17 @@ public class Filechain {
 			} while (!response.isDone() && flagNewBlock == Boolean.FALSE && flagRunningMinining);
 
 				if(response!=null){
-					try {
-						System.out.println(" con valore " + response.get());
-					} catch (InterruptedException | ExecutionException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
+					System.out.println("Il miner stava minando ed è stato bloccato");
 				}else
 					System.out.println("Il miner era fermo");
+
 					System.out.println("ho aspettato la risposta" + response.isDone() + " oppure è arrivao il blocco " + flagNewBlock+ "oppure ho fermato il mining");
 
 			}
 
 		if(response!=null)
 		response.cancel(Boolean.TRUE);
+
 		System.out.println("Il miner è stato fermato con successo");
 	}
 
