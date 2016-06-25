@@ -601,7 +601,7 @@ public class Filechain {
 		miningService.initializeService();
 		Future<Boolean> response = null;
 			while (flagRunningMinining) {
-
+	miningService.setStopMining(Boolean.TRUE);
 				if (response != null) {
 				response.cancel(Boolean.TRUE);
 				response = null;
