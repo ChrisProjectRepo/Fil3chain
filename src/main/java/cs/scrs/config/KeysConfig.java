@@ -36,6 +36,5 @@ public class KeysConfig {
 		return "KeysConfigProperties [publicKey=" + publicKey + ", privateKey=" + privateKey + "]";
 	}
 	
-	
 
 }
