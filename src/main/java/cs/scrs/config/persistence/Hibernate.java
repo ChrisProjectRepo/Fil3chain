@@ -17,7 +17,7 @@ import org.springframework.context.annotation.Configuration;
 		ignoreUnknownFields = false
 		)
 public class Hibernate {
-
+	private String default_schema;
 	private Hbm2ddl hbm2ddl;
 	private String dialect;
 	private String show_sql;
@@ -54,11 +54,18 @@ public class Hibernate {
 	public void setShow_sql(String show_sql) {
 		this.show_sql = show_sql;
 	}
-	
+	public String getDefault_schema() {
+		return default_schema;
+	}
+	public void setDefault_schema(String default_schema) {
+		this.default_schema = default_schema;
+	}
 	@Override
 	public String toString() {
-		return "HibernateConfigProperties [hbm2ddlAuto=" + hbm2ddl.getAuto() + ", dialect=" + dialect + ", show_sql="
-				+ show_sql + "]";
+		return "Hibernate [default_schema=" + default_schema + ", hbm2ddl=" + hbm2ddl + ", dialect=" + dialect
+				+ ", show_sql=" + show_sql + "]";
 	}
+
+	
 
 }

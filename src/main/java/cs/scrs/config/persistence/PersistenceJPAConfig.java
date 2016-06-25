@@ -1,15 +1,10 @@
 package cs.scrs.config.persistence;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.Properties;
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.orm.jpa.EntityScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -81,6 +76,7 @@ public class PersistenceJPAConfig {
 	Properties additionalProperties() {
 		System.out.println("Additional properties "+propertiesHibernate.toString());
 		Properties properties = new Properties();
+		properties.setProperty( "hibernate.default_schema", propertiesHibernate.getDefault_schema() );
 		properties.setProperty( "hibernate.hbm2ddl.auto", propertiesHibernate.getHbm2ddl().getAuto() );
 		properties.setProperty( "hibernate.dialect", propertiesHibernate.getDialect() );
 		properties.setProperty( "hibernate.show_sql", propertiesHibernate.getShow_sql() );
