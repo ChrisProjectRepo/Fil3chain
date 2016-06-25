@@ -172,5 +172,7 @@ public interface MiningServiceInt{
 	 */
 	void setPoolDispService(PoolDispatcherServiceImpl poolDispService);
 
+	public Boolean getStopMining();
 
+	public void setStopMining(Boolean stopMining);
 }

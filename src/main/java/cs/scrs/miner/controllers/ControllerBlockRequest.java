@@ -46,42 +46,9 @@ public class ControllerBlockRequest {
 	private Filechain filechain;
 
 
-	@RequestMapping(value = "/provaJson", method = RequestMethod.GET)
-	public Block requestBlocks() {
 
-		Block block = new Block("adas", "dsadsa", "12", 23, 3);
 
-		return block;
-	}
-
-	// http://localhost:8080/addJsonBlock?hashBlock=22213&merkleRoot=cad&minerPublicKey=12&nonce=1&chainLevel=1
-	@RequestMapping(value = "/addJsonBlock", method = RequestMethod.GET)
-	public Block addJsonBlock(String hashBlock, String merkleRoot, String minerPublicKey, Integer nonce,
-			Integer chainLevel, String signature) {
-
-		Block block = new Block(hashBlock, merkleRoot, minerPublicKey, nonce, chainLevel);
-		block.setSignature(signature);
-		blockRepository.save(block);
-		return block;
-	}
-
-	// Aggiungo delle transazioni di prova
-	@RequestMapping(value = "/JsonTransaction", method = RequestMethod.GET)
-	@ResponseBody
-	public List<Transaction> JsonTransaction(Integer nTrans) {
-		String s = "";
-		Double x;
-		List<Transaction> trans = new ArrayList<Transaction>();
-		for (int i = 0; i < nTrans; i++) {
-			x = Math.random() * nTrans;
-			s = org.apache.commons.codec.digest.DigestUtils.sha256Hex(x.toString());
-			Transaction transaction = new Transaction(s, "file prova numero: " + i);
-			trans.add(transaction);
-		}
-		return trans;
-	}
-
-	//////////////////////////////////////////////////////////////////////////////////////////////////////
+	/////////////////// MAPPING RICHIESTE DI BLOCCHI DELLA FIL3CH4IN ///////////////////////////////////////////////
 
 	// Controller che intercetta arrivo di un nuovo blocco
 	@RequestMapping(value = "/fil3chain/newBlock", method = RequestMethod.POST)
@@ -129,6 +96,42 @@ public class ControllerBlockRequest {
 		return blockRepository.findFirstByOrderByChainLevelDesc().getChainLevel();
 	}
 
+/////////MAPPING DI RICHIESTER A SCOPO DI TESTING//////////////////////
+
+    @RequestMapping(value = "/provaJson", method = RequestMethod.GET)
+    public Block requestBlocks() {
+
+        Block block = new Block("adas", "dsadsa", "12", 23, 3);
+
+        return block;
+    }
+
+    // http://localhost:8080/addJsonBlock?hashBlock=22213&merkleRoot=cad&minerPublicKey=12&nonce=1&chainLevel=1
+    @RequestMapping(value = "/addJsonBlock", method = RequestMethod.GET)
+    public Block addJsonBlock(String hashBlock, String merkleRoot, String minerPublicKey, Integer nonce,
+                              Integer chainLevel, String signature) {
+
+        Block block = new Block(hashBlock, merkleRoot, minerPublicKey, nonce, chainLevel);
+        block.setSignature(signature);
+        blockRepository.save(block);
+        return block;
+    }
+
+    // Aggiungo delle transazioni di prova
+    @RequestMapping(value = "/JsonTransaction", method = RequestMethod.GET)
+    @ResponseBody
+    public List<Transaction> JsonTransaction(Integer nTrans) {
+        String s = "";
+        Double x;
+        List<Transaction> trans = new ArrayList<Transaction>();
+        for (int i = 0; i < nTrans; i++) {
+            x = Math.random() * nTrans;
+            s = org.apache.commons.codec.digest.DigestUtils.sha256Hex(x.toString());
+            Transaction transaction = new Transaction(s, "file prova numero: " + i);
+            trans.add(transaction);
+        }
+        return trans;
+    }
 
 	/**
 	 * @return the transactionRepository

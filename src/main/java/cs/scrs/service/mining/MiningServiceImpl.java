@@ -85,6 +85,7 @@ public class MiningServiceImpl implements MiningServiceInt {
 	@Autowired
 	private PoolDispatcherServiceImpl poolDispService;
 
+	private Boolean stopMining =  Boolean.TRUE;
 
 	/**
 	 * Costruttore di default (necessario)
@@ -189,11 +190,15 @@ public class MiningServiceImpl implements MiningServiceInt {
 
 		do {
 			// Genera nuovo hash
-			hash = org.apache.commons.codec.digest.DigestUtils.sha256(block.toString() + nonce);
-
+		hash = org.apache.commons.codec.digest.DigestUtils.sha256(block.toString() + nonce);
+			System.out.println("MINO");
 			// Incremento il nonce
 			nonce++;
-		} while (!verifyHash(hash));
+
+		} while (!verifyHash(hash)&& stopMining);
+		if(!stopMining){
+			return new AsyncResult<Boolean>(Boolean.FALSE);
+		}
 		AudioUtil.alert(); // avviso sonoro
 		nonceFinish = nonce - 1;
 		totalTime = (new Date().getTime() - startTime) / 1000.0f;
@@ -707,5 +712,11 @@ public class MiningServiceImpl implements MiningServiceInt {
 		this.poolDispService = poolDispService;
 	}
 
+	public Boolean getStopMining() {
+		return stopMining;
+	}
 
+	public void setStopMining(Boolean stopMining) {
+		this.stopMining = stopMining;
+	}
 }
