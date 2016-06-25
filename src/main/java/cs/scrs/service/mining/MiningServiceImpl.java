@@ -194,7 +194,7 @@ public class MiningServiceImpl implements MiningServiceInt {
 
 		} while (!verifyHash(hash)&& stopMining);
 		if(!stopMining){
-			return new AsyncResult<Boolean>(Boolean.FALSE);
+			return new AsyncResult<Boolean>(Boolean.TRUE);
 		}
 		AudioUtil.alert(); // avviso sonoro
 		nonceFinish = nonce - 1;

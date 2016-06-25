@@ -578,16 +578,15 @@ public class Filechain {
 
 		if (isVerified) {
 			// Stoppo il processo di mining
-			// Salvo il blocco nella catena
+			//mi salvo l altrezza prima dell inserimento
 			Integer heightBFS = blockRepository.findFirstByOrderByChainLevelDesc().getChainLevel();
+			// Salvo il blocco nella catena
 			blockRepository.save(block);
-			// Aggiorno il servizio di mining
+			// se il blocco è con chain level maggiore del mio blocco il mining
 			if (block.getChainLevel() >  heightBFS) {
 				flagNewBlock = Boolean.TRUE;
+				// Aggiorno il servizio di mining
 				miningService.updateMiningService();
-				// Ricomincio a minare
-
-				// TODO CHIAMATA ASINCRONA
 
 			}
 		}

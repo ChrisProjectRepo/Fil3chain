@@ -62,7 +62,7 @@ public class ControllerBlockRequest {
 		//MinersListenerRegister.getInstance().notifyListenersNewBlock(newBlock);
 		//TODO POSSIAMO TOGLIERE IL LISTENER E FARE COSI
 
-		System.out.println("Il miner "+request.getRemoteAddr()+"mi ha mandato il blocco: "+block);
+		System.out.println("Il miner "+request.getRemoteAddr()+" mi ha mandato il blocco: "+block);
 		filechain.onNewBlockArrived(block);
 		System.out.println("rispondo");
 		return Boolean.TRUE.toString();
@@ -73,7 +73,7 @@ public class ControllerBlockRequest {
 	public List<Block> getBlock(Integer chainLevel,HttpServletRequest request) {
 		// System.err.println("Rispondo con: " +
 		// blockRepository.findBychainLevel(chainLevel));
-		System.out.println("Il miner "+request.getRemoteAddr()+"mi ha chiesto un blocco con ChainLevel "+chainLevel);
+		System.out.println("Il miner "+request.getRemoteAddr()+" mi ha chiesto un blocco con ChainLevel "+chainLevel);
 		return blockRepository.findBychainLevel(chainLevel);
 	}
 
@@ -82,7 +82,7 @@ public class ControllerBlockRequest {
 	public Block getBlock(String hash,HttpServletRequest request) {
 		// System.err.println("Rispondo con: " +
 		// blockRepository.findBychainLevel(chainLevel));
-		System.out.println("Il miner "+request.getRemoteAddr()+"mi ha chiesto un blocco con questo Hash: "+hash);
+		System.out.println("Il miner "+request.getRemoteAddr()+" mi ha chiesto un blocco con questo Hash: "+hash);
 		return blockRepository.findByhashBlock(hash);
 	}
 
@@ -92,7 +92,7 @@ public class ControllerBlockRequest {
 		// Inutile che ritorno si/no con accodato il chain level basta che torno
 		// il chain level e
 		// il ricevente sa a chi chiedere tutti i blocchi di cui ha bisogno
-		System.out.println("Il miner "+request.getRemoteAddr()+"mi ha chiesto il mio Chain Level");
+		System.out.println("Il miner "+request.getRemoteAddr()+" mi ha chiesto il mio Chain Level ");
 		return blockRepository.findFirstByOrderByChainLevelDesc().getChainLevel();
 	}
 
