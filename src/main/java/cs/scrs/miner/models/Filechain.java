@@ -582,14 +582,14 @@ public class Filechain {
 
 			blockRepository.save(block);
 			// Aggiorno il servizio di mining
-			if (block.getChainLevel() > blockRepository.findFirstByOrderByChainLevelDesc().getChainLevel()) {
+			//if (block.getChainLevel() > blockRepository.findFirstByOrderByChainLevelDesc().getChainLevel()) {
 				flagNewBlock = Boolean.TRUE;
 				miningService.updateMiningService();
 				// Ricomincio a minare
 
 				// TODO CHIAMATA ASINCRONA
 
-			}
+			//}
 		}
 
 		return new AsyncResult<Boolean>(isVerified);
@@ -601,7 +601,8 @@ public class Filechain {
 		miningService.initializeService();
 		Future<Boolean> response = null;
 			while (flagRunningMinining) {
-	miningService.setStopMining(Boolean.TRUE);
+				miningService.setStopMining(Boolean.TRUE);
+
 				if (response != null) {
 				response.cancel(Boolean.TRUE);
 				response = null;
