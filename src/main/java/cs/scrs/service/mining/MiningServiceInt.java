@@ -28,7 +28,7 @@ public interface MiningServiceInt{
 	 * Metodo per minare un blocco
 	 * @return 
 	 */
-	Future<Boolean> mine() throws Exception;
+	Future<Boolean> mine(Integer i) throws Exception;
 
 	Future<List<Block>> sendBlockToMiners() throws InterruptedException;
 

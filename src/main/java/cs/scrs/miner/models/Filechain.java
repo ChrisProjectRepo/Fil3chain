@@ -585,6 +585,7 @@ public class Filechain {
 			// se il blocco è con chain level maggiore del mio blocco il mining
 			if (block.getChainLevel() >  heightBFS) {
 				flagNewBlock = Boolean.TRUE;
+				miningService.setStopMining(Boolean.TRUE);
 				// Aggiorno il servizio di mining
 				miningService.updateMiningService();//
 
@@ -596,7 +597,7 @@ public class Filechain {
 
 	// Metodo che avvia il Mining del miner e ne gestisce interruzione
 	public void manageMine() {
-
+		Integer i =0;
 		miningService.initializeService();
 		Future<Boolean> response = null;
 		while (flagRunningMinining) {
@@ -609,7 +610,8 @@ public class Filechain {
 			try {
 				miningService.updateMiningService();
 				flagNewBlock = Boolean.FALSE;
-				response = miningService.mine();
+				response = miningService.mine(i);
+				i++;
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -628,15 +630,15 @@ public class Filechain {
 			} while (!response.isDone() && flagNewBlock == Boolean.FALSE && flagRunningMinining);
 
 			if (response != null) {
-				miningService.setStopMining(Boolean.FALSE);
+				miningService.setStopMining(Boolean.TRUE);
 				System.out.println("Il miner stava minando ed è stato bloccato");
-			} else {
-				System.out.println("Il miner era fermo");
-			}
+			} 
 			System.out.println("ho aspettato la risposta" + response.isDone() + " oppure è arrivao il blocco " + flagNewBlock + "oppure ho fermato il mining");
-
+			flagNewBlock=Boolean.FALSE;
+			miningService.setStopMining(Boolean.FALSE);
+			
 		}
-
+	
 		if (response != null) {
 			miningService.setStopMining(Boolean.FALSE);
 			response.cancel(Boolean.TRUE);

@@ -160,7 +160,7 @@ public class MiningServiceImpl implements MiningServiceInt {
 	 * Metodo per minare un blocco
 	 */
 	@Async
-	public Future<Boolean> mine() throws Exception {
+	public Future<Boolean> mine(Integer i) throws Exception {
 
 		if (block == null)
 			initializeService();
@@ -188,12 +188,13 @@ public class MiningServiceImpl implements MiningServiceInt {
 
 		do {
 			// Genera nuovo hash
+			System.out.println("sono il miner :" + i +" con il nounce  " +nonce);
 		hash = org.apache.commons.codec.digest.DigestUtils.sha256(block.toString() + nonce);
 			// Incremento il nonce
 			nonce++;
 
-		} while (!verifyHash(hash)&& stopMining);
-		if(!stopMining){
+		} while (!verifyHash(hash)&& !stopMining);
+		if(stopMining){
 			return new AsyncResult<Boolean>(Boolean.TRUE);
 		}
 		AudioUtil.alert(); // avviso sonoro
