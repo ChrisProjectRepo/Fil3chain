@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.Properties;
 import java.util.concurrent.Future;
 
+import javax.annotation.PostConstruct;
+
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.config.RequestConfig;
@@ -18,11 +20,13 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClientBuilder;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Service;
 import com.google.common.reflect.TypeToken;
 
+import cs.scrs.config.network.Network;
 import cs.scrs.miner.dao.block.Block;
 import cs.scrs.miner.models.IP;
 import cs.scrs.miner.models.Pairs;
@@ -42,7 +46,8 @@ public class AsyncRequest {
 	
 	private static final int TIMEOUT_MILLIS = 5000;
 
-
+	@Autowired
+	private Network networkProperties;
 	/**
 	 * 
 	 */
@@ -50,23 +55,27 @@ public class AsyncRequest {
 	public AsyncRequest() {
 		// loadConfiguration();
 	}
-
+	@PostConstruct
+	public void init(){
+		System.out.println("AsyncRequest init method called");
+		this.setTimeoutSeconds(networkProperties.getTimeoutSeconds());
+	}
 	/**
 	 * 
 	 */
-	public void loadConfiguration() {
-
-		// Carica la configurazione TODO UTILIZZARE SPRING
-		Properties prop = new Properties();
-		InputStream in = Object.class.getResourceAsStream("/network.properties");
-		try {
-			prop.load(in);
-			// Imposta il timeout
-			this.setTimeoutSeconds(Integer.parseInt(prop.getProperty("timeoutSeconds", "3")));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
+//	public void loadConfiguration() {
+//
+//		// Carica la configurazione TODO UTILIZZARE SPRING
+//		Properties prop = new Properties();
+//		InputStream in = Object.class.getResourceAsStream("/network.properties");
+//		try {
+//			prop.load(in);
+//			// Imposta il timeout
+//			this.setTimeoutSeconds(Integer.parseInt(prop.getProperty("timeoutSeconds", "3")));
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//	}
 
 	@Async
 	public Future<Pairs<IP, Integer>> findMaxChainLevel(String uriMiner) {

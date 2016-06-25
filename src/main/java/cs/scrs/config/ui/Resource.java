@@ -1,4 +1,4 @@
-package cs.scrs.ui.config;
+package cs.scrs.config.ui;
 
 import java.util.List;
 

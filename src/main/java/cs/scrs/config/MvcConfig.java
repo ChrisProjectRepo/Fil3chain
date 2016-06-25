@@ -3,9 +3,6 @@ package cs.scrs.config;
 
 import java.util.Iterator;
 
-import cs.scrs.ui.config.AUiConfig;
-import cs.scrs.ui.config.Resource;
-import cs.scrs.ui.config.UiConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -15,6 +12,10 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
+
+import cs.scrs.config.ui.AUiConfig;
+import cs.scrs.config.ui.Resource;
+import cs.scrs.config.ui.UiConfig;
 
 
 /**

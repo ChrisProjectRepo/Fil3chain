@@ -4,8 +4,6 @@ package cs.scrs.config;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import cs.scrs.ui.config.AUiConfig;
-import cs.scrs.ui.config.UiConfig;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,6 +16,8 @@ import cs.scrs.service.mining.IMiningService;
 import cs.scrs.service.mining.MiningServiceImpl;
 import cs.scrs.service.mining.VerifyServiceImpl;
 import cs.scrs.service.request.AsyncRequest;
+import cs.scrs.config.ui.AUiConfig;
+import cs.scrs.config.ui.UiConfig;
 import cs.scrs.miner.models.*;
 
 
@@ -50,24 +50,24 @@ public class MinerConfig {
 		return ipServiceImpl;
 	}
 
-	@Bean
-	public AsyncRequest AsyncRequest() {
-		System.out.println("4");
-		AsyncRequest asyncRequest = new AsyncRequest();
-		asyncRequest.loadConfiguration();
-		return asyncRequest;
-	}
+//	@Bean
+//	public AsyncRequest AsyncRequest() {
+//		System.out.println("4");
+//		AsyncRequest asyncRequest = new AsyncRequest();
+//		asyncRequest.loadConfiguration();
+//		return asyncRequest;
+//	}
 
 	
-	@Bean
-	public ConnectionServiceImpl ConnectionServiceImpl() {
-		System.out.println("5");
-		ConnectionServiceImpl connectionServiceImpl = new ConnectionServiceImpl();
-		connectionServiceImpl.selectIp();
-		connectionServiceImpl.loadNetworkConfig();
-
-		return connectionServiceImpl;
-	}
+//	@Bean
+//	public ConnectionServiceImpl ConnectionServiceImpl() {
+//		System.out.println("5");
+//		ConnectionServiceImpl connectionServiceImpl = new ConnectionServiceImpl();
+//		connectionServiceImpl.selectIp();
+//		connectionServiceImpl.loadNetworkConfig();
+//
+//		return connectionServiceImpl;
+//	}
 
 	
 	@Bean
