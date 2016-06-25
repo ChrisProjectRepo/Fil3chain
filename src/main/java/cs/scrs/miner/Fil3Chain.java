@@ -13,6 +13,7 @@ import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.web.client.RestTemplate;
 
 import cs.scrs.miner.models.Filechain;
+import cs.scrs.service.mining.IMiningService;
 
 
 
@@ -25,6 +26,8 @@ public class Fil3Chain implements CommandLineRunner {
 	Filechain filechain;
 	@Autowired
 	RestTemplate restTemplate;
+	@Autowired
+	IMiningService ms;
 
 
 	// avvia applicazione SpringBoot con il thread run
@@ -44,7 +47,7 @@ public class Fil3Chain implements CommandLineRunner {
 	// Applicazione reale
 	@Override
 	public void run(String... args) throws Exception {
-
+		System.out.println(ms.getPrivateKey()+" "+ms.getPublicKey());
 //		filechain.initializeFilechain();
 //		filechain.update();
 //		filechain.manageMine();

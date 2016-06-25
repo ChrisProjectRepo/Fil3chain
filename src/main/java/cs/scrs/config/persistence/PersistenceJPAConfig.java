@@ -1,4 +1,4 @@
-package cs.scrs.config;
+package cs.scrs.config.persistence;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

@@ -1,4 +1,4 @@
-package cs.scrs.ui.config;
+package cs.scrs.config.ui;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;

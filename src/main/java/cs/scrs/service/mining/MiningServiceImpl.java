@@ -8,6 +8,7 @@ import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import cs.scrs.config.KeysConfig;
 import cs.scrs.miner.dao.block.Block;
 import cs.scrs.miner.dao.block.BlockRepository;
 import cs.scrs.miner.dao.transaction.Transaction;
@@ -34,13 +35,15 @@ import java.util.Properties;
 import java.util.Random;
 import java.util.concurrent.Future;
 
+import javax.annotation.PostConstruct;
+
 
 
 /**
  * Created by Marco Date: 08/06/2016
  */
-@Service()
-public class MiningServiceImpl implements MiningServiceInt {
+@Service
+public class MiningServiceImpl implements IMiningService {
 
 	// Blocco da minare
 	private Block block;
@@ -84,53 +87,24 @@ public class MiningServiceImpl implements MiningServiceInt {
 	private PoolDispatcherServiceImpl poolDispService;
 
 	private Boolean stopMining =  Boolean.TRUE;
-
-	/**
-	 * Costruttore di default (necessario)
-	 */
-	public MiningServiceImpl() {
-		block = null;
-		difficulty = -1;
-		fullMask = 0;
-		restMask = (byte)0b11111111;
-		interruptCallback = null;
+	
+	@Autowired
+	private KeysConfig keysConfigProperties;
+	
+	@PostConstruct
+	public void init(){
+		System.out.println("MiningServiceImpl init method called");
+		this.publicKey = keysConfigProperties.getPublicKey();
+		this.privateKey = keysConfigProperties.getPrivateKey();
+		this.block = null;
+		this.difficulty = -1;
+		this.fullMask = 0;
+		this.restMask = (byte)0b11111111;
+		this.interruptCallback = null;
 	}
+	
 
-	/*
-	 * (non-Javadoc)
-	 * @see cs.scrs.service.mining.IMiningServiceImpl#loadKeyConfig()
-	 */
-	@Override
-	public void loadKeyConfig() {
-
-		Properties prop = new Properties();
-		InputStream in = Object.class.getResourceAsStream("/keys.properties");
-		try {
-			prop.load(in);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		this.privateKey = prop.getProperty("private");
-		this.publicKey = prop.getProperty("public");
-	}
-
-	// /**
-	// * Costruttore
-	// *
-	// * @param block
-	// * @param difficulty
-	// */
-	// public MiningServiceImpl(List<Transaction> transactions, Block previousBlock, String prKey, String puKey, Block block, Integer difficulty, BlockRepository blockRepository, TransactionRepository transRepo, Runnable interruptCallback) {
-	// this.block = block;
-	// this.privateKey = prKey;
-	// this.publicKey = puKey;
-	// this.previousBlock = previousBlock;
-	// this.transactions = transactions;
-	// this.difficulty = difficulty;
-	// this.interruptCallback = interruptCallback;
-	// this.blockRepository = blockRepository;
-	// this.transRepo = transRepo;
-	// }
+	
 
 	/**
 	 * Metodo per calcolare le maschere per effettuare il check dell'hash
@@ -160,7 +134,7 @@ public class MiningServiceImpl implements MiningServiceInt {
 	 * Metodo per minare un blocco
 	 */
 	@Async
-	public Future<Boolean> mine() throws Exception {
+	public Future<Boolean> mine(Integer i) throws Exception {
 
 		if (block == null)
 			initializeService();
@@ -188,12 +162,13 @@ public class MiningServiceImpl implements MiningServiceInt {
 
 		do {
 			// Genera nuovo hash
+			System.out.println("sono il miner :" + i +" con il nounce  " +nonce);
 		hash = org.apache.commons.codec.digest.DigestUtils.sha256(block.toString() + nonce);
 			// Incremento il nonce
 			nonce++;
 
-		} while (!verifyHash(hash)&& stopMining);
-		if(!stopMining){
+		} while (!verifyHash(hash)&& !stopMining);
+		if(stopMining){
 			return new AsyncResult<Boolean>(Boolean.TRUE);
 		}
 		AudioUtil.alert(); // avviso sonoro

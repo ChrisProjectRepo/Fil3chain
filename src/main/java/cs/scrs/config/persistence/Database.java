@@ -1,4 +1,4 @@
-package cs.scrs.config;
+package cs.scrs.config.persistence;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
