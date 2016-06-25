@@ -52,7 +52,7 @@ public class Filechain {
 
 	private static Boolean flagNewBlock = Boolean.TRUE;
 
-	private static Boolean flagRunningMinining;
+	private Boolean flagRunningMinining;
 
 
 	/**
@@ -578,16 +578,15 @@ public class Filechain {
 
 		if (isVerified) {
 			// Stoppo il processo di mining
+			//mi salvo l altrezza prima dell inserimento
+			Integer heightBFS = blockRepository.findFirstByOrderByChainLevelDesc().getChainLevel();
 			// Salvo il blocco nella catena
-
 			blockRepository.save(block);
-			// Aggiorno il servizio di mining
-			if (block.getChainLevel() > blockRepository.findFirstByOrderByChainLevelDesc().getChainLevel()) {
+			// se il blocco è con chain level maggiore del mio blocco il mining
+			if (block.getChainLevel() >  heightBFS) {
 				flagNewBlock = Boolean.TRUE;
-			miningService.updateMiningService();
-				// Ricomincio a minare
-
-				// TODO CHIAMATA ASINCRONA
+				// Aggiorno il servizio di mining
+				miningService.updateMiningService();//
 
 			}
 		}
@@ -595,15 +594,14 @@ public class Filechain {
 		return new AsyncResult<Boolean>(isVerified);
 	}
 
-    //Metodo che avvia il Mining del miner e ne gestisce interruzione
+	// Metodo che avvia il Mining del miner e ne gestisce interruzione
 	public void manageMine() {
 
 		miningService.initializeService();
 		Future<Boolean> response = null;
-			while (flagRunningMinining) {
-				miningService.setStopMining(Boolean.TRUE);
-
-				if (response != null) {
+		while (flagRunningMinining) {
+			miningService.setStopMining(Boolean.TRUE);
+			if (response != null) {
 				response.cancel(Boolean.TRUE);
 				response = null;
 			}
@@ -629,17 +627,17 @@ public class Filechain {
 
 			} while (!response.isDone() && flagNewBlock == Boolean.FALSE && flagRunningMinining);
 
-				if(response!=null){
-					miningService.setStopMining(Boolean.FALSE);
-					System.out.println("Il miner stava minando ed è stato bloccato");
-				}else {
-                    System.out.println("Il miner era fermo");
-                }
-					System.out.println("ho aspettato la risposta" + response.isDone() + " oppure è arrivao il blocco " + flagNewBlock+ "oppure ho fermato il mining");
-
+			if (response != null) {
+				miningService.setStopMining(Boolean.FALSE);
+				System.out.println("Il miner stava minando ed è stato bloccato");
+			} else {
+				System.out.println("Il miner era fermo");
 			}
+			System.out.println("ho aspettato la risposta" + response.isDone() + " oppure è arrivao il blocco " + flagNewBlock + "oppure ho fermato il mining");
 
-		if(response!=null){
+		}
+
+		if (response != null) {
 			miningService.setStopMining(Boolean.FALSE);
 			response.cancel(Boolean.TRUE);
 		}
@@ -648,9 +646,9 @@ public class Filechain {
 		System.out.println("Il miner è stato fermato con successo");
 	}
 
-
 	@Async
-	public void startMining(){
+	public void startMining() {
+
 		initializeFilechain();
 		update();
 		setFlagRunningMinining(Boolean.TRUE);
@@ -724,10 +722,12 @@ public class Filechain {
 	}
 
 	public Boolean getFlagRunningMinining() {
+
 		return flagRunningMinining;
 	}
 
 	public void setFlagRunningMinining(Boolean flagRunningMinining) {
+
 		this.flagRunningMinining = flagRunningMinining;
 	}
 	// @Override
