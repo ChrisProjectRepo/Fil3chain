@@ -191,7 +191,6 @@ public class MiningServiceImpl implements MiningServiceInt {
 		do {
 			// Genera nuovo hash
 		hash = org.apache.commons.codec.digest.DigestUtils.sha256(block.toString() + nonce);
-			System.out.println("MINO");
 			// Incremento il nonce
 			nonce++;
 
