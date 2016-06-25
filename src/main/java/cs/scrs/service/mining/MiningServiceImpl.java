@@ -86,7 +86,7 @@ public class MiningServiceImpl implements IMiningService {
 	@Autowired
 	private PoolDispatcherServiceImpl poolDispService;
 
-	private Boolean stopMining =  Boolean.TRUE;
+	private Boolean stopMining;
 	
 	@Autowired
 	private KeysConfig keysConfigProperties;
@@ -160,14 +160,15 @@ public class MiningServiceImpl implements IMiningService {
 		// Hash del blocco
 		byte[] hash;
 
+		System.out.println("Sono il miner numero : " + i);
 		do {
 			// Genera nuovo hash
-			System.out.println("sono il miner :" + i +" con il nounce  " +nonce);
-		hash = org.apache.commons.codec.digest.DigestUtils.sha256(block.toString() + nonce);
+			hash = org.apache.commons.codec.digest.DigestUtils.sha256(block.toString() + nonce);
 			// Incremento il nonce
 			nonce++;
 
 		} while (!verifyHash(hash)&& !stopMining);
+		System.out.println("Sono il miner numero : " + i+" e mi sono fermato a minare");
 		if(stopMining){
 			return new AsyncResult<Boolean>(Boolean.TRUE);
 		}

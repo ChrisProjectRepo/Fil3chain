@@ -601,7 +601,8 @@ public class Filechain {
 		miningService.initializeService();
 		Future<Boolean> response = null;
 		while (flagRunningMinining) {
-			miningService.setStopMining(Boolean.TRUE);
+			//Reimposto la variabile di stop di mining a false
+			miningService.setStopMining(Boolean.FALSE);
 			if (response != null) {
 				response.cancel(Boolean.TRUE);
 				response = null;
@@ -609,6 +610,7 @@ public class Filechain {
 			System.out.println("richiesta asincrona");
 			try {
 				miningService.updateMiningService();
+				//Reimposto la variabile di arrivo nuovo blocco a false
 				flagNewBlock = Boolean.FALSE;
 				response = miningService.mine(i);
 				i++;
@@ -621,7 +623,7 @@ public class Filechain {
 			do {
 				System.out.println("dormo ZzZzZ");
 				try {
-					Thread.sleep(2250);
+					Thread.sleep(2500);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -629,18 +631,20 @@ public class Filechain {
 
 			} while (!response.isDone() && flagNewBlock == Boolean.FALSE && flagRunningMinining);
 
+			miningService.setStopMining(Boolean.TRUE);
+
 			if (response != null) {
-				miningService.setStopMining(Boolean.TRUE);
 				System.out.println("Il miner stava minando ed è stato bloccato");
-			} 
+			}
+
 			System.out.println("ho aspettato la risposta" + response.isDone() + " oppure è arrivao il blocco " + flagNewBlock + "oppure ho fermato il mining");
-			flagNewBlock=Boolean.FALSE;
-			miningService.setStopMining(Boolean.FALSE);
-			
+			//flagNewBlock=Boolean.FALSE;
+
+
 		}
 	
 		if (response != null) {
-			miningService.setStopMining(Boolean.FALSE);
+			miningService.setStopMining(Boolean.TRUE);
 			response.cancel(Boolean.TRUE);
 		}
 
