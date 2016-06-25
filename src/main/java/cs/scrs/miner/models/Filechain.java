@@ -19,7 +19,7 @@ import cs.scrs.miner.dao.block.BlockRepository;
 import cs.scrs.miner.dao.transaction.Transaction;
 import cs.scrs.service.connection.ConnectionServiceImpl;
 import cs.scrs.service.ip.IPServiceImpl;
-import cs.scrs.service.mining.MiningServiceInt;
+import cs.scrs.service.mining.IMiningService;
 import cs.scrs.service.mining.VerifyServiceImpl;
 import cs.scrs.service.request.AsyncRequest;
 
@@ -45,7 +45,7 @@ public class Filechain {
 	private VerifyServiceImpl verifySerice;
 
 	@Autowired
-	private MiningServiceInt miningService;
+	private IMiningService miningService;
 
 	@Autowired
 	private ConnectionServiceImpl connectionServiceImpl;
@@ -708,7 +708,7 @@ public class Filechain {
 	/**
 	 * @return the miningService
 	 */
-	public MiningServiceInt getMiningService() {
+	public IMiningService getMiningService() {
 
 		return miningService;
 	}
@@ -717,7 +717,7 @@ public class Filechain {
 	 * @param miningService
 	 *            the miningService to set
 	 */
-	public void setMiningService(MiningServiceInt miningService) {
+	public void setMiningService(IMiningService miningService) {
 
 		this.miningService = miningService;
 	}

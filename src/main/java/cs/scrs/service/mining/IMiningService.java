@@ -16,161 +16,158 @@ import cs.scrs.service.poolDispatcher.PoolDispatcherServiceImpl;
 
 
 
-public interface MiningServiceInt{
+public interface IMiningService{
 
-	/**
-	 *
-	 */
-	void loadKeyConfig();
+	
 
 
 	/**
 	 * Metodo per minare un blocco
 	 * @return 
 	 */
-	Future<Boolean> mine(Integer i) throws Exception;
+	public Future<Boolean> mine(Integer i) throws Exception;
 
-	Future<List<Block>> sendBlockToMiners() throws InterruptedException;
+	public Future<List<Block>> sendBlockToMiners() throws InterruptedException;
 
-	Block getBlock();
+	public Block getBlock();
 
-	void setBlock(Block block);
+	public void setBlock(Block block);
 
-	String getPrivateKey();
+	public String getPrivateKey();
 
-	void setPrivateKey(String privateKey);
+	public void setPrivateKey(String privateKey);
 
-	Integer getDifficulty();
+	public Integer getDifficulty();
 
-	void setDifficulty(Integer difficulty);
+	public void setDifficulty(Integer difficulty);
 
-	Boolean isInitialized();
+	public Boolean isInitialized();
 
-	void updateService(Block miningBlock, Block previousBlock, int difficulty, List<Transaction> transactionList);
+	public void updateService(Block miningBlock, Block previousBlock, int difficulty, List<Transaction> transactionList);
 
-	void initializeService();
+	public void initializeService();
 
-	void updateMiningService();
+	public void updateMiningService();
 
 	/**
 	 * @return the fullMask
 	 */
-	Integer getFullMask();
+	public Integer getFullMask();
 
 	/**
 	 * @param fullMask the fullMask to set
 	 */
-	void setFullMask(Integer fullMask);
+	public void setFullMask(Integer fullMask);
 
 	/**
 	 * @return the restMask
 	 */
-	byte getRestMask();
+	public byte getRestMask();
 
 	/**
 	 * @param restMask the restMask to set
 	 */
-	void setRestMask(byte restMask);
+	public void setRestMask(byte restMask);
 
 	/**
 	 * @return the interruptCallback
 	 */
-	Runnable getInterruptCallback();
+	public Runnable getInterruptCallback();
 
 	/**
 	 * @param interruptCallback the interruptCallback to set
 	 */
-	void setInterruptCallback(Runnable interruptCallback);
+	public void setInterruptCallback(Runnable interruptCallback);
 
 	/**
 	 * @return the publicKey
 	 */
-	String getPublicKey();
+	public String getPublicKey();
 
 	/**
 	 * @param publicKey the publicKey to set
 	 */
-	void setPublicKey(String publicKey);
+	public void setPublicKey(String publicKey);
 
 	/**
 	 * @return the previousBlock
 	 */
-	Block getPreviousBlock();
+	public Block getPreviousBlock();
 
 	/**
 	 * @param previousBlock the previousBlock to set
 	 */
-	void setPreviousBlock(Block previousBlock);
+	public void setPreviousBlock(Block previousBlock);
 
 	/**
 	 * @return the transactions
 	 */
-	List<Transaction> getTransactions();
+	public List<Transaction> getTransactions();
 
 	/**
 	 * @param transactions the transactions to set
 	 */
-	void setTransactions(List<Transaction> transactions);
+	public void setTransactions(List<Transaction> transactions);
 
 	/**
 	 * @return the blockRepository
 	 */
-	BlockRepository getBlockRepository();
+	public BlockRepository getBlockRepository();
 
 	/**
 	 * @param blockRepository the blockRepository to set
 	 */
-	void setBlockRepository(BlockRepository blockRepository);
+	public void setBlockRepository(BlockRepository blockRepository);
 
 	/**
 	 * @return the transRepo
 	 */
-	TransactionRepository getTransRepo();
+	public TransactionRepository getTransRepo();
 
 	/**
 	 * @param transRepo the transRepo to set
 	 */
-	void setTransRepo(TransactionRepository transRepo);
+	public void setTransRepo(TransactionRepository transRepo);
 
 	/**
 	 * @return the restTemplate
 	 */
-	RestTemplate getRestTemplate();
+	public RestTemplate getRestTemplate();
 
 	/**
 	 * @param restTemplate the restTemplate to set
 	 */
-	void setRestTemplate(RestTemplate restTemplate);
+	public void setRestTemplate(RestTemplate restTemplate);
 
 	/**
 	 * @return the connectionServiceImpl
 	 */
-	ConnectionServiceImpl getConnectionServiceImpl();
+	public ConnectionServiceImpl getConnectionServiceImpl();
 
 	/**
 	 * @param connectionServiceImpl the connectionServiceImpl to set
 	 */
-	void setConnectionServiceImpl(ConnectionServiceImpl connectionServiceImpl);
+	public void setConnectionServiceImpl(ConnectionServiceImpl connectionServiceImpl);
 
 	/**
 	 * @return the ipService
 	 */
-	IPServiceImpl getIpService();
+	public IPServiceImpl getIpService();
 
 	/**
 	 * @param ipService the ipService to set
 	 */
-	void setIpService(IPServiceImpl ipService);
+	public void setIpService(IPServiceImpl ipService);
 
 	/**
 	 * @return the poolDispService
 	 */
-	PoolDispatcherServiceImpl getPoolDispService();
+	public PoolDispatcherServiceImpl getPoolDispService();
 
 	/**
 	 * @param poolDispService the poolDispService to set
 	 */
-	void setPoolDispService(PoolDispatcherServiceImpl poolDispService);
+	public void setPoolDispService(PoolDispatcherServiceImpl poolDispService);
 
 	public Boolean getStopMining();
 

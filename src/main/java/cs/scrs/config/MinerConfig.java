@@ -14,7 +14,7 @@ import org.springframework.web.client.RestTemplate;
 
 import cs.scrs.service.connection.ConnectionServiceImpl;
 import cs.scrs.service.ip.IPServiceImpl;
-import cs.scrs.service.mining.MiningServiceInt;
+import cs.scrs.service.mining.IMiningService;
 import cs.scrs.service.mining.MiningServiceImpl;
 import cs.scrs.service.mining.VerifyServiceImpl;
 import cs.scrs.service.request.AsyncRequest;
@@ -79,14 +79,14 @@ public class MinerConfig {
 	}
 	
 	
-	@Bean
-	public MiningServiceInt miningServiceImpl() {
-		System.out.println("7");
-		MiningServiceInt miningService = new MiningServiceImpl();
-		miningService.loadKeyConfig();
-		return miningService;
-
-	}
+//	@Bean
+//	public IMiningService miningService() {
+//		System.out.println("7");
+//		IMiningService miningService = new MiningServiceImpl();
+//		miningService.loadKeyConfig();
+//		return miningService;
+//
+//	}
 
 	@Bean
 	public Filechain Filechain() {
