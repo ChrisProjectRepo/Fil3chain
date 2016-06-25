@@ -586,7 +586,7 @@ public class Filechain {
 			if (block.getChainLevel() >  heightBFS) {
 				flagNewBlock = Boolean.TRUE;
 				// Aggiorno il servizio di mining
-				miningService.updateMiningService();
+				miningService.updateMiningService();//
 
 			}
 		}
