@@ -26,7 +26,7 @@ public class IP implements Cloneable{
     
     @Override
     public String toString() {
-        return user_ip;
+        return "{\"user_ip\":\""+user_ip+"\"}";
     }
 
     @Override 

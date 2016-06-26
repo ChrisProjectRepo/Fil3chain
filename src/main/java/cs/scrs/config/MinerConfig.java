@@ -3,12 +3,17 @@ package cs.scrs.config;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.MediaType;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.web.client.*;
+
 
 import cs.scrs.service.connection.ConnectionServiceImpl;
 import cs.scrs.service.ip.IPServiceImpl;
@@ -38,9 +43,18 @@ public class MinerConfig {
 	@Bean
 	public RestTemplate RestTemplate() {
 		System.out.println("2");
-		return new RestTemplate(HttpRequestFactory());
+		RestTemplate restTemplate = new RestTemplate(HttpRequestFactory());
+		
+		List<MediaType> mediaTypes = new ArrayList<MediaType>();
+		mediaTypes.add(MediaType.TEXT_PLAIN);
+
+		MappingJackson2HttpMessageConverter mc = new MappingJackson2HttpMessageConverter();
+		mc.setSupportedMediaTypes(mediaTypes);
+		
+		restTemplate.getMessageConverters().add(mc);
+		return restTemplate;
 	}
-	
+
 
 	@Bean
 	public IPServiceImpl IPServiceImpl() {
@@ -50,26 +64,25 @@ public class MinerConfig {
 		return ipServiceImpl;
 	}
 
-//	@Bean
-//	public AsyncRequest AsyncRequest() {
-//		System.out.println("4");
-//		AsyncRequest asyncRequest = new AsyncRequest();
-//		asyncRequest.loadConfiguration();
-//		return asyncRequest;
-//	}
+	//	@Bean
+	//	public AsyncRequest AsyncRequest() {
+	//		System.out.println("4");
+	//		AsyncRequest asyncRequest = new AsyncRequest();
+	//		asyncRequest.loadConfiguration();
+	//		return asyncRequest;
+	//	}
 
-	
-//	@Bean
-//	public ConnectionServiceImpl ConnectionServiceImpl() {
-//		System.out.println("5");
-//		ConnectionServiceImpl connectionServiceImpl = new ConnectionServiceImpl();
-//		connectionServiceImpl.selectIp();
-//		connectionServiceImpl.loadNetworkConfig();
-//
-//		return connectionServiceImpl;
-//	}
 
-	
+	//	@Bean
+	//	public ConnectionServiceImpl ConnectionServiceImpl() {
+	//		System.out.println("5");
+	//		ConnectionServiceImpl connectionServiceImpl = new ConnectionServiceImpl();
+	//		connectionServiceImpl.selectIp();
+	//		connectionServiceImpl.loadNetworkConfig();
+	//
+	//		return connectionServiceImpl;//	}
+
+
 	@Bean
 	public VerifyServiceImpl verifyServiceImpl() {
 		System.out.println("6");
@@ -77,16 +90,16 @@ public class MinerConfig {
 		return verifyServiceImpl;
 
 	}
-	
-	
-//	@Bean
-//	public IMiningService miningService() {
-//		System.out.println("7");
-//		IMiningService miningService = new MiningServiceImpl();
-//		miningService.loadKeyConfig();
-//		return miningService;
-//
-//	}
+
+
+	//	@Bean
+	//	public IMiningService miningService() {
+	//		System.out.println("7");
+	//		IMiningService miningService = new MiningServiceImpl();
+	//		miningService.loadKeyConfig();
+	//		return miningService;
+	//
+	//	}
 
 	@Bean
 	public Filechain Filechain() {
