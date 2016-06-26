@@ -22,6 +22,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  * 
  * Hibernate Schema update issue
  * http://stackoverflow.com/questions/4885434/hibernate-schema-update-issue
+ * https://developer.jboss.org/thread/175353?tstart=0 <- Issue ddl-auto=update
  * @author ivan18
  *
  */
@@ -37,17 +38,20 @@ public class PersistenceJPAConfig {
 	private Hibernate propertiesHibernate;
 
 
+
 	@Bean
 	public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
 		System.err.println(propertiesJPA.toString());
 		System.err.println(propertiesHibernate.toString());
 
+		JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
+
 		LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
 		em.setDataSource(dataSource());
 		em.setPackagesToScan(propertiesJPA.getPackagesToScan().toArray(new String[propertiesJPA.getPackagesToScan().size()]));
-		JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
 		em.setJpaVendorAdapter(vendorAdapter);
-		em.setJpaProperties(additionalProperties());
+		em.setJpaProperties( additionalProperties() );
+
 		return em;
 	}
 
@@ -58,6 +62,7 @@ public class PersistenceJPAConfig {
 		dataSource.setUrl(propertiesJPA.getDatabase().getUrl());
 		dataSource.setUsername(propertiesJPA.getDatabase().getUsername());
 		dataSource.setPassword(propertiesJPA.getDatabase().getPassword());
+
 		return dataSource;
 	}
 
@@ -76,7 +81,8 @@ public class PersistenceJPAConfig {
 	Properties additionalProperties() {
 		System.out.println("Additional properties "+propertiesHibernate.toString());
 		Properties properties = new Properties();
-		properties.setProperty( "hibernate.default_schema", propertiesHibernate.getDefault_schema() );
+		//properties.setProperty( "hibernate.archive.autodetection", "false" );
+		//properties.setProperty( "hibernate.default_schema", propertiesHibernate.getDefault_schema() );
 		properties.setProperty( "hibernate.hbm2ddl.auto", propertiesHibernate.getHbm2ddl().getAuto() );
 		properties.setProperty( "hibernate.dialect", propertiesHibernate.getDialect() );
 		properties.setProperty( "hibernate.show_sql", propertiesHibernate.getShow_sql() );
