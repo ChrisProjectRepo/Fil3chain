@@ -76,7 +76,7 @@ public class Fil3Chain implements CommandLineRunner {
 		// Make the HTTP GET request, marshaling the response to a IP[] object
 		ResponseEntity<IP[]> ips = restTemplate.postForEntity(uriList, myIp.toString(), IP[].class);
 		IP[] result = ips.getBody();
-		System.out.println(result);
+		System.out.println("IpList length "+result.length);
 		for (IP string : result) {
 			System.out.println("Ip found "+ string);
 		}

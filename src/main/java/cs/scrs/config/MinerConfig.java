@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,6 +22,8 @@ import cs.scrs.service.mining.IMiningService;
 import cs.scrs.service.mining.MiningServiceImpl;
 import cs.scrs.service.mining.VerifyServiceImpl;
 import cs.scrs.service.request.AsyncRequest;
+import cs.scrs.config.network.Network;
+import cs.scrs.config.rest.RestConfig;
 import cs.scrs.config.ui.AUiConfig;
 import cs.scrs.config.ui.UiConfig;
 import cs.scrs.miner.models.*;
@@ -29,15 +32,20 @@ import cs.scrs.miner.models.*;
 
 @Configuration
 public class MinerConfig {
+	@Autowired
+	RestConfig restProperties;
 
-	// [FORSE, DA TESTARE] I BEAN DEVONO ESSERE IN ORDINE DI UTILIZZO (Quelli che usano "altri oggetti" devono avere gli "altri oggetti",ovvero i BEan, già instanziati)
 	// Creazione del bean per ottenere i servizi altrove
 
 	@Bean
-	@ConfigurationProperties(prefix = "custom.rest.connection")
 	public HttpComponentsClientHttpRequestFactory HttpRequestFactory() {
-		System.out.println("1");
-		return new HttpComponentsClientHttpRequestFactory();
+		System.out.println("1\n"+restProperties.getConnection());
+		
+		HttpComponentsClientHttpRequestFactory crf =  new HttpComponentsClientHttpRequestFactory();
+		crf.setConnectTimeout(restProperties.getConnection().getConnectTimeout());
+		crf.setConnectionRequestTimeout(restProperties.getConnection().getRequestTimeout());
+		crf.setReadTimeout(restProperties.getConnection().getReadTimeout());
+		return crf;
 	}
 
 	@Bean
@@ -64,23 +72,6 @@ public class MinerConfig {
 		return ipServiceImpl;
 	}
 
-	//	@Bean
-	//	public AsyncRequest AsyncRequest() {
-	//		System.out.println("4");
-	//		AsyncRequest asyncRequest = new AsyncRequest();
-	//		asyncRequest.loadConfiguration();
-	//		return asyncRequest;
-	//	}
-
-
-	//	@Bean
-	//	public ConnectionServiceImpl ConnectionServiceImpl() {
-	//		System.out.println("5");
-	//		ConnectionServiceImpl connectionServiceImpl = new ConnectionServiceImpl();
-	//		connectionServiceImpl.selectIp();
-	//		connectionServiceImpl.loadNetworkConfig();
-	//
-	//		return connectionServiceImpl;//	}
 
 
 	@Bean
@@ -91,16 +82,6 @@ public class MinerConfig {
 
 	}
 
-
-	//	@Bean
-	//	public IMiningService miningService() {
-	//		System.out.println("7");
-	//		IMiningService miningService = new MiningServiceImpl();
-	//		miningService.loadKeyConfig();
-	//		return miningService;
-	//
-	//	}
-
 	@Bean
 	public Filechain Filechain() {
 		System.out.println("8");
@@ -108,12 +89,5 @@ public class MinerConfig {
 		return filechain;
 	}
 
-
-
-
-
-	/*
-	 * @Override public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException { for (String beanName : beanFactory.getBeanDefinitionNames()) { beanFactory.getBeanDefinition(beanName).setLazyInit(Boolean.TRUE); } }
-	 */
 
 }
