@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 
 /**
  * Basic properties for Hibernate
+ * Properties Example -> http://www.java-samples.com/showtutorial.php?tutorialid=1310
  * @author ivan18
  */
 @Configuration
@@ -17,7 +18,7 @@ import org.springframework.context.annotation.Configuration;
 		ignoreUnknownFields = false
 		)
 public class Hibernate {
-	private String default_schema;
+	private String default_catalog;
 	private Hbm2ddl hbm2ddl;
 	private String dialect;
 	private String show_sql;
@@ -54,15 +55,15 @@ public class Hibernate {
 	public void setShow_sql(String show_sql) {
 		this.show_sql = show_sql;
 	}
-	public String getDefault_schema() {
-		return default_schema;
+	public String getDefault_catalog() {
+		return default_catalog;
 	}
-	public void setDefault_schema(String default_schema) {
-		this.default_schema = default_schema;
+	public void setDefault_catalog(String default_catalog) {
+		this.default_catalog = default_catalog;
 	}
 	@Override
 	public String toString() {
-		return "Hibernate [default_schema=" + default_schema + ", hbm2ddl=" + hbm2ddl + ", dialect=" + dialect
+		return "Hibernate [default_catalog=" + default_catalog + ", hbm2ddl=" + hbm2ddl + ", dialect=" + dialect
 				+ ", show_sql=" + show_sql + "]";
 	}
 

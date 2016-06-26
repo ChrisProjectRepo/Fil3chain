@@ -20,9 +20,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
  * 
- * Hibernate Schema update issue
- * http://stackoverflow.com/questions/4885434/hibernate-schema-update-issue
- * https://developer.jboss.org/thread/175353?tstart=0 <- Issue ddl-auto=update
+ * Persistence configuration file
  * @author ivan18
  *
  */
@@ -81,8 +79,8 @@ public class PersistenceJPAConfig {
 	Properties additionalProperties() {
 		System.out.println("Additional properties "+propertiesHibernate.toString());
 		Properties properties = new Properties();
-		//properties.setProperty( "hibernate.archive.autodetection", "false" );
-		//properties.setProperty( "hibernate.default_schema", propertiesHibernate.getDefault_schema() );
+		
+		properties.setProperty( "hibernate.default_catalog", propertiesHibernate.getDefault_catalog() );
 		properties.setProperty( "hibernate.hbm2ddl.auto", propertiesHibernate.getHbm2ddl().getAuto() );
 		properties.setProperty( "hibernate.dialect", propertiesHibernate.getDialect() );
 		properties.setProperty( "hibernate.show_sql", propertiesHibernate.getShow_sql() );
