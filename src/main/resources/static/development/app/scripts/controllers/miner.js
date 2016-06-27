@@ -8,14 +8,14 @@
 * Controller of the blockchain
 */
 angular.module('blockchainApp')
-.controller('minerCtrl',function($scope, $mdDialog, $mdMedia, $http){
+.controller('minerCtrl',function($scope, $mdDialog, $mdMedia, $http, $location){
   console.log('minerCtrl');
   var start = false;
-  var buttonMinerStart={
+  var buttonMinerStart = {
     icon:'icons/ic_play_arrow_white_24px.svg',
     label:'Start miner'
   };
-  var buttonMinerStop={
+  var buttonMinerStop = {
     icon:'icons/ic_stop_white_24px.svg',
     label:'Stop miner'
   };
@@ -67,8 +67,22 @@ angular.module('blockchainApp')
     start=!start;
     return;
   }
-
+  
   $scope.minerButtonClick = minerButtonClick;
+  
+  var uploadFileButton = {
+      icon:'icons/ic_cloud_upload.svg',
+      label: 'Upload file'
+  };
+  
+  $scope.uploadFileButton = uploadFileButton;
+  
+  function uploadFileButtonClick(event) {
+      $location.path('/wallet/transactions/post').replace();
+  }
+  
+  $scope.uploadFileButtonClick = uploadFileButtonClick;
+
   function showAlert(ev) {
     var useFullScreen = ($mdMedia('sm') || $mdMedia('xs')) ;// && $scope.customFullscreen;
 

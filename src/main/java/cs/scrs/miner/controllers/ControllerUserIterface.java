@@ -52,9 +52,9 @@ public class ControllerUserIterface {
     @RequestMapping(value = "/fil3chain/sendTransaction", method = RequestMethod.POST)
     @ResponseBody
     public String sendTransaction(@RequestBody String transaction) throws Exception {
-        
+        System.out.println("Transazione arrivata: " + transaction);
         asyncRequest.doPost("http://"+networkProperties.getEntrypoint().getIp()+":"+networkProperties.getEntrypoint().getPort()+ networkProperties.getPooldispatcher().getBaseUri()+networkProperties.getActions().getSendTransaction(), transaction);
-        return "ACK";
+        return "{\"response\":\"ACK\"}";
     }
 
 }

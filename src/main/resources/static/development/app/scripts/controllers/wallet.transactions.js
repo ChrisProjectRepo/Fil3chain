@@ -23,6 +23,7 @@ angular.module('blockchainApp')
 
 
     $scope.selectedUserIndex = undefined;
+    
     $scope.selectUserIndex = function (index) {
       if ($scope.selectedUserIndex !== index) {
         $scope.selectedUserIndex = index;
@@ -31,9 +32,41 @@ angular.module('blockchainApp')
         $scope.selectedUserIndex = undefined;
       }
     };
+    
     function sendTransaction(event){
         console.log($scope.file);
+        
+       /*
+       $http.post(
+                '/fil3chain/sendTransaction', 
+                {transaction: $scope.file}, 
+                {headers: {'Content-Type': 'application/json'} })
+        .then(function (response) {
+            alert('Transazione inviata con successo');
+        }, function errorCallback(response) {
+            alert('Errore durante l\'invio della transazione');
+        });
+        */
+       
+      $http({
+        method: 'POST',
+        url: '/fil3chain/sendTransaction',
+        data: {'transaction': $scope.file}
+      }).success(function successCallback(response) {
+        // this callback will be called asynchronously
+        // when the response is available
+        alert('Transazione inviata con successo');
+        console.log(response);
+      }).error(function errorCallback(response) {
+        // called asynchronously if an error occurs
+        // or server returns response with an error status.
+        alert('Errore durante l\'invio della transazione');
+        console.log(response);
+      });
+        
+        
     };
+    
     $scope.sendTransaction = sendTransaction;
 });
 /*

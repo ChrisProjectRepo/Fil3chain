@@ -117,7 +117,7 @@ angular
         controller:'signupCtrl'
       }
     }
-  })
+  });
 
 
   /*
