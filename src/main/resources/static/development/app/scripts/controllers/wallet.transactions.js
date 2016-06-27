@@ -30,7 +30,11 @@ angular.module('blockchainApp')
       else {
         $scope.selectedUserIndex = undefined;
       }
-    }; 
+    };
+    function sendTransaction(event){
+        console.log($scope.file);
+    };
+    $scope.sendTransaction = sendTransaction;
 });
 /*
 angular.module('blockchainApp')
