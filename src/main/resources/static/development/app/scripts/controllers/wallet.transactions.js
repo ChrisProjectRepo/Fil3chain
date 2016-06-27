@@ -8,7 +8,7 @@
 * Controller of the blockchain
 */
 angular.module('blockchainApp')
-.controller('walletTransactionCtrl',function($scope){
+.controller('walletTransactionCtrl',function($scope,$http){
   console.log('walletTransactionCtrl');
   $scope.users = [
     {
@@ -30,7 +30,7 @@ angular.module('blockchainApp')
       else {
         $scope.selectedUserIndex = undefined;
       }
-    };
+    }; 
 });
 /*
 angular.module('blockchainApp')

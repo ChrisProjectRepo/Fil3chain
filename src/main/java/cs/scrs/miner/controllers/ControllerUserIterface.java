@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import cs.scrs.service.request.AsyncRequest;
+import org.springframework.web.bind.annotation.ResponseBody;
 /**
  * Created by Christian on 24/06/2016.
  */
@@ -48,10 +49,12 @@ public class ControllerUserIterface {
         return "OK";
     }
 
-    @RequestMapping(value = "/fil3chain/sendTransaction", method = RequestMethod.GET)
-    public void sendTransaction(@RequestBody String transaction) throws Exception {
+    @RequestMapping(value = "/fil3chain/sendTransaction", method = RequestMethod.POST)
+    @ResponseBody
+    public String sendTransaction(@RequestBody String transaction) throws Exception {
         
-        asyncRequest.doPost(networkProperties.getPooldispatcher().getBaseUri()+networkProperties.getActions().getSendTransaction(), transaction);
+        asyncRequest.doPost("http://"+networkProperties.getEntrypoint().getIp()+":"+networkProperties.getEntrypoint().getPort()+ networkProperties.getPooldispatcher().getBaseUri()+networkProperties.getActions().getSendTransaction(), transaction);
+        return "ACK";
     }
 
 }
