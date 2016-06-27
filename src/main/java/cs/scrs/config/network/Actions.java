@@ -15,6 +15,7 @@ public class Actions {
 	private String connect;
 	private String disconnect;
 	private String keepAlive;
+        private String sendTransaction;
 	public String getConnect() {
 		return connect;
 	}
@@ -37,5 +38,13 @@ public class Actions {
 	public String toString() {
 		return "Action [connect=" + connect + ", disconnect=" + disconnect + ", keepAlive=" + keepAlive + "]";
 	}
+
+    public String getSendTransaction() {
+        return sendTransaction;
+    }
+
+    public void setSendTransaction(String sendTransaction) {
+        this.sendTransaction = sendTransaction;
+    }
 	
 }
