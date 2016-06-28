@@ -744,42 +744,16 @@ public class Filechain {
 	// // blockRepository = beansManager.getBlockRepository;
 	// }
 
-	// @SuppressWarnings("unchecked")
-	// private List<Transaction> getTransFromDisp(Integer nTrans) throws Exception {
-	// // TODO List<Transaction> trans = HttpUtil.doGetJSON("http://" + getEntryPointBaseUri() +
-	//
-	//// Type type = new TypeToken<List<Transaction>>() {
-	//// }.getType();
-	//// List<Transaction> trans = HttpUtil.doGetJSON("http://" + "10.198.0.7" + ":8080/JsonTransaction?nTrans=" + nTrans, type);
-	//
-	// // Integer i = 0;
-	// // Boolean nullResponse = Boolean.FALSE;
-	// // while (!nullResponse && (i < nBlockUpdate) && (designedMiner.getValue2() > myChainLevel)) {
-	// // // TODO cambire la uri di richiesta
-	// // myChainLevel = blockRepository.findFirstByOrderByChainLevelDesc().getChainLevel() + 1;
-	// //
-	// // List<Block> blockResponse = HttpUtil.doGetJSON("http://" + designedMiner.getValue1() +
-	// // ":8080/fil3chain/getBlock?chainLevel=" + myChainLevel);
-	// //
-	// // if (blockResponse != null) {
-	// // System.out.println("\nBlock response: " + blockResponse.toString());
-	// // for (Block b : blockResponse) {
-	// // // TODO qui dentro ora posso salvare nel mio DB tutti i blocchi appena ricevuti e verificarli
-	// // blockRepository.save(b);
-	// // System.out.println("Ho tirato fuori il blocco con chainLevel: " + b.getChainLevel() + "\n");
-	// // }
-	// // } else {
-	// // nullResponse = Boolean.TRUE;
-	// // }
-	// // i++;
-	// //
-	// // }
-	// // System.out.println("2");
-	// //
-	// // if (!nullResponse && designedMiner.getValue2() <=
-	// // blockRepository.findFirstByOrderByChainLevelDesc().getChainLevel())
-	// // ipMiners.remove(designedMiner.getValue1());
-	// return null;
-	// }
+	 @SuppressWarnings("unchecked")
+	 private List<Transaction> getTransFromDisp(Integer nTrans) throws Exception {
+	 // TODO List<Transaction> trans = HttpUtil.doGetJSON("http://" + getEntryPointBaseUri() +
+	
+	// Type type = new TypeToken<List<Transaction>>() {
+	// }.getType();
+	// List<Transaction> trans = HttpUtil.doGetJSON("http://" + "10.198.0.7" + ":8080/JsonTransaction?nTrans=" + nTrans, type);
+	
+	
+	 return null;
+	 }
 
 }
