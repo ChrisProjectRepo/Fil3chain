@@ -87,24 +87,23 @@ public class MiningServiceImpl implements IMiningService {
 	private PoolDispatcherServiceImpl poolDispService;
 
 	private Boolean stopMining;
-	
+
 	@Autowired
 	private KeysConfig keysConfigProperties;
-	
+
+
 	@PostConstruct
-	public void init(){
+	public void init() {
+
 		System.out.println("MiningServiceImpl init method called");
 		this.publicKey = keysConfigProperties.getPublicKey();
 		this.privateKey = keysConfigProperties.getPrivateKey();
 		this.block = null;
 		this.difficulty = -1;
 		this.fullMask = 0;
-		this.restMask = (byte)0b11111111;
+		this.restMask = (byte) 0b11111111;
 		this.interruptCallback = null;
 	}
-	
-
-	
 
 	/**
 	 * Metodo per calcolare le maschere per effettuare il check dell'hash
@@ -166,10 +165,12 @@ public class MiningServiceImpl implements IMiningService {
 			hash = org.apache.commons.codec.digest.DigestUtils.sha256(block.toString() + nonce);
 			// Incremento il nonce
 			nonce++;
+			if (nonce % 1000000 == 0)
+				System.out.println("Sono il miner numero : " + i + " e sto minando nonce " + nonce);
 
-		} while (!verifyHash(hash)&& !stopMining);
-		System.out.println("Sono il miner numero : " + i+" e mi sono fermato a minare");
-		if(stopMining){
+		} while (!verifyHash(hash) && !stopMining);
+		System.out.println("Sono il miner numero : " + i + " e mi sono fermato a minare");
+		if (stopMining) {
 			return new AsyncResult<Boolean>(Boolean.TRUE);
 		}
 		AudioUtil.alert(); // avviso sonoro
@@ -686,10 +687,12 @@ public class MiningServiceImpl implements IMiningService {
 	}
 
 	public Boolean getStopMining() {
+
 		return stopMining;
 	}
 
 	public void setStopMining(Boolean stopMining) {
+
 		this.stopMining = stopMining;
 	}
 }
