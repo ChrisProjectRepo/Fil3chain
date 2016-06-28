@@ -251,7 +251,7 @@ public class AsyncRequest {
 		Block blockResponse = null;
 		try {
 //			blockResponse = restTemplate.getForObject("http:// /fil3chain/getBlockByhash?hash=" + hash, Block.class);
-			blockResponse=doGetJSON("http://"+ designedMiner+"/fil3chain/getBlockByhash?hash=" + hash, type);
+			blockResponse=doGetJSON("http://"+ designedMiner.getIp()+"/fil3chain/getBlockByhash?hash=" + hash, type);
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println("Errore ricezione Blocco");

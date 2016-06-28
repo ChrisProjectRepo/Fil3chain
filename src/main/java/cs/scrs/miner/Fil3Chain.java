@@ -65,7 +65,7 @@ public class Fil3Chain implements CommandLineRunner {
 		/*
 		 * Example of post Request with messageConverter
 		 */
-		String uriList="http://"+networkProperties.getEntrypoint().getIp();
+		/*String uriList="http://"+networkProperties.getEntrypoint().getIp();
 		uriList+=":"+networkProperties.getEntrypoint().getPort();
 		uriList+=networkProperties.getEntrypoint().getBaseUri();
 		uriList+=networkProperties.getActions().getConnect();
@@ -79,7 +79,7 @@ public class Fil3Chain implements CommandLineRunner {
 		System.out.println("IpList length "+result.length);
 		for (IP string : result) {
 			System.out.println("Ip found "+ string);
-		}
+		}*/
 
 
 	
