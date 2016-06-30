@@ -10,4 +10,6 @@ import java.util.List;
 public interface UserRepository extends CrudRepository<User,String> {
 
 	List<User> findByName(@Param("name") String name);
+
+	User findByPublicKey(@Param("pubKey") String pubKey);
 }

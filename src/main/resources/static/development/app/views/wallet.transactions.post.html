@@ -1,7 +1,7 @@
 <span flex="10"></span>
 <md-content flex>
 <md-progress-circular md-mode="{{progressMode}}" md-diameter="96" ng-hide="!progressMode" flex-offset="45"></md-progress-circular>
-<md-card ng-show="file && !progressMode" flex="" flex-gt-md="80" flex-offset-gt-md="10" >
+<md-card ng-show="file.file && !progressMode" flex="" flex-gt-md="80" flex-offset-gt-md="10" >
   <md-card-title style="min-height: 3em;">
     <md-card-title-text>
       <span class="md-headline">Transaction</span>
@@ -34,7 +34,7 @@
   </md-card-content>
   <md-card-actions layout="row" layout-align-md="start center" layout-align-gt-md="end center">
     <md-button>Delete</md-button>
-    <md-button class="md-raised md-primary md-button md-ink-ripple" ng-click="sendTransaction($event)">Submit</md-button>
+    <md-button class="md-raised md-primary md-button md-ink-ripple" ng-click="sendTransaction($event,file)">Submit</md-button>
   </md-card-actions>
 </md-card>
 <span flex-gt-md="10"></span>

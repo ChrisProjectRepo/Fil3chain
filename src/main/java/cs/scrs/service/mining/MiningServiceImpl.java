@@ -1,6 +1,7 @@
 package cs.scrs.service.mining;
 
 
+import cs.scrs.miner.dao.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.scheduling.annotation.Async;
@@ -68,7 +69,8 @@ public class MiningServiceImpl implements IMiningService {
 
 	// Lista di transazioni presente nel blocco
 	private List<Transaction> transactions;
-
+	@Autowired
+	private UserRepository userRepository;
 	// Block repository
 	@Autowired
 	private BlockRepository blockRepository;
@@ -384,6 +386,9 @@ public class MiningServiceImpl implements IMiningService {
 	public void initializeService() {
 
 		System.out.println("Inizializza servizio");
+		User user = userRepository.findByPublicKey(keysConfigProperties.getPublicKey());
+		System.out.println("User founded "+ user);
+
 		// Prendo l'ultmo blocco della catena
 		Block lastBlock = blockRepository.findFirstByOrderByChainLevelDesc();
 
@@ -392,7 +397,7 @@ public class MiningServiceImpl implements IMiningService {
 		block.setFatherBlockContainer(lastBlock.getHashBlock());
 		block.setChainLevel(lastBlock.getChainLevel() + 1);
 		block.setMinerPublicKey(publicKey);
-		block.setUserContainer(new User("", "Ciano", "Bug", "Miner", "Mail", "Cianone"));
+		block.setUserContainer(user);
 
 		// Prendo le transazioni dal Pool Dispatcher
 		List<Transaction> transactionsList = poolDispService.getTransactions();
@@ -425,7 +430,9 @@ public class MiningServiceImpl implements IMiningService {
 		newBlock.setFatherBlockContainer(lastBlock.getHashBlock());
 		newBlock.setChainLevel(lastBlock.getChainLevel() + 1);
 		newBlock.setMinerPublicKey(publicKey);
-		newBlock.setUserContainer(new User("", "Ciano", "Bug", "Miner", "Mail", "Cianone"));
+		//newBlock.setUserContainer(new User("", "Ciano", "Bug", "Miner", "Mail", "Cianone"));
+		User user = userRepository.findByPublicKey(keysConfigProperties.getPublicKey());
+		newBlock.setUserContainer(user);
 
 		// Prendo le transazioni dal Pool Dispatcher
 		List<Transaction> transactionsList = poolDispService.getTransactions();

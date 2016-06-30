@@ -656,8 +656,8 @@ public class Filechain {
 	public void startMining() {
 
 		initializeFilechain();
-		update();
 		setFlagRunningMinining(Boolean.TRUE);
+		update();
 		manageMine();
 	}
 

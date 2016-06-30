@@ -171,4 +171,15 @@ public class Transaction {
         this.indexInBlock = indexInBlock;
     }
 
+	@Override
+	public String toString() {
+		return "Transaction{" +
+				"hashFile='" + hashFile + '\'' +
+				", filename='" + filename + '\'' +
+				", indexInBlock=" + indexInBlock +
+				", blockContainer='" + blockContainer + '\'' +
+				", authorContainer=" + authorContainer +
+				", citationsContainer=" + citationsContainer +
+				'}';
+	}
 }

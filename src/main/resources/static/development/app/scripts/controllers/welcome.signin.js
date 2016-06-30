@@ -7,11 +7,13 @@
 * # signinCtrl
 * Controller of the blockchain
 */
-angular.module('blockchainApp')
-.controller('signinCtrl',function(){});
 /*
 angular.module('blockchainApp')
-.controller('signinCtrl', ['$scope','$mdToast','$state','AuthenticationService',function ($scope,$mdToast,$state,AuthenticationService) {
+.controller('signinCtrl',function(){});
+*/
+
+angular.module('blockchainApp')
+.controller('signinCtrl', ['$scope','$mdToast','$state','UserService',function ($scope,$mdToast,$state,AuthenticationService) {
   console.log('signinCtrl');
   $scope.user={};
   $scope.signin = function(user){
@@ -33,4 +35,4 @@ angular.module('blockchainApp')
   };;
   //console.log('signinCtrl','scope',$scope);
 }]);
-*/
+

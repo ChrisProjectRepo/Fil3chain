@@ -7,13 +7,27 @@
 * # signupCtrl
 * Controller of the blockchain
 */
-angular.module('blockchainApp')
-.controller('signupCtrl', function () {
 
-})
+angular.module('blockchainApp')
+.controller('signupCtrl',['$scope','$http', function ($scope, $http) {
+    console.log('signupCtrl');
+    $scope.signup = function(user){
+        console.log(user)
+        $http({
+            url:'/fil3chain/init_user',
+            method:'POST',
+            data: user
+        })
+            .then(function(response){
+                console.log('response success',response)
+            },function(response){
+                console.log('response error ',response)
+            });
+    };
+}])
 /*
 angular.module('blockchainApp')
-.controller('signupCtrl', ['$scope','$mdToast','$state','AuthenticationService','UserValidatorService',function ($scope,$mdToast,$state,AuthenticationService,UserValidatorService) {
+.controller('signupCtrl', ['$scope','$mdToast','$state','UserService','UserValidatorService',function ($scope,$mdToast,$state,AuthenticationService,UserValidatorService) {
   console.log('signupCtrl',AuthenticationService);
   $scope.signup = function(user){
     console.log('click by signupCtrl',user);
@@ -34,4 +48,5 @@ angular.module('blockchainApp')
     })
   }
 }]);
+
 */

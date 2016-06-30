@@ -11,7 +11,8 @@ angular.module('blockchainApp')
 .controller('minerCtrl',function($scope, $mdDialog, $mdMedia, $http, $location){
   console.log('minerCtrl');
 
-  $scope.start = false;
+
+  $scope.start=false;
 
   var buttonMinerStart = {
     icon:'icons/ic_play_arrow_white_24px.svg',

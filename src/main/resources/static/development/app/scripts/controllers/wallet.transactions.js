@@ -10,6 +10,7 @@
 angular.module('blockchainApp')
 .controller('walletTransactionCtrl',function($scope,$http){
   console.log('walletTransactionCtrl');
+  
   $scope.users = [
     {
       name: { first: 'try', last:'try' }
@@ -33,9 +34,9 @@ angular.module('blockchainApp')
       }
     };
     
-    function sendTransaction(event){
-        console.log($scope.file);
-        
+    function sendTransaction(event, file){
+        console.log(file);
+        console.log('ToString', JSON.stringify(file));
        /*
        $http.post(
                 '/fil3chain/sendTransaction', 
@@ -51,7 +52,7 @@ angular.module('blockchainApp')
       $http({
         method: 'POST',
         url: '/fil3chain/sendTransaction',
-        data: {'transaction': $scope.file}
+        data: JSON.stringify($scope.file)
       }).success(function successCallback(response) {
         // this callback will be called asynchronously
         // when the response is available

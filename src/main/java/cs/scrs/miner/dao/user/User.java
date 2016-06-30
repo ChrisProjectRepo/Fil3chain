@@ -44,6 +44,8 @@ public class User {
 	private String email;
 	@Column(name = "username")
 	private String username;
+	@Column(name="password")
+	private String password;
 
 	
 	
@@ -52,13 +54,12 @@ public class User {
 	@OneToMany(mappedBy = "userContainer")
     @JsonIgnore
 	private List<Block> calculatedBlocks;
-
+/*
 	@OneToMany(mappedBy = "authorContainer")
     @JsonIgnore
 	// @JoinColumn(name = "hashFile")// Autore
 	private List<Transaction> fileContainer;
-	
-	
+*/
 	
 	
 	public User(){};
@@ -81,7 +82,15 @@ public class User {
 		this.username = username;
 	}
 
-	
+	public User(String publicKeyHash, String publicKey, String name, String lastName, String email, String username, String password) {
+		super();
+		this.publicKeyHash = publicKeyHash;
+		this.publicKey = publicKey;
+		this.name = name;
+		this.lastName = lastName;
+		this.email = email;
+		this.username = username;
+	}
 	/**
 	 *
 	 */
@@ -220,18 +229,29 @@ public class User {
 	/**
 	 * @return the fileContainer
 	 */
+	/*
 	public List<Transaction> getFileContainer() {
 
 		return fileContainer;
 	}
-
+*/
 	/**
 	 * @param fileContainer
 	 *            the fileContainer to set
 	 */
+	/*
 	public void setFileContainer(List<Transaction> fileContainer) {
 
 		this.fileContainer = fileContainer;
+	}
+	*/
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 }
