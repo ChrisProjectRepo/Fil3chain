@@ -32,46 +32,46 @@ angular
       }
     }
   })
-  .state('app.welcome', {
-    url: '/welcome',
-    views: {
-      "content@app": {
-        templateUrl: 'views/welcome.html'
-      }
-    }
-  })
-  .state('app.welcome.signin', {
-    url: "/signin",
-    views: {
-      "content@app.welcome": {
-        templateUrl: 'views/welcome.signin.html',
-        controller: 'signinCtrl'
-      }
-    }
-  })
-  .state('app.welcome.signup', {
-    url: "/signup",
-    views: {
-      "content@app.welcome": {
-        templateUrl: 'views/welcome.signup.html',
-        controller:'signupCtrl'
-      }
-    }
-  })
+//  .state('app.welcome', {
+//    url: '/welcome',
+//    views: {
+//      "content@app": {
+//        templateUrl: 'views/welcome.html'
+//      }
+//    }
+//  })
+//  .state('app.welcome.signin', {
+//    url: "/signin",
+//    views: {
+//      "content@app.welcome": {
+//        templateUrl: 'views/welcome.signin.html',
+//        controller: 'signinCtrl'
+//      }
+//    }
+//  })
+//  .state('app.welcome.signup', {
+//    url: "/signup",
+//    views: {
+//      "content@app.welcome": {
+//        templateUrl: 'views/welcome.signup.html',
+//        controller:'signupCtrl'
+//      }
+//    }
+//  })
 
   .state('app.wallet', {
     url: "/wallet",
     abstract:true
   })
-  .state('app.wallet.profile', {
-    url: "/profile",
-    views: {
-      "content@app": {
-        templateUrl: 'views/wallet.profile.html',
-        controller:'signupCtrl'
-      }
-    }
-  })
+//  .state('app.wallet.profile', {
+//    url: "/profile",
+//    views: {
+//      "content@app": {
+//        templateUrl: 'views/wallet.profile.html',
+//        controller:'signupCtrl'
+//      }
+//    }
+//  })
   .state('app.wallet.transactions', {
     url: "/transactions",
     views: {
@@ -90,15 +90,15 @@ angular
       }
     }
   })
-  .state('app.wallet.statistics', {
-    url: "/statistics",
-    views: {
-      "content@app": {
-        templateUrl: 'views/wallet.statistics.html',
-        controller:'signupCtrl'
-      }
-    }
-  })
+//  .state('app.wallet.statistics', {
+//    url: "/statistics",
+//    views: {
+//      "content@app": {
+//        templateUrl: 'views/wallet.statistics.html',
+//        controller:'signupCtrl'
+//      }
+//    }
+//  })
   .state('app.miner', {
     url: "/miner",
     views: {
@@ -107,17 +107,17 @@ angular
         controller:'minerCtrl'
       }
     }
-  })
-
-  .state('app.fil3chain', {
-    url: "/fil3chain",
-    views: {
-      "content@app": {
-        templateUrl: 'views/dashboard.html',
-        controller:'signupCtrl'
-      }
-    }
   });
+
+//  .state('app.fil3chain', {
+//    url: "/fil3chain",
+//    views: {
+//      "content@app": {
+//        templateUrl: 'views/dashboard.html',
+//        controller:'signupCtrl'
+//      }
+//    }
+//  });
 
 
   /*
@@ -183,7 +183,7 @@ controller: 'copyrightCtrl'
 })
 */
 
-$urlRouterProvider.otherwise("/welcome");
+$urlRouterProvider.otherwise("/miner");
 
 })
 .run(['$rootScope',function ($rootScope) {
