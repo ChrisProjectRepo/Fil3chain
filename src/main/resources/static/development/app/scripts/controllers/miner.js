@@ -10,7 +10,7 @@
 angular.module('blockchainApp')
 .controller('minerCtrl',function($scope, $mdDialog, $mdMedia, $http, $location){
   console.log('minerCtrl');
-  var start = false;
+  $scope.start = true;
   var buttonMinerStart = {
     icon:'icons/ic_play_arrow_white_24px.svg',
     label:'Start miner'
@@ -21,19 +21,57 @@ angular.module('blockchainApp')
   };
 
   $scope.buttonMiner = buttonMinerStart;
+  
+  function checkMining(){
+      $http({
+          method:'GET',
+          url:'/fil3chain/checkMining',
+//          headers: {'Content-Type': 'text/plain'} 
+      })
+      .then(function(response){
+          console.log('success',response);
+          //$scope.start = response.data;
+          switchMiningButton(response.data)
+      },
+      function(response){
+         console.log('error',response); 
+         //$scope.start = false;
+         switchMiningButton(false)
+      })
+  }
+  checkMining();
+  
+  function switchMiningButton(boolean){
+      //Qui si deve avviare il metodo di mining
+    if(boolean) {
+      //showAlert(event);
+      $scope.buttonMiner = buttonMinerStop;
+    }
+    else {
+      $scope.buttonMiner = buttonMinerStart;
+    }
+    $scope.start=!$scope.start;
+  }
+  
+  
+  
   function minerButtonClick(event){
-    console.log('minerCtrl',start);
+    console.log('minerCtrl',$scope.start);
+            switchMiningButton(!$scope.start)
 
-    if(!start) {
+/*
+    if(!$scope.start) {
       // Simple GET request example:
       $http({
         method: 'GET',
-        url: '/fil3chain/starMining'
-      }).then(function successCallback(response) {
+        url: '/fil3chain/starMining',
+//        headers: {'Content-Type': 'text/plain'} 
+      }).then(function (response) {
         // this callback will be called asynchronously
         // when the response is available
         console.log('minerStart','success',response)
-      }, function errorCallback(response) {
+        switchMiningButton(true)
+      }, function (response) {
         // called asynchronously if an error occurs
         // or server returns response with an error status.
         console.log('minerStart','error',response)
@@ -43,29 +81,20 @@ angular.module('blockchainApp')
       // Simple GET request example:
       $http({
         method: 'GET',
-        url: '/fil3chain/stopMining'
-      }).then(function successCallback(response) {
+        url: '/fil3chain/stopMining',
+//        headers: {'Content-Type': 'text/plain'} 
+      }).then(function (response) {
         // this callback will be called asynchronously
         // when the response is available
         console.log('minerStop','success',response)
-      }, function errorCallback(response) {
+        switchMiningButton(false)
+      }, function (response) {
         // called asynchronously if an error occurs
         // or server returns response with an error status.
         console.log('minerStop','error',response)
       });
     }
-
-
-    //Qui si deve avviare il metodo di mining
-    if(!start) {
-      //showAlert(event);
-      $scope.buttonMiner = buttonMinerStop;
-    }
-    else {
-      $scope.buttonMiner = buttonMinerStart;
-    }
-    start=!start;
-    return;
+    */
   }
   
   $scope.minerButtonClick = minerButtonClick;

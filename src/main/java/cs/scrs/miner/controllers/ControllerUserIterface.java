@@ -29,16 +29,24 @@ public class ControllerUserIterface {
     private AsyncRequest asyncRequest;
     @Autowired
     private Network networkProperties;
+    
+    @RequestMapping(value = "/fil3chain/checkMining", method = RequestMethod.GET)
+    @ResponseBody
+    public String checkMining() {
+        return filechain.getFlagRunningMinining().toString();
+    }
     @RequestMapping(value = "/fil3chain/starMining", method = RequestMethod.GET)
+    @ResponseBody
     public String startMining() {
         // Inutile che ritorno si/no con accodato il chain level basta che torno
         // il chain level e il ricevente sa a chi chiedere tutti i blocchi di cui ha bisogno
         //return blockRepository.findFirstByOrderByChainLevelDesc().getChainLevel();
         filechain.startMining();
-        return "OK";
+        return "{\"response\":\"ACK\"}";
     }
 
     @RequestMapping(value = "/fil3chain/stopMining", method = RequestMethod.GET)
+    @ResponseBody
     public String stopMining() {
         // Inutile che ritorno si/no con accodato il chain level basta che torno
         // il chain level e il ricevente sa a chi chiedere tutti i blocchi di cui ha bisogno
@@ -46,7 +54,7 @@ public class ControllerUserIterface {
         //return blockRepository.findFirstByOrderByChainLevelDesc().getChainLevel();
         filechain.setFlagRunningMinining(Boolean.FALSE);
         System.out.println("Mining Fermato");
-        return "OK";
+        return "{\"response\":\"ACK\"}";
     }
 
     @RequestMapping(value = "/fil3chain/sendTransaction", method = RequestMethod.POST)

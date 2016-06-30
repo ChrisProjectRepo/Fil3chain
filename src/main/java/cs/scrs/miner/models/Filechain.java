@@ -52,7 +52,7 @@ public class Filechain {
 
 	private static Boolean flagNewBlock = Boolean.TRUE;
 
-	private Boolean flagRunningMinining;
+	private Boolean flagRunningMinining = Boolean.FALSE;
 
 
 	/**
