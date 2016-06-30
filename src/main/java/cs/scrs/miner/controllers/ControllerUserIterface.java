@@ -33,6 +33,7 @@ public class ControllerUserIterface {
     @RequestMapping(value = "/fil3chain/checkMining", method = RequestMethod.GET)
     @ResponseBody
     public String checkMining() {
+        System.out.println("Mininig: "+filechain.getFlagRunningMinining().toString());
         return filechain.getFlagRunningMinining().toString();
     }
     @RequestMapping(value = "/fil3chain/starMining", method = RequestMethod.GET)
@@ -59,8 +60,8 @@ public class ControllerUserIterface {
 
     @RequestMapping(value = "/fil3chain/sendTransaction", method = RequestMethod.POST)
     @ResponseBody
-    public String sendTransaction(@RequestBody String transaction) throws Exception {
-        System.out.println("Transazione arrivata: " + transaction);
+    public String sendTransaction(@RequestBody String transaction,String name) throws Exception {
+        System.out.println("Transazione arrivata: " + transaction+" la seconda "+name);
         asyncRequest.doPost("http://"+networkProperties.getEntrypoint().getIp()+":"+networkProperties.getEntrypoint().getPort()+ networkProperties.getPooldispatcher().getBaseUri()+networkProperties.getActions().getSendTransaction(), transaction);
         return "{\"response\":\"ACK\"}";
     }

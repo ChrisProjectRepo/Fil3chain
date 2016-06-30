@@ -10,7 +10,9 @@
 angular.module('blockchainApp')
 .controller('minerCtrl',function($scope, $mdDialog, $mdMedia, $http, $location){
   console.log('minerCtrl');
-  $scope.start = true;
+
+  $scope.start = false;
+
   var buttonMinerStart = {
     icon:'icons/ic_play_arrow_white_24px.svg',
     label:'Start miner'
@@ -46,20 +48,18 @@ angular.module('blockchainApp')
     if(boolean) {
       //showAlert(event);
       $scope.buttonMiner = buttonMinerStop;
+        $scope.start=true;
     }
     else {
       $scope.buttonMiner = buttonMinerStart;
+        $scope.start=false;
     }
-    $scope.start=!$scope.start;
+    //$scope.start=!$scope.start;
   }
-  
-  
-  
+    
   function minerButtonClick(event){
-    console.log('minerCtrl',$scope.start);
-            switchMiningButton(!$scope.start)
-
-/*
+      console.log('Mining: ',$scope.start);
+      //switchMiningButton($scope.start)
     if(!$scope.start) {
       // Simple GET request example:
       $http({
@@ -94,7 +94,6 @@ angular.module('blockchainApp')
         console.log('minerStop','error',response)
       });
     }
-    */
   }
   
   $scope.minerButtonClick = minerButtonClick;

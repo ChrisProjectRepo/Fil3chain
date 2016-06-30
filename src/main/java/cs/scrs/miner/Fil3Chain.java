@@ -50,8 +50,6 @@ public class Fil3Chain implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 		System.out.println(ms.getPrivateKey()+" "+ms.getPublicKey());
-		
-		
 		/*
 		 * Example of post Request with messageConverter
 		 */
