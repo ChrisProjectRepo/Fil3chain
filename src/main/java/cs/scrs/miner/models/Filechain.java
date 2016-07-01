@@ -668,14 +668,7 @@ public class Filechain {
 	private Block getFatherBlock() {
 
 		Integer heightBFS = blockRepository.findFirstByOrderByChainLevelDesc().getChainLevel();
-//		List<Block> blocks = blockRepository.findBychainLevel(heightBFS);
-//		List<Block> blocksTemp = new ArrayList<>();
-//		Set<Block> sCurrBlocks = new HashSet<Block>();
-//		Integer count = 0;
-
-
 		//Lista di lista aventi come chiave il numero e come valore la lista di dei blocchi relativi a quel livello
-//		List<Pair<Integer,List<Block>>> test=new ArrayList<>();
 		HashMap<Integer, List<Block>> test = new HashMap<>();
 
 		List<Block> sfa=blockRepository.findBychainLevel(heightBFS);
@@ -696,7 +689,7 @@ public class Filechain {
 		} else {
 			for (int i = KMAXLEVEL; KMAXLEVEL > 0; i--) {
 				if (test.get(i).size() > 1) {
-					return blockRepository.findBychainLevel(i + 1).get(0);
+					return test.get(i + 1).get(0);
 				}
 			}
 		}
@@ -764,6 +757,9 @@ public class Filechain {
 	private List<Transaction> getAllTransFromHash(Block b) {
 
 		List<Transaction> transList = new ArrayList<>();
+
+		//Questo get block non serve perchè senò stiamo ritornando il figlio del blocco da cui dobbiamo prende le transazioni e quindi ci perdiamo
+		//le transazioni del blocco B che abbiamo calcolato sopra
 		//Block b = blockRepository.findByhashBlock(f.getFatherBlockContainer());
 		System.out.println("Blocco del padre per ricavare hash: "+b.toString());
 		
