@@ -4,7 +4,9 @@ package cs.scrs.miner.models;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
@@ -53,6 +55,9 @@ public class Filechain {
 	private static Boolean flagNewBlock = Boolean.TRUE;
 
 	private Boolean flagRunningMinining = Boolean.FALSE;
+
+	// private static final Integer KMAXLEVEL = 4;//DECISO DA CHRISTIAN SIMOLO IL 1/7/16 15:35 (A Random) SPOSTARE NEL PROPERTIES
+	private static final Integer KMAXLEVEL = 3;// DECISO DA CHRISTIAN SIMOLO IL 1/7/16 15:36 (MOTIVATO:perche me pare più completo de 4,SImene vinciguerra aggiunge 1/5 sezione aurea) SPOSTARE NEL PROPERTIES
 
 
 	/**
@@ -578,12 +583,12 @@ public class Filechain {
 
 		if (isVerified) {
 			// Stoppo il processo di mining
-			//mi salvo l altrezza prima dell inserimento
+			// mi salvo l altrezza prima dell inserimento
 			Integer heightBFS = blockRepository.findFirstByOrderByChainLevelDesc().getChainLevel();
 			// Salvo il blocco nella catena
 			blockRepository.save(block);
 			// se il blocco è con chain level maggiore del mio blocco il mining
-			if (block.getChainLevel() >  heightBFS) {
+			if (block.getChainLevel() > heightBFS) {
 				flagNewBlock = Boolean.TRUE;
 				miningService.setStopMining(Boolean.TRUE);
 				// Aggiorno il servizio di mining
@@ -597,11 +602,12 @@ public class Filechain {
 
 	// Metodo che avvia il Mining del miner e ne gestisce interruzione
 	public void manageMine() {
-		Integer i =0;
+
+		Integer i = 0;
 		miningService.initializeService();
 		Future<Boolean> response = null;
 		while (flagRunningMinining) {
-			//Reimposto la variabile di stop di mining a false
+			// Reimposto la variabile di stop di mining a false
 			miningService.setStopMining(Boolean.FALSE);
 			if (response != null) {
 				response.cancel(Boolean.TRUE);
@@ -610,7 +616,7 @@ public class Filechain {
 			System.out.println("richiesta asincrona");
 			try {
 				miningService.updateMiningService();
-				//Reimposto la variabile di arrivo nuovo blocco a false
+				// Reimposto la variabile di arrivo nuovo blocco a false
 				flagNewBlock = Boolean.FALSE;
 				response = miningService.mine(i);
 				i++;
@@ -638,16 +644,14 @@ public class Filechain {
 			}
 
 			System.out.println("ho aspettato la risposta" + response.isDone() + " oppure è arrivao il blocco " + flagNewBlock + "oppure ho fermato il mining");
-			//flagNewBlock=Boolean.FALSE;
-
+			// flagNewBlock=Boolean.FALSE;
 
 		}
-	
+
 		if (response != null) {
 			miningService.setStopMining(Boolean.TRUE);
 			response.cancel(Boolean.TRUE);
 		}
-
 
 		System.out.println("Il miner è stato fermato con successo");
 	}
@@ -659,6 +663,91 @@ public class Filechain {
 		setFlagRunningMinining(Boolean.TRUE);
 		update();
 		manageMine();
+	}
+
+	/**
+	 * 
+	 */
+	private Block qetFatherBlock() {
+
+		Integer heightBFS = blockRepository.findFirstByOrderByChainLevelDesc().getChainLevel();
+		List<Block> blocks = blockRepository.findBychainLevel(heightBFS);
+		Set<Block> sCurrBlocks = new HashSet<Block>();
+		Integer count = KMAXLEVEL;
+
+		Boolean flag = Boolean.TRUE;
+		
+		while (flag) {
+
+			heightBFS--;
+
+			// Aggiungo i padri alla lista
+			for (Block b : blocks) {
+				sCurrBlocks.add(blockRepository.findByhashBlock(b.getFatherBlockContainer()));
+			}
+			// se sono nei primi livelli designati aggiungo altri branch concorrenziali
+			if (count > 0)
+				blocks = blockRepository.findBychainLevel(heightBFS);
+			for (Block b : blocks) {
+				sCurrBlocks.add(b);
+			}
+			count--;
+
+			if (sCurrBlocks.size() == 1 && count == 0)
+				flag = Boolean.FALSE;
+
+			blocks.clear();
+			blocks.addAll(sCurrBlocks);
+			sCurrBlocks.clear();
+
+		}
+		System.out.println("Blocco Trovato con padre in comune: "+blocks.get(0).toString());
+		return blocks.get(0);
+
+	}
+	
+	
+//	private Block getFatherBlock(){
+//		Integer heightBFS = blockRepository.findFirstByOrderByChainLevelDesc().getChainLevel();
+//		Integer count = KMAXLEVEL;
+//		Set<Block> sCurrBlocks = new HashSet<Block>();
+//		sCurrBlocks.addAll(blockRepository.findBychainLevel(heightBFS));
+//		
+//		while(sCurrBlocks.size()!=1 || count<3){
+//			for()
+//			
+//		}
+//		
+//		
+//		return blocks
+//	}
+
+	/**
+	 * @param hash
+	 * @return
+	 */
+	private List<Transaction> getAllTransFromHash(Block b) {
+
+		List<Transaction> transList = new ArrayList<>();
+//		Block b = blockRepository.findByhashBlock(f.getFatherBlockContainer());
+		System.out.println("Blocco del padre per ricavare hash: "+b.toString());
+		
+		while (b.getFatherBlockContainer() != null && transList != null) {
+			transList.addAll(b.getTransactionsContainer());
+			b = blockRepository.findByhashBlock(b.getFatherBlockContainer());
+		}
+		System.out.println("Tutte le citazioni: "+transList.toString());
+		return transList;
+
+	}
+
+	/**
+	 * @return
+	 */
+	public List<Transaction> getAllAvalaibleCit() {
+
+		return getAllTransFromHash(qetFatherBlock());
+
 	}
 
 	/*
@@ -744,16 +833,15 @@ public class Filechain {
 	// // blockRepository = beansManager.getBlockRepository;
 	// }
 
-	 @SuppressWarnings("unchecked")
-	 private List<Transaction> getTransFromDisp(Integer nTrans) throws Exception {
-	 // TODO List<Transaction> trans = HttpUtil.doGetJSON("http://" + getEntryPointBaseUri() +
-	
-	// Type type = new TypeToken<List<Transaction>>() {
-	// }.getType();
-	// List<Transaction> trans = HttpUtil.doGetJSON("http://" + "10.198.0.7" + ":8080/JsonTransaction?nTrans=" + nTrans, type);
-	
-	
-	 return null;
-	 }
+	@SuppressWarnings("unchecked")
+	private List<Transaction> getTransFromDisp(Integer nTrans) throws Exception {
+		// TODO List<Transaction> trans = HttpUtil.doGetJSON("http://" + getEntryPointBaseUri() +
+
+		// Type type = new TypeToken<List<Transaction>>() {
+		// }.getType();
+		// List<Transaction> trans = HttpUtil.doGetJSON("http://" + "10.198.0.7" + ":8080/JsonTransaction?nTrans=" + nTrans, type);
+
+		return null;
+	}
 
 }

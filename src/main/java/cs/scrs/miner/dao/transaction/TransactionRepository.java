@@ -14,6 +14,7 @@ public interface TransactionRepository extends CrudRepository<Transaction, Long>
 
     List<Transaction> findByhashFile(String hashBlock);
 
-    Block findByHashFile(@Param("hashFile") String hashFile);
+    Transaction findByHashFile(@Param("hashFile") String hashFile);
+    
 
 }

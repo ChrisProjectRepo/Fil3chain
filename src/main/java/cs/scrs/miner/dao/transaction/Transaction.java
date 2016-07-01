@@ -1,6 +1,5 @@
 /*
-  * To change this license header, choose License Headers in Project Properties. To change this template file, choose
- * Tools | Templates and open the template in the editor.
+ * To change this license header, choose License Headers in Project Properties. To change this template file, choose Tools | Templates and open the template in the editor.
  */
 package cs.scrs.miner.dao.transaction;
 
@@ -25,7 +24,6 @@ import javax.persistence.Table;
 
 
 
-
 @Entity
 @Table(name = "transaction")
 public class Transaction {
@@ -36,37 +34,22 @@ public class Transaction {
 	private String hashFile;
 	@Column(name = "filename")
 	private String filename;
-	// @Column(name = "continues") // Serve per avere blocchi di dimensione fissa
-	// private Transaction continues; // True se il numero di citazioni non entra nel blocco e questa è una
-	// continuazione di un altra.
-        //ci serve per recuperare le transazioni nell'ordine stabilito dal merkle tree
-        @Column(name="index_in_block")
-        private Integer indexInBlock;
+	@Column(name = "index_in_block")
+	private Integer indexInBlock;
 	// Relations
-         
-        /*
-	@ManyToOne
-	@JoinColumn(name = "Block_hashBlock")
-        @JsonIgnore
-	private Block blockContainer;
-        */
-        
-        //TODO AGGIUNGERE ONETOMANY MAPPEDBYBLOCKCONTSINER
-        @Column(name = "blockContainer")
+
+
+	// TODO AGGIUNGERE ONETOMANY MAPPEDBYBLOCKCONTSINER
+	@Column(name = "blockContainer")
 	private String blockContainer;
 
 	@ManyToOne
 	@JoinColumn(name = "User_publicKeyHash") // Autore
 	private User authorContainer;
 
-	
-	
 	@ManyToMany
-	@JoinTable(name = "Citations", joinColumns = { 
-			@JoinColumn(name = "Transaction_hashFileCite", referencedColumnName = "hashFile") }, inverseJoinColumns = {
-			@JoinColumn(name = "Transaction_hashFileCited", referencedColumnName = "hashFile") })
+	@JoinTable(name = "Citations", joinColumns = { @JoinColumn(name = "Transaction_hashFileCite", referencedColumnName = "hashFile") }, inverseJoinColumns = { @JoinColumn(name = "Transaction_hashFileCited", referencedColumnName = "hashFile") })
 	private List<Transaction> citationsContainer;
-
 
 
 	public Transaction(String hashFile, String filename) {
@@ -95,11 +78,11 @@ public class Transaction {
 		this.hashFile = hashFile;
 	}
 
+
 	/**
 	 * @return the filename
 	 */
 	public String getFilename() {
-
 		return filename;
 	}
 
@@ -163,23 +146,20 @@ public class Transaction {
 		this.citationsContainer = citationsContainer;
 	}
 
-    public Integer getIndexInBlock() {
-        return indexInBlock;
-    }
+	public Integer getIndexInBlock() {
 
-    public void setIndexInBlock(Integer indexInBlock) {
-        this.indexInBlock = indexInBlock;
-    }
+		return indexInBlock;
+	}
+
+	public void setIndexInBlock(Integer indexInBlock) {
+
+		this.indexInBlock = indexInBlock;
+	}
 
 	@Override
 	public String toString() {
-		return "Transaction{" +
-				"hashFile='" + hashFile + '\'' +
-				", filename='" + filename + '\'' +
-				", indexInBlock=" + indexInBlock +
-				", blockContainer='" + blockContainer + '\'' +
-				", authorContainer=" + authorContainer +
-				", citationsContainer=" + citationsContainer +
-				'}';
+
+		return "Transaction{" + "hashFile='" + hashFile + '\'' + ", filename='" + filename + '\'' + ", indexInBlock=" + indexInBlock + ", blockContainer='" + blockContainer + '\'' + ", authorContainer=" + authorContainer + ", citationsContainer="
+				+ citationsContainer + '}';
 	}
 }

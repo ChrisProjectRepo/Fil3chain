@@ -11,8 +11,6 @@ import cs.scrs.service.request.AsyncRequest;
 import java.util.*;
 
 /**
- * Created by Marco
- * Date: 12/06/2016.
  *
  * Insieme di metodi statici per le richieste di utilità
  * al Pool Dispatcher
@@ -24,6 +22,7 @@ import java.util.*;
 @Service
 public class PoolDispatcherServiceImpl {
 
+	private static final int TRANSINBLOCK = 3;//TODO TROVARMI POSTO E METTERMI NEL PROPERTIES
 	@Autowired
 	private AsyncRequest asyncRequest;
 	
@@ -72,7 +71,7 @@ public class PoolDispatcherServiceImpl {
         //TODO: Mettere chiamata al server reale
         ArrayList<Transaction> transactions = new ArrayList<>();
 
-        for(int i = 0; i < 2; i++) {
+        for(int i = 0; i < TRANSINBLOCK; i++) {
             // Transazione mock
             Transaction transaction = new Transaction();
             transaction.setFilename("Ciano's file " + new Random().nextInt());
