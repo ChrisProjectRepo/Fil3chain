@@ -1,6 +1,7 @@
 package cs.scrs.service.poolDispatcher;
 
 
+import cs.scrs.miner.dao.block.Block;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -69,6 +70,7 @@ public class PoolDispatcherServiceImpl {
 
     public  List<Transaction> getTransactions() {
         //TODO: Mettere chiamata al server reale
+        Set<Block> p=new HashSet<>();
         ArrayList<Transaction> transactions = new ArrayList<>();
 
         for(int i = 0; i < TRANSINBLOCK; i++) {

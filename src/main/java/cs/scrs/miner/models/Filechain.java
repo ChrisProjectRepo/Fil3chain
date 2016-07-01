@@ -2,14 +2,11 @@ package cs.scrs.miner.models;
 
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
+import javafx.util.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.AsyncResult;
@@ -668,43 +665,81 @@ public class Filechain {
 	/**
 	 * 
 	 */
-	private Block qetFatherBlock() {
+	private Block getFatherBlock() {
 
 		Integer heightBFS = blockRepository.findFirstByOrderByChainLevelDesc().getChainLevel();
-		List<Block> blocks = blockRepository.findBychainLevel(heightBFS);
-		Set<Block> sCurrBlocks = new HashSet<Block>();
-		Integer count = KMAXLEVEL;
+//		List<Block> blocks = blockRepository.findBychainLevel(heightBFS);
+//		List<Block> blocksTemp = new ArrayList<>();
+//		Set<Block> sCurrBlocks = new HashSet<Block>();
+//		Integer count = 0;
 
-		Boolean flag = Boolean.TRUE;
-		
-		while (flag) {
 
-			heightBFS--;
+		//Lista di lista aventi come chiave il numero e come valore la lista di dei blocchi relativi a quel livello
+//		List<Pair<Integer,List<Block>>> test=new ArrayList<>();
+		HashMap<Integer, List<Block>> test = new HashMap<>();
 
-			// Aggiungo i padri alla lista
-			for (Block b : blocks) {
-				sCurrBlocks.add(blockRepository.findByhashBlock(b.getFatherBlockContainer()));
-			}
-			// se sono nei primi livelli designati aggiungo altri branch concorrenziali
-			if (count > 0)
-				blocks = blockRepository.findBychainLevel(heightBFS);
-			for (Block b : blocks) {
-				sCurrBlocks.add(b);
-			}
-			count--;
+		List<Block> sfa=blockRepository.findBychainLevel(heightBFS);
 
-			if (sCurrBlocks.size() == 1 && count == 0)
-				flag = Boolean.FALSE;
-
-			blocks.clear();
-			blocks.addAll(sCurrBlocks);
-			sCurrBlocks.clear();
-
+		for (int i = 0; i < KMAXLEVEL; i++) {
+			test.put(i, blockRepository.findBychainLevel(heightBFS - i));
 		}
-		System.out.println("Blocco Trovato con padre in comune: "+blocks.get(0).toString());
-		return blocks.get(0);
 
+		Integer counter = 0;
+
+		for (int i = 0; i < KMAXLEVEL; i++) {
+			counter += test.get(i).size();
+		}
+
+		if (counter.equals(KMAXLEVEL)) {
+			//Torno il blocco di valore massimo perche catena è stabile
+			return blockRepository.findBychainLevel(heightBFS).get(0);
+		} else {
+			for (int i = KMAXLEVEL; KMAXLEVEL > 0; i--) {
+				if (test.get(i).size() > 1) {
+					return blockRepository.findBychainLevel(i + 1).get(0);
+				}
+			}
+		}
+
+		return null;
 	}
+//		Boolean flag = Boolean.TRUE;
+//		while (flag) {
+//		for(int i=0;i<KMAXLEVEL-count;i++){
+//			blocksTemp.addAll(blockRepository.findBychainLevel(heightBFS-i));
+//		}
+//		//Catena pulita setto flag a false e non eseguo il flag
+//		if(blocksTemp.size()<=KMAXLEVEL-count)
+//			flag=Boolean.FALSE;
+//
+//		count++;
+//		/*
+//		//Testo che la catena non ha problemi
+//		if(!flag){
+//			heightBFS--;
+//			// Aggiungo i padri alla lista
+//			for (Block b : blocks) {
+//				sCurrBlocks.add(blockRepository.findByhashBlock(b.getFatherBlockContainer()));
+//			}
+//			// se sono nei primi livelli designati aggiungo altri branch concorrenziali
+//			if (count < KMAXLEVEL)
+//				blocks = blockRepository.findBychainLevel(heightBFS);
+//			for (Block b : blocks) {
+//				sCurrBlocks.add(b);
+//			}
+//			count++;
+//
+//			if (sCurrBlocks.size() == 1 && count == KMAXLEVEL)
+//				flag = Boolean.FALSE;
+//
+//			blocks.clear();
+//			blocks.addAll(sCurrBlocks);
+//			sCurrBlocks.clear();
+//			}*/
+//		}
+//		System.out.println("Blocco Trovato con padre in comune: "+blocks.get(0).toString());
+//		return blocks.get(0);
+
 	
 	
 //	private Block getFatherBlock(){
@@ -729,7 +764,7 @@ public class Filechain {
 	private List<Transaction> getAllTransFromHash(Block b) {
 
 		List<Transaction> transList = new ArrayList<>();
-//		Block b = blockRepository.findByhashBlock(f.getFatherBlockContainer());
+		//Block b = blockRepository.findByhashBlock(f.getFatherBlockContainer());
 		System.out.println("Blocco del padre per ricavare hash: "+b.toString());
 		
 		while (b.getFatherBlockContainer() != null && transList != null) {
@@ -746,7 +781,7 @@ public class Filechain {
 	 */
 	public List<Transaction> getAllAvalaibleCit() {
 
-		return getAllTransFromHash(qetFatherBlock());
+		return getAllTransFromHash(getFatherBlock());
 
 	}
 
