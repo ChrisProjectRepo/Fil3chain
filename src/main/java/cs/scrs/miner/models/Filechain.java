@@ -54,7 +54,7 @@ public class Filechain {
 	private Boolean flagRunningMinining = Boolean.FALSE;
 
 	// private static final Integer KMAXLEVEL = 4;//DECISO DA CHRISTIAN SIMOLO IL 1/7/16 15:35 (A Random) SPOSTARE NEL PROPERTIES
-	private static final Integer KMAXLEVEL = 3;// DECISO DA CHRISTIAN SIMOLO IL 1/7/16 15:36 (MOTIVATO:perche me pare più completo de 4,SImene vinciguerra aggiunge 1/5 sezione aurea) SPOSTARE NEL PROPERTIES
+	private static final Integer KMAXLEVEL = 15;// DECISO DA CHRISTIAN SIMOLO IL 1/7/16 15:36 (MOTIVATO:perche me pare più completo de 4,SImene vinciguerra aggiunge 1/5 sezione aurea) SPOSTARE NEL PROPERTIES
 
 
 	/**
@@ -671,29 +671,25 @@ public class Filechain {
 		//Lista di lista aventi come chiave il numero e come valore la lista di dei blocchi relativi a quel livello
 		HashMap<Integer, List<Block>> test = new HashMap<>();
 
-		List<Block> sfa=blockRepository.findBychainLevel(heightBFS);
-
 		for (int i = 0; i < KMAXLEVEL; i++) {
-			test.put(i, blockRepository.findBychainLevel(heightBFS - i));
+			test.put(i+1, blockRepository.findBychainLevel(heightBFS - i));
 		}
-
 		Integer counter = 0;
-
 		for (int i = 0; i < KMAXLEVEL; i++) {
-			counter += test.get(i).size();
+			counter += test.get(i+1).size();
 		}
 
-		if (counter.equals(KMAXLEVEL)) {
+		if (counter.equals(KMAXLEVEL))
 			//Torno il blocco di valore massimo perche catena è stabile
 			return blockRepository.findBychainLevel(heightBFS).get(0);
-		} else {
-			for (int i = KMAXLEVEL; KMAXLEVEL > 0; i--) {
-				if (test.get(i).size() > 1) {
-					return test.get(i + 1).get(0);
-				}
+
+		Integer sizeTest=test.size();
+
+		for (int j=sizeTest;j>0;j--) {
+			if (test.get(j).size() > 1) {
+				return test.get(j+1).get(0);
 			}
 		}
-
 		return null;
 	}
 //		Boolean flag = Boolean.TRUE;
