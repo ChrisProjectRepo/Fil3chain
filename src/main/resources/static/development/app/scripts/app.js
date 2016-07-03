@@ -104,6 +104,22 @@ angular
         templateUrl: 'views/wallet.transactions.post.html',
         controller:'walletTransactionPostCtrl'
       }
+    },
+    resolve:{
+    	transactions:['TransactionService',function(TransactionService){
+    		   return TransactionService.get()
+    		   .then(function(transactions){
+    			   console.log('ooooooooooooooooooooooooooooooo',transactions)
+    			   return transactions;
+    		   },function(error){
+    			   console.log('ooooooooooooooooooooooooooooooo1')
+
+    			  return undefined;
+    		   });
+    	}],
+    	transactionHeaders:['TransactionService',function(TransactionService){
+    		return TransactionService.getTransactionHeader();
+    	}]
     }
   })
   .state('app.wallet.statistics', {

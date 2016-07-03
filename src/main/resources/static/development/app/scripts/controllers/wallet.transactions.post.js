@@ -8,8 +8,9 @@
 * Controller of the blockchain
 */
 angular.module('blockchainApp')
-.controller('walletTransactionPostCtrl',['$scope', '$mdDialog', '$mdMedia','TransactionService',function($scope,$mdDialog, $mdMedia,TransactionService){
-  console.log('walletTransactionPostCtrl');
+.controller('walletTransactionPostCtrl',['$scope', '$mdDialog', '$mdMedia','TransactionService','transactions','transactionHeaders',function($scope,$mdDialog, $mdMedia,TransactionService, transactions , transactionHeaders){
+  console.log('walletTransactionPostCtrl', transactionHeaders, transactions);
+ /*
   var transactionsMock=[
     {
       hashFile:'oihsoaidhsodhsad',
@@ -31,6 +32,7 @@ angular.module('blockchainApp')
       ]
     }
   ]
+  */
   function showAlert(ev, transactions) {
     var useFullScreen = ($mdMedia('sm') || $mdMedia('xs')) ;// && $scope.customFullscreen;
     console.log('walletTransactionPostCtrl','useFullScreen',useFullScreen);
@@ -40,8 +42,8 @@ angular.module('blockchainApp')
       parent: angular.element(document.body),
       targetEvent: ev,
       locals: {
-        transactions: transactionsMock,
-        transactionHeaders : TransactionService.getTransactionHeader()
+        transactions: transactions,
+        transactionHeaders : transactionHeaders
       },
       clickOutsideToClose:true,
       fullscreen: true
