@@ -8,7 +8,8 @@
 	TransactionServiceImpl.$inject = ['$http','$q'];
 	function TransactionServiceImpl($http,  $q) {
 		var service = {};
-		var TRANSACTION_ENDPOINT = 'fil3chain/citations'
+		var TRANSACTION_ENDPOINT_CITATIONS = 'fil3chain/citations';
+		var TRANSACTION_ENDPOINT_TRANSACTION = 'fil3chain/sendTransaction';
 			var TRANSACTION_HEADERS =[
 			                          {
 			                        	  name: 'Hash File',
@@ -63,7 +64,7 @@
 			var deferred = $q.defer();
 			$http({
 				method: 'GET',
-				url: TRANSACTION_ENDPOINT
+				url: TRANSACTION_ENDPOINT_CITATIONS
 			}).success(function successCallback(response) {
 				// this callback will be called asynchronously
 				// when the response is available
@@ -86,18 +87,18 @@
 			var deferred = $q.defer();
 			$http({
 				method: 'POST',
-				url: TRANSACTION_ENDPOINT,
-				date: transaction
+				url: TRANSACTION_ENDPOINT_TRANSACTION,
+				data: transaction
 			}).success(function successCallback(response) {
 				// this callback will be called asynchronously
 				// when the response is available
-				alert('Transazione inviata con successo');
+				//alert('Transazione inviata con successo');
 				console.log(response);
-				referred.resolve(response);
+				deferred.resolve(response);
 			}).error(function errorCallback(response) {
 				// called asynchronously if an error occurs
 				// or server returns response with an error status.
-				alert('Errore durante l\'invio della transazione');
+				//alert('Errore durante l\'invio della transazione');
 				console.log(response);
 				deferred.reject(response);
 			});

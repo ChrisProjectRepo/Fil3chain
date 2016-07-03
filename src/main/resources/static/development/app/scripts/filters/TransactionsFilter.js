@@ -3,7 +3,8 @@
 
 	angular
 	.module('blockchainApp')
-	.filter('Transactions', TransactionsFilter);
+	.filter('Transactions', TransactionsFilter)
+	.filter('TransactionsSelected', TransactionsSelectedFilter);
 
 	TransactionsFilter.$inject = [];
 	function TransactionsFilter() {
@@ -23,6 +24,28 @@
 
 			//matching.push(item);
 			return matching[0];
+		};
+		
+	}
+	
+	TransactionsSelectedFilter.$inject = [];
+	function TransactionsSelectedFilter() {
+		return function(transactions, citations){
+			console.log('TransactionsSelectedFilter');
+			var matching = [], matches, falsely = true;
+			angular.forEach(transactions, function(transaction, key){
+				angular.forEach(citations, function(citation, key){
+
+					if(citation.hashFile === transaction.hashFile){
+						console.log("TransactionCitation Matching",transaction, citation)
+						transaction.selected = true;
+					}
+				});
+
+			});
+
+			return transactions;
+
 		};
 		
 	}

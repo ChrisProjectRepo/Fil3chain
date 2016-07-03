@@ -29,7 +29,7 @@
 		</div>
 		<div flex></div>
 		<div class="md-tile-content" ng-show="selectionMode" layout="row" layout-align="center center">
-			<md-checkbox class="md-secondary" ></md-checkbox>
+			<md-checkbox ng-model="transaction.selected" class="md-secondary" ></md-checkbox>
 		</div>
 	</div>
 	<md-divider layout-fill ng-show="$index == selectedUserIndex"></md-divider>
@@ -55,10 +55,10 @@
 
 <md-dialog-actions layout="row">
   <span flex></span>
-  <md-button ng-click="answer('cancel')">
+  <md-button ng-click="cancel()">
     Cancel
   </md-button>
-  <md-button ng-click="answer('add')">
+  <md-button ng-click="hide()">
     Add
   </md-button>
 </md-dialog-actions>

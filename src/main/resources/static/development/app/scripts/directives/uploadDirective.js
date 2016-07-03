@@ -94,11 +94,18 @@ angular
             //console.log('Blob', e.currentTarget.result);
             sha256Service.hash(e.currentTarget.result)
             .then(function(sha){
-              console.log('Sha256', sha);
+            	scope.citations = [];
+              //console.log('Sha256', sha);
               scope.file = theFile;
               scope.file.sha256 = sha;
-              console.log('scope',scope);
+              //console.log('scope',scope);
               scope.toggleProgress();
+              
+              scope.fileToSend={
+            		  fileName:file.name,
+            		  hashFile:sha,
+            		  citations:[]
+              }
               //scope.$apply();
             });
 

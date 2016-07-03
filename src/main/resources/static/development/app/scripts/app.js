@@ -84,11 +84,9 @@ angular
     	transactions:['$state','$mdToast','$q','TransactionService',function($state, $mdToast,$q, TransactionService){
     		   return TransactionService.get()
     		   .then(function(transactions){
-    			   console.log('ooooooooooooooooooooooooooooooo',transactions)
     			   return transactions;
     		   },function(error){
-    			   console.log('ooooooooooooooooooooooooooooooo1')
-
+    			  console.log('ooooooooooooooooooooooooooooooo1 ERROR')
     			  return undefined;
     		   });
     	}],
@@ -109,10 +107,9 @@ angular
     	transactions:['TransactionService',function(TransactionService){
     		   return TransactionService.get()
     		   .then(function(transactions){
-    			   console.log('ooooooooooooooooooooooooooooooo',transactions)
     			   return transactions;
     		   },function(error){
-    			   console.log('ooooooooooooooooooooooooooooooo1')
+    			   console.log('ooooooooooooooooooooooooooooooo1 ERROR')
 
     			  return undefined;
     		   });
@@ -151,10 +148,9 @@ angular
     	miningCheck:['MinerService',function( MinerService ){
 	 		   return MinerService.check()
 	 		   .then(function(ips){
-	 			   console.log('ooooooooooooooooooooooooooooooo',ips)
 	 			   return ips;
 	 		   },function(error){
-	 			   console.log('ooooooooooooooooooooooooooooooo1')
+	 			   console.log('ooooooooooooooooooooooooooooooo1 ERROR')
 	
 	 			  return undefined;
 	 		   });

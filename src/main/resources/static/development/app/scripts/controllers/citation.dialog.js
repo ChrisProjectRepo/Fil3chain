@@ -8,12 +8,17 @@
  * Controller of the blockchain
  */
 angular.module('blockchainApp')
-.controller('citationDialogCtrl',['$scope', '$mdDialog', 'TransactionService','TransactionsFilter','transactionHeaders','transactions', function($scope, $mdDialog, TransactionService,TransactionsFilter, transactionHeaders, transactions){
-	console.log('citationDialogCtrl',transactionHeaders, transactions);
+.controller('citationDialogCtrl',['$scope', '$mdDialog', 'TransactionService','TransactionsFilter','TransactionsSelectedFilter','transactionHeaders','transactions','citations',
+                                  function($scope, $mdDialog, TransactionService,TransactionsFilter,TransactionsSelectedFilter, transactionHeaders, transactions, citations){
+	console.log('citationDialogCtrl');
 	$scope.headers = transactionHeaders;
-	$scope.transactions=transactions;
+	//Applico TransactionsSelectedFilter alle transazioni ricevute
+	//Questo filtro verifica in quest array se ci sono transazioni precedentemente selezionate
+	//in tal caso aggiunge il valore selected all'item originale
+	$scope.transactions = TransactionsSelectedFilter(transactions, citations);
+	//$scope.transactions=transactions;
 	// Array contenente le transazioni selezionati dall'utente
-	var selectedTransactions=[];
+	var selectedTransactions = citations;
 	// Variabile che abilita la modalità selezione sulla lista delle transazioni
 	$scope.selectionMode = true;
 	//Funzione che aggiunge una transazione in selectedTransactions nel caso non fosse gia presente
@@ -69,8 +74,10 @@ angular.module('blockchainApp')
 		$mdDialog.cancel();
 	};
 	//Funzione per la risposta del dialog
+	/*
 	$scope.answer = function(answer) {
 		//Ritorna l'array di transazioni selezionate
 		$mdDialog.hide(selectedTransactions);
 	};
+	*/
 }]);

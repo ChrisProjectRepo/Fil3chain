@@ -30,13 +30,13 @@
       <div layout-gt-md="row" layout-md="column" flex="100">
         <p flex="30"> <strong>Sha256</strong></p> <p flex>{{file.sha256}}</p>
       </div>
-      {{citations}}
+      {{fileToSend}}
     </div>
   </md-card-content>
   <md-card-actions layout="row" layout-align-md="start center" layout-align-gt-md="end center">
     <md-button>Delete</md-button>
     <md-button ng-click="showCitation($event)">Add citations</md-button>
-    <md-button class="md-raised md-primary md-button md-ink-ripple">Submit</md-button>
+    <md-button ng-click="submitTransaction(fileToSend)" class="md-raised md-primary md-button md-ink-ripple">Submit</md-button>
   </md-card-actions>
 </md-card>
 <span flex-gt-md="10"></span>

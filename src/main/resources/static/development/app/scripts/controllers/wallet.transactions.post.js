@@ -8,31 +8,11 @@
 * Controller of the blockchain
 */
 angular.module('blockchainApp')
-.controller('walletTransactionPostCtrl',['$scope', '$mdDialog', '$mdMedia','TransactionService','transactions','transactionHeaders',function($scope,$mdDialog, $mdMedia,TransactionService, transactions , transactionHeaders){
-  console.log('walletTransactionPostCtrl', transactionHeaders, transactions);
- /*
-  var transactionsMock=[
-    {
-      hashFile:'oihsoaidhsodhsad',
-      filename:'filename',
-      index_in_block:'null',
-      blockContainer:'null',
-      authorContainer:'author',
-      citationContainer:[
-
-      ]
-    },{
-      hashFile:'hash2',
-      filename:'filename',
-      index_in_block:'null',
-      blockContainer:'null',
-      authorContainer:'author',
-      citationContainer:[
-
-      ]
-    }
-  ]
-  */
+.controller('walletTransactionPostCtrl',['$scope', '$mdDialog', '$mdMedia','$mdToast','TransactionService','transactions','transactionHeaders',
+                                         function($scope,$mdDialog, $mdMedia,$mdToast,TransactionService, transactions , transactionHeaders){
+  console.log('walletTransactionPostCtrl');
+  $scope.fileToSend = {};
+  $scope.fileToSend.citations = [];
   function showAlert(ev, transactions) {
     var useFullScreen = ($mdMedia('sm') || $mdMedia('xs')) ;// && $scope.customFullscreen;
     console.log('walletTransactionPostCtrl','useFullScreen',useFullScreen);
@@ -43,20 +23,44 @@ angular.module('blockchainApp')
       targetEvent: ev,
       locals: {
         transactions: transactions,
-        transactionHeaders : transactionHeaders
+        transactionHeaders : transactionHeaders,
+        citations : $scope.fileToSend.citations
       },
       clickOutsideToClose:true,
       fullscreen: true
     })
+    /*
     .then(function(citations) {
       console.log('You said the information was ', citations);
-      $scope.citations = citations;
+      //$scope.fileToSend.citations = citations;
     }, function() {
       console.log('You cancelled the dialog.');
       $scope.status = 'You cancelled the dialog.';
     });
+    */
   };
-
+  function submitTransaction(file){
+	  console.log(file)
+	  TransactionService.post(file)
+	  .then(function(response){
+		  $mdToast.show(
+			        $mdToast.simple()
+			        .textContent('Transaction submitted:\n '+response.response)
+			        .position('bottom')
+			        //.position($scope.getToastPosition())
+			        .hideDelay(5000)
+			      );
+	  },function(error){
+		  $mdToast.show(
+			        $mdToast.simple()
+			        .textContent('Error Transaction submit: '+error)
+			        .position('bottom')
+			        //.position($scope.getToastPosition())
+			        .hideDelay(5000)
+			      );
+	  })
+  }
+  $scope.submitTransaction = submitTransaction;
 
 
   function showCitation(ev){
