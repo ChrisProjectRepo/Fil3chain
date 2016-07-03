@@ -690,7 +690,7 @@ public class Filechain {
 				return test.get(j+1).get(0);
 			}
 		}
-		return null;
+		return blockRepository.findBychainLevel(heightBFS- KMAXLEVEL).get(0);
 	}
 //		Boolean flag = Boolean.TRUE;
 //		while (flag) {
