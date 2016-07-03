@@ -1,148 +1,100 @@
 'use strict';
 
 /**
-* @ngdoc function
-* @name blockchain.controller:signinCtrl
-* @description
-* # signinCtrl
-* Controller of the blockchain
-*/
+ * @ngdoc function
+ * @name blockchain.controller:signinCtrl
+ * @description
+ * # signinCtrl
+ * Controller of the blockchain
+ */
 angular.module('blockchainApp')
-.controller('minerCtrl',function($scope, $mdDialog, $mdMedia, $http, $location){
-  console.log('minerCtrl');
+.controller('minerCtrl',function($scope, $mdDialog, $mdMedia,MinerService, ips, miningCheck){
+	//miningCheck conterrà lo stato attuale del mining
+	console.log('minerCtrl',miningCheck);
+	//Variabile contenente l'ip selezionato dall'utente
+	//lo start_time ed end_time di mining ritornati dal server a seguito dello start
+	$scope.miner={};
+	
+	var buttonMinerStart={
+			icon:'icons/ic_play_arrow_white_24px.svg',
+			label:'Start miner'
+	};
+	var buttonMinerStop={
+			icon:'icons/ic_stop_white_24px.svg',
+			label:'Stop miner'
+	};
+	
+	var buttonConfig={
+			state: miningCheck,
+			false: buttonMinerStart,
+			true: buttonMinerStop
+	}
+	//Assegnazione bottone per la gestione del servizio di mining
+	$scope.buttonMiner = buttonConfig[buttonConfig.state];
+	//funzione che si occupa di fare lo switch del bottone  
+	//settandolo al valore opposto del suo stato corrente
+	function switchButton(){
+		buttonConfig.state = !buttonConfig.state
+		$scope.buttonMiner = buttonConfig[buttonConfig.state];
+	}
+	
+	
+	function minerButtonClick(event){
+		console.log('minerCtrl','minerButtonClick');
+		//Se lo stato del bottone è false allora devo avviare il mining
+		if(!buttonConfig.state) {
+			//mostro un dialog per far selezionare l'ip all'utente
+			showAlert(event)
+			.then(function(selected_ip) {
+				console.log('You said the information was "' + selected_ip + '".');
+				$scope.miner.selected_ip = selected_ip;
+				$scope.miner.startTime = Date.now();
+				//Una volta selezionato l'ip chiamo lo start passandogli l'ip scelto   TODO
+				MinerService.start()
+				.then(function(miner) {
+					switchButton();
+					console.log('Mining Start success.',miner);
+				},function() {
+					console.log('Mining Start error.');
+				})
+			}, function() {
+				console.log('You cancelled the dialog.');
+			});
+		}
+		else {
+			MinerService.stop()
+			.then(function(selected_ip) {
+				switchButton();
+				console.log('Mining Stop success.',buttonConfig.state);
+			},function(selected_ip) {
+				console.log('Mining Stop error.');
+			})
+		}
+		return;
+	}
+	$scope.minerButtonClick = minerButtonClick;
 
 
-  $scope.start=false;
 
-  var buttonMinerStart = {
-    icon:'icons/ic_play_arrow_white_24px.svg',
-    label:'Start miner'
-  };
-  var buttonMinerStop = {
-    icon:'icons/ic_stop_white_24px.svg',
-    label:'Stop miner'
-  };
+	//funzione atta alla visualizzazione di un dialog nel quale l'utente
+	//ha la possibilità di selezionare uno degli ip disponibili dalla sua scheda di rete
+	function showAlert(ev) {
 
-  $scope.buttonMiner = buttonMinerStart;
-  
-  function checkMining(){
-      $http({
-          method:'GET',
-          url:'/fil3chain/checkMining',
-//          headers: {'Content-Type': 'text/plain'} 
-      })
-      .then(function(response){
-          console.log('success',response);
-          //$scope.start = response.data;
-          switchMiningButton(response.data)
-      },
-      function(response){
-         console.log('error',response); 
-         //$scope.start = false;
-         switchMiningButton(false)
-      })
-  }
-  checkMining();
-  
-  function switchMiningButton(boolean){
-      //Qui si deve avviare il metodo di mining
-    if(boolean) {
-      //showAlert(event);
-      $scope.buttonMiner = buttonMinerStop;
-        $scope.start=true;
-    }
-    else {
-      $scope.buttonMiner = buttonMinerStart;
-        $scope.start=false;
-    }
-    //$scope.start=!$scope.start;
-  }
-    
-  function minerButtonClick(event){
-      console.log('Mining: ',$scope.start);
-      //switchMiningButton($scope.start)
-    if(!$scope.start) {
-      // Simple GET request example:
-      $http({
-        method: 'GET',
-        url: '/fil3chain/starMining',
-//        headers: {'Content-Type': 'text/plain'} 
-      }).then(function (response) {
-        // this callback will be called asynchronously
-        // when the response is available
-        console.log('minerStart','success',response)
-        switchMiningButton(true)
-      }, function (response) {
-        // called asynchronously if an error occurs
-        // or server returns response with an error status.
-        console.log('minerStart','error',response)
-      });
-    }
-    else {
-      // Simple GET request example:
-      $http({
-        method: 'GET',
-        url: '/fil3chain/stopMining',
-//        headers: {'Content-Type': 'text/plain'} 
-      }).then(function (response) {
-        // this callback will be called asynchronously
-        // when the response is available
-        console.log('minerStop','success',response)
-        switchMiningButton(false)
-      }, function (response) {
-        // called asynchronously if an error occurs
-        // or server returns response with an error status.
-        console.log('minerStop','error',response)
-      });
-    }
-  }
-  
-  $scope.minerButtonClick = minerButtonClick;
-  
-  var uploadFileButton = {
-      icon:'icons/ic_cloud_upload.svg',
-      label: 'Upload file'
-  };
-  
-  $scope.uploadFileButton = uploadFileButton;
-  
-  function uploadFileButtonClick(event) {
-      $location.path('/wallet/transactions/post').replace();
-  }
-  
-  $scope.uploadFileButtonClick = uploadFileButtonClick;
+		var useFullScreen = ($mdMedia('sm') || $mdMedia('xs')) ;// && $scope.customFullscreen;
 
-  function showAlert(ev) {
-    var useFullScreen = ($mdMedia('sm') || $mdMedia('xs')) ;// && $scope.customFullscreen;
+		return $mdDialog.show({
+			controller: 'minerDialogCtrl',
+			templateUrl: 'views/miner.dialog.html',
+			parent: angular.element(document.body),
+			targetEvent: ev,
+			clickOutsideToClose:true,
+			fullscreen: useFullScreen,
+			locals: {
+				ips: ips
+			}
+		})
 
-    $mdDialog.show({
-      controller: 'minerDialogCtrl',
-      templateUrl: 'views/miner.dialog.html',
-      parent: angular.element(document.body),
-      targetEvent: ev,
-      clickOutsideToClose:true,
-      fullscreen: useFullScreen
-    })
-    .then(function(answer) {
-      $scope.status = 'You said the information was "' + answer + '".';
-    }, function() {
-      $scope.status = 'You cancelled the dialog.';
-    });
-  };
-    function showAlert1(ev) {
-      // Appending dialog to document.body to cover sidenav in docs app
-      // Modal dialogs should fully cover application
-      // to prevent interaction outside of dialog
-      $mdDialog.show(
-        $mdDialog.alert()
-        .parent(angular.element(document.querySelector('body')))
-        .clickOutsideToClose(true)
-        .title('This is an alert title')
-        .textContent('You can specify some description text in here.')
-        .ariaLabel('Alert Dialog Demo')
-        .ok('Got it!')
-        .targetEvent(ev)
-      );
-    };
+	};
 
-  });
+
+});

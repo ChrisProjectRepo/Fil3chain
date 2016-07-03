@@ -32,46 +32,46 @@ angular
       }
     }
   })
- .state('app.welcome', {
-   url: '/welcome',
-   views: {
-     "content@app": {
-       templateUrl: 'views/welcome.html'
-     }
-   }
- })
- .state('app.welcome.signin', {
-   url: "/signin",
-   views: {
-     "content@app.welcome": {
-       templateUrl: 'views/welcome.signin.html',
-       controller: 'signinCtrl'
-     }
-   }
- })
- .state('app.welcome.signup', {
-   url: "/signup",
-   views: {
-     "content@app.welcome": {
-       templateUrl: 'views/welcome.signup.html',
-       controller:'signupCtrl'
-     }
-   }
- })
+  .state('app.welcome', {
+    url: '/welcome',
+    views: {
+      "content@app": {
+        templateUrl: 'views/welcome.html'
+      }
+    }
+  })
+  .state('app.welcome.signin', {
+    url: "/signin",
+    views: {
+      "content@app.welcome": {
+        templateUrl: 'views/welcome.signin.html',
+        controller: 'signinCtrl'
+      }
+    }
+  })
+  .state('app.welcome.signup', {
+    url: "/signup",
+    views: {
+      "content@app.welcome": {
+        templateUrl: 'views/welcome.signup.html',
+        controller:'signupCtrl'
+      }
+    }
+  })
 
   .state('app.wallet', {
     url: "/wallet",
     abstract:true
   })
- .state('app.wallet.profile', {
-   url: "/profile",
-   views: {
-     "content@app": {
-       templateUrl: 'views/wallet.profile.html',
-       controller:'signupCtrl'
-     }
-   }
- })
+  .state('app.wallet.profile', {
+    url: "/profile",
+    views: {
+      "content@app": {
+        templateUrl: 'views/wallet.profile.html',
+        controller:'signupCtrl'
+      }
+    }
+  })
   .state('app.wallet.transactions', {
     url: "/transactions",
     views: {
@@ -79,6 +79,22 @@ angular
         templateUrl: 'views/wallet.transactions.html',
         controller:'walletTransactionCtrl'
       }
+    },
+    resolve:{
+    	transactions:['$state','$mdToast','$q','TransactionService',function($state, $mdToast,$q, TransactionService){
+    		   return TransactionService.get()
+    		   .then(function(transactions){
+    			   console.log('ooooooooooooooooooooooooooooooo',transactions)
+    			   return transactions;
+    		   },function(error){
+    			   console.log('ooooooooooooooooooooooooooooooo1')
+
+    			  return undefined;
+    		   });
+    	}],
+    	transactionHeaders:['TransactionService',function(TransactionService){
+    		return TransactionService.getTransactionHeader();
+    	}]
     }
   })
   .state('app.wallet.transactions.post', {
@@ -86,19 +102,19 @@ angular
     views: {
       "content@app": {
         templateUrl: 'views/wallet.transactions.post.html',
-        controller:'walletTransactionCtrl'
+        controller:'walletTransactionPostCtrl'
       }
     }
   })
- .state('app.wallet.statistics', {
-   url: "/statistics",
-   views: {
-     "content@app": {
-       templateUrl: 'views/wallet.statistics.html',
-       controller:'signupCtrl'
-     }
-   }
- })
+  .state('app.wallet.statistics', {
+    url: "/statistics",
+    views: {
+      "content@app": {
+        templateUrl: 'views/wallet.statistics.html',
+        controller:'signupCtrl'
+      }
+    }
+  })
   .state('app.miner', {
     url: "/miner",
     views: {
@@ -106,18 +122,39 @@ angular
         templateUrl: 'views/miner.html',
         controller:'minerCtrl'
       }
+    },
+    resolve:{
+    	ips:['MinerService',function(MinerService){
+    		   return MinerService.getIps()
+    		   .then(function(ips){
+    			   return ips;
+    		   },function(error){
+    			  return undefined;
+    		   });
+    	}],
+    	miningCheck:['MinerService',function( MinerService ){
+	 		   return MinerService.check()
+	 		   .then(function(ips){
+	 			   console.log('ooooooooooooooooooooooooooooooo',ips)
+	 			   return ips;
+	 		   },function(error){
+	 			   console.log('ooooooooooooooooooooooooooooooo1')
+	
+	 			  return undefined;
+	 		   });
+	 	}]
     }
   })
-      
- .state('app.fil3chain', {
-   url: "/fil3chain",
-   views: {
-     "content@app": {
-       templateUrl: 'views/dashboard.html',
-       controller:'signupCtrl'
-     }
-   }
-  });
+
+  .state('app.fil3chain', {
+    url: "/fil3chain",
+    views: {
+      "content@app": {
+        templateUrl: 'views/dashboard.html',
+        controller:'signupCtrl'
+      }
+    }
+  })
 
 
   /*

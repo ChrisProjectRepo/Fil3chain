@@ -6,8 +6,6 @@
 .item .user {
   background-color: white;
   transition: all 500ms; }
-  .item .user.folded md-tile-content p {
-    color: green; }
   .item .user h3 {
     transition: all 500ms; }
   .item .user p {

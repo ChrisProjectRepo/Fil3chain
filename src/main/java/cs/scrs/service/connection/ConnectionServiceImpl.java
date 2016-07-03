@@ -103,7 +103,7 @@ public class ConnectionServiceImpl {
 	/**
 	 * @return
 	 */
-	private ArrayList<String> getAllIpAddresses() {
+	public ArrayList<String> getAllIpAddresses() {
 
 		ArrayList<String> ips = new ArrayList<>();
 

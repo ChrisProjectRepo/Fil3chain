@@ -8,8 +8,9 @@
 * Controller of the blockchain
 */
 angular.module('blockchainApp')
-.controller('minerDialogCtrl',function($scope, $mdDialog){
-  console.log('minerDialogCtrl');
+.controller('minerDialogCtrl',function($scope, $mdDialog, ips){
+  console.log('minerDialogCtrl', ips);
+  $scope.ips = ips;
   $scope.hide = function() {
     $mdDialog.hide();
   };

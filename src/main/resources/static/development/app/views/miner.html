@@ -1,12 +1,7 @@
 <md-content layout="row" md-scroll-y layout-fill layout-padding>
-
-    <h1>Miner dashboard</h1>
-    <img ng-show="{{start}}" src="gif/doge.gif">
+{{miner}}	
 
 </md-content>
 <md-button class="md-fab md-fab-bottom-right" aria-label="{{buttonMiner.label}}" ng-click="minerButtonClick($event)">
   <md-icon md-svg-src="{{buttonMiner.icon}}"></md-icon>
-</md-button>
-<md-button class="md-fab md-fab-bottom-left" aria-label="{{uploadFileButton.label}}" ng-click="uploadFileButtonClick($event)">
-  <md-icon md-svg-src="{{uploadFileButton.icon}}"></md-icon>
 </md-button>

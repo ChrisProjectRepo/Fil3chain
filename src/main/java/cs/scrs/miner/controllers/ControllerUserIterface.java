@@ -7,6 +7,7 @@ import cs.scrs.miner.dao.transaction.Transaction;
 import cs.scrs.miner.dao.user.User;
 import cs.scrs.miner.dao.user.UserRepository;
 import cs.scrs.miner.models.Filechain;
+import cs.scrs.service.connection.ConnectionServiceImpl;
 import cs.scrs.service.poolDispatcher.PoolDispatcherServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -18,6 +19,7 @@ import cs.scrs.service.request.AsyncRequest;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -44,7 +46,15 @@ public class ControllerUserIterface {
 	RestTemplate restTemplate;
 	@Autowired
 	PoolDispatcherServiceImpl poolD;
-
+	
+	@Autowired
+	ConnectionServiceImpl connectionServiceImpl; 
+	
+	@RequestMapping(value = "/fil3chain/ips", method = RequestMethod.GET)
+	@ResponseBody
+	public List<String> getAllIpAddresses() {
+		return connectionServiceImpl.getAllIpAddresses();
+	}
 
 	@RequestMapping(value = "/fil3chain/checkMining", method = RequestMethod.GET)
 	@ResponseBody

@@ -14,23 +14,20 @@
       <div class="md-dialog-content">
         <h2>Select an IP address</h2>
         <div layout="column" layout-align="center center">
-          <md-select placeholder="Assign to user" ng-model="user" md-on-open="loadUsers()" style="min-width: 200px;">
-            <md-option ng-value="user" ng-repeat="user in users">{{user.name}}</md-option>
+          <md-select placeholder="Assign to user" ng-model="selected_ip" style="min-width: 200px;">
+            <md-option ng-repeat="ip in ips">{{ip}}</md-option>
           </md-select>
-          <p class="md-caption">You have assigned the task to: {{ user ? user.name : 'No one yet' }}</p>
+          <p class="md-caption">You have selected the ip: {{ selected_ip ? selected_ip : 'No one yet' }}</p>
         </div>
       </md-dialog-content>
 
       <md-dialog-actions layout="row">
-        <md-button href="http://en.wikipedia.org/wiki/Mango" target="_blank" md-autofocus>
-          More on Wikipedia
-        </md-button>
         <span flex></span>
-        <md-button ng-click="answer('not useful')">
-          Not Useful
+        <md-button ng-click="cancel()">
+          Dismiss
         </md-button>
-        <md-button ng-click="answer('useful')">
-          Useful
+        <md-button  ng-disabled="!selected_ip" ng-click="answer(selected_ip)">
+          Ok
         </md-button>
       </md-dialog-actions>
     </form>
