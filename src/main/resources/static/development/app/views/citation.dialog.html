@@ -1,0 +1,65 @@
+<md-dialog aria-label="Add Citation"  ng-cloak style="background: #ececec;">
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>Citation</h2>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="cancel()">
+          <md-icon md-svg-src="icons/ic_close_white_24px.svg" aria-label="Close dialog"></md-icon>
+        </md-button>
+      </div>
+    </md-toolbar>
+
+    <md-dialog-content style="height: 100%;">
+      <div class="md-dialog-content" layout flex="grow" layout-align="center center" flex>
+        
+
+
+<div flex="70" class="content" ui-view>
+	<md-item ng-repeat="transaction in transactions" class="item"
+		ng-class="{ 'selected-item': $index == selectedUserIndex}">
+	<md-item-content class="user tile md-whiteframe-z1"
+		ng-class="{ 'selected md-whiteframe-z2': $index == selectedUserIndex}"
+		layout="column">
+		<div layout="row" layout-fill layout-padding ng-click="selectUserIndex($event,$index)"
+		class="">
+		<div class="md-tile-left">
+		<p class="transaction" ng-hide="$index == selectedUserIndex">Transaction Hashfile</p>
+		<h3>{{ transaction.hashFile }}</h3>
+			
+		</div>
+		<div flex></div>
+		<div class="md-tile-content" ng-show="selectionMode" layout="row" layout-align="center center">
+			<md-checkbox class="md-secondary" ></md-checkbox>
+		</div>
+	</div>
+	<md-divider layout-fill ng-show="$index == selectedUserIndex"></md-divider>
+	<div layout="column" layout-fill class="expanded">
+		<md-list > 
+			<md-subheader class="md-no-sticky">Transaction details</md-subheader>
+			 <md-list-item	ng-repeat="h in headers">
+				<p>{{ h.name }}</p>
+				<p>{{ transaction[h.field] }}</p>
+				<md-checkbox class="md-secondary"  ng-show="selectionModeItem"></md-checkbox>
+			</md-list-item> 
+		</md-list>
+	</div>
+	</md-item-content> <md-divider class="divider-inset" ng-if="!$last"></md-divider> </md-item>
+</div>
+
+
+
+
+
+        </div>
+</md-dialog-content>
+
+<md-dialog-actions layout="row">
+  <span flex></span>
+  <md-button ng-click="answer('cancel')">
+    Cancel
+  </md-button>
+  <md-button ng-click="answer('add')">
+    Add
+  </md-button>
+</md-dialog-actions>
+</md-dialog>
