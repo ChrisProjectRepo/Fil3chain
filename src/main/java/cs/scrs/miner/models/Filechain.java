@@ -666,43 +666,39 @@ public class Filechain {
 	 * 
 	 */
 	private Block getFatherBlock() {
-		
-		Integer count =0;
+
+		Integer count = 0;
 		Integer cLevel = blockRepository.findFirstByOrderByChainLevelDesc().getChainLevel();
 		Boolean flag = Boolean.TRUE;
-		
+
 		Set<Block> blocksTemp = new HashSet<Block>();
 		Set<Block> blocksTemp2 = new HashSet<Block>();
-	
-		
-		
-		//Aggiungo i blocchi che sono all utlimo livello
-			blocksTemp.addAll(blockRepository.findBychainLevel(cLevel));
+
+		// Aggiungo i blocchi che sono all utlimo livello
+		blocksTemp.addAll(blockRepository.findBychainLevel(cLevel));
 		while (flag) {
 			count++;
-			//per ogni blocco nell ultimo livello risalgo la catena
-			//ovvero aggiungo i padri
-			for(Block b : blocksTemp)
-			blocksTemp2.add(blockRepository.findByhashBlock(b.getFatherBlockContainer()));
-			//se il livello di paranoia è maggiore di 0 
-			//aggiungo anche i blocchi concorrenziali	
-			if(count<KMAXLEVEL)
-				blocksTemp2.addAll(blockRepository.findBychainLevel(cLevel-count));
-				
-		
+			// per ogni blocco nell ultimo livello risalgo la catena
+			// ovvero aggiungo i padri
+			for (Block b : blocksTemp)
+				blocksTemp2.add(blockRepository.findByhashBlock(b.getFatherBlockContainer()));
+			// se il livello di paranoia è maggiore di 0
+			// aggiungo anche i blocchi concorrenziali
+			if (count < KMAXLEVEL)
+				blocksTemp2.addAll(blockRepository.findBychainLevel(cLevel - count));
+
 			blocksTemp.clear();
 			blocksTemp.addAll(blocksTemp2);
 			blocksTemp2.clear();
 
-			if(blocksTemp.size()==1&& count<KMAXLEVEL )
+			if (blocksTemp.size() == 1 && count > KMAXLEVEL)
 				flag = Boolean.FALSE;
-			
-	
+
 		}
-		for(Block b : blocksTemp)
+		for (Block b : blocksTemp)
 			return b;
 		return blockRepository.findBychainLevel(0).get(0);
-	 }
+	}
 
 	/**
 	 * @param hash
