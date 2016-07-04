@@ -10,7 +10,7 @@
 angular.module('blockchainApp')
 .controller('citationDialogCtrl',['$scope', '$mdDialog', 'TransactionService','TransactionsFilter','TransactionsSelectedFilter','transactionHeaders','transactions','citations',
                                   function($scope, $mdDialog, TransactionService,TransactionsFilter,TransactionsSelectedFilter, transactionHeaders, transactions, citations){
-	console.log('citationDialogCtrl');
+	console.log('citationDialogCtrl',citations);
 	$scope.headers = transactionHeaders;
 	//Applico TransactionsSelectedFilter alle transazioni ricevute
 	//Questo filtro verifica in quest array se ci sono transazioni precedentemente selezionate

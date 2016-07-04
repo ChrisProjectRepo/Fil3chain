@@ -102,9 +102,9 @@ angular
               scope.toggleProgress();
               
               scope.fileToSend={
-            		  fileName:file.name,
+            		  filename:file.name,
             		  hashFile:sha,
-            		  citations:[]
+            		  citationsContainer:[]
               }
               //scope.$apply();
             });

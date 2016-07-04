@@ -29,7 +29,7 @@
       <div layout-gt-md="row" layout-md="column" flex="100">
         <p flex="30"> <strong>Sha256</strong></p> <p flex>{{file.sha256}}</p>
       </div>
-      <div layout-gt-md="row" layout-md="column" flex="100" layout-wrap ng-if="fileToSend.citations.length">
+      <div layout-gt-md="row" layout-md="column" flex="100" layout-wrap ng-if="fileToSend.citationsContainer.length">
         <p flex="30"> <strong>Citations</strong></p>
       
         <md-button  flex-offset="60" ng-click="citationsContainer.show=!citationsContainer.show">
@@ -39,7 +39,7 @@
         <div flex="100" layout="row" layout-wrap ng-if="citationsContainer.show">
         <p flex="30"></p>
 		<md-list flex="66"> 
-			 <md-list-item	ng-repeat="citation in fileToSend.citations" layout-align="center center">
+			 <md-list-item	ng-repeat="citation in fileToSend.citationsContainer" layout-align="center center">
 				<p>{{ citation.hashFile }}</p>
 				<md-button layout-align="none center" ng-click="deleteCitation($index)">
 					<md-icon md-svg-src="icons/ic_close_black_24px.svg"></md-icon>

@@ -6,9 +6,14 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.google.common.reflect.TypeToken;
+import com.google.gson.Gson;
+
 import cs.scrs.miner.dao.transaction.Transaction;
 import cs.scrs.service.request.AsyncRequest;
+import cs.scrs.service.util.Conversions;
 
+import java.lang.reflect.Type;
 import java.util.*;
 
 /**
@@ -71,21 +76,17 @@ public class PoolDispatcherServiceImpl {
     public  List<Transaction> getTransactions() {
         //TODO: Mettere chiamata al server reale
         Set<Block> p=new HashSet<>();
-        ArrayList<Transaction> transactions = new ArrayList<>();
-
+        Type type = new TypeToken<List<Transaction>>() {
+		}.getType();
+		List<Transaction> transaction = new ArrayList();
+        List<Transaction> transactions = Conversions.fromJson(asyncRequest.doGet("http://vmanager:80/sdcmgr/PD/get_transaction"),type);
+        
         for(int i = 0; i < TRANSINBLOCK; i++) {
             // Transazione mock
-            Transaction transaction = new Transaction();
-            transaction.setFilename("Ciano's file " + new Random().nextInt());
-            transaction.setHashFile(org.apache.commons.codec.digest.DigestUtils.sha256Hex(transaction.getFilename()));
 
-            transactions.add(transaction);
+            transaction.add(transactions.get(i));
         }
-
-        long seed = System.nanoTime();
-        Collections.shuffle(transactions, new Random(seed));
-
-        return transactions;
+        return transaction;
     }
 
 }

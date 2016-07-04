@@ -46,13 +46,15 @@ public class ControllerUserIterface {
 	RestTemplate restTemplate;
 	@Autowired
 	PoolDispatcherServiceImpl poolD;
-	
+
 	@Autowired
-	ConnectionServiceImpl connectionServiceImpl; 
-	
+	ConnectionServiceImpl connectionServiceImpl;
+
+
 	@RequestMapping(value = "/fil3chain/ips", method = RequestMethod.GET)
 	@ResponseBody
 	public List<String> getAllIpAddresses() {
+
 		return connectionServiceImpl.getAllIpAddresses();
 	}
 
@@ -90,10 +92,12 @@ public class ControllerUserIterface {
 
 	@RequestMapping(value = "/fil3chain/sendTransaction", method = RequestMethod.POST)
 	@ResponseBody
-	public String sendTransaction(@RequestBody String transaction) throws Exception {
+	public String sendTransaction(@RequestBody Transaction transaction) throws Exception {
 
+		String s;
 		System.out.println("Transazione arrivata: " + transaction);
-		// asyncRequest.doPost("http://"+networkProperties.getEntrypoint().getIp()+":"+networkProperties.getEntrypoint().getPort()+ networkProperties.getPooldispatcher().getBaseUri()+networkProperties.getActions().getSendTransaction(), transaction);
+		s = "{\"transaction\":" + transaction + "}";
+		asyncRequest.doPost("http://" + networkProperties.getEntrypoint().getIp() + ":" + networkProperties.getEntrypoint().getPort() + networkProperties.getPooldispatcher().getBaseUri() + networkProperties.getActions().getSendTransaction(), s);
 		return "{\"response\":\"ACK\"}";
 	}
 
@@ -118,24 +122,24 @@ public class ControllerUserIterface {
 	public String add_transaction(@RequestBody String transaction) throws Exception {
 
 		System.out.println("Transaction arrived: " + transaction);
-//		List<Transaction> result = poolD.getTransactions();
+		// List<Transaction> result = poolD.getTransactions();
 		return "{\"response\":\"ACK\"}";
 	}
 
 	@RequestMapping(value = "/fil3chain/citations", method = RequestMethod.GET)
 	@ResponseBody
 	public List<Transaction> get_citations() throws Exception {
-		
-//		String urlTransaction = "http://" + networkProperties.getEntrypoint().getIp() + ":" + networkProperties.getEntrypoint().getPort() + networkProperties.getPooldispatcher().getBaseUri() + networkProperties.getActions().getGetTransaction();
-//		System.out.println("Ui Controller Citation");
-//		System.out.println("Url transaction PD " + urlTransaction);
+
+		// String urlTransaction = "http://" + networkProperties.getEntrypoint().getIp() + ":" + networkProperties.getEntrypoint().getPort() + networkProperties.getPooldispatcher().getBaseUri() + networkProperties.getActions().getGetTransaction();
+		// System.out.println("Ui Controller Citation");
+		// System.out.println("Url transaction PD " + urlTransaction);
 		// ResponseEntity<Transaction[]> ips = restTemplate.getForEntity(urlTransaction,Transaction[].class);
 		// Transaction[] result = ips.getBody();
 		List<Transaction> result = filechain.getAllAvalaibleCit();
 		System.out.println("Citations length " + result.size());
-//		for (Transaction string : result) {
-//			System.out.println("Transaction found " + string);
-//		}
+		// for (Transaction string : result) {
+		// System.out.println("Transaction found " + string);
+		// }
 		// String x = asyncRequest.doGet( urlTransaction );
 		// System.out.println("transazioni ricevute "+x);
 		return result;

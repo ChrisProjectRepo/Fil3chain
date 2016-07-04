@@ -47,9 +47,9 @@ public class Transaction {
 	@JoinColumn(name = "User_publicKeyHash") // Autore
 	private User authorContainer;
 
-	@ManyToMany
-	@JoinTable(name = "Citations", joinColumns = { @JoinColumn(name = "Transaction_hashFileCite", referencedColumnName = "hashFile") }, inverseJoinColumns = { @JoinColumn(name = "Transaction_hashFileCited", referencedColumnName = "hashFile") })
-	private List<Transaction> citationsContainer;
+//	@ManyToMany
+//	@JoinTable(name = "Citations", joinColumns = { @JoinColumn(name = "Transaction_hashFileCite", referencedColumnName = "hashFile") }, inverseJoinColumns = { @JoinColumn(name = "Transaction_hashFileCited", referencedColumnName = "hashFile") })
+	private List<String> citationsContainer;
 
 
 	public Transaction(String hashFile, String filename) {
@@ -132,7 +132,7 @@ public class Transaction {
 	/**
 	 * @return the citationsContainer
 	 */
-	public List<Transaction> getCitationsContainer() {
+	public List<String> getCitationsContainer() {
 
 		return citationsContainer;
 	}
@@ -141,7 +141,7 @@ public class Transaction {
 	 * @param citationsContainer
 	 *            the citationsContainer to set
 	 */
-	public void setCitationsContainer(List<Transaction> citationsContainer) {
+	public void setCitationsContainer(List<String> citationsContainer) {
 
 		this.citationsContainer = citationsContainer;
 	}

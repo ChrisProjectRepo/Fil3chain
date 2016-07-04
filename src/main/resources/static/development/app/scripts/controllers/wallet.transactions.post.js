@@ -18,8 +18,10 @@ angular.module('blockchainApp')
 			true:'icons/ic_keyboard_arrow_up_black_24px.svg'
 	}
 	$scope.fileToSend = {};
-	$scope.fileToSend.citations = [];
-	function showAlert(ev, transactions) {
+	$scope.fileToSend.citationsContainer = [];
+	
+	function showAlert(ev, transactions, citations) {
+		console.log('Initial file File to send', citations)
 		var useFullScreen = ($mdMedia('sm') || $mdMedia('xs')) ;// && $scope.customFullscreen;
 		console.log('walletTransactionPostCtrl','useFullScreen',useFullScreen);
 		$mdDialog.show({
@@ -30,7 +32,7 @@ angular.module('blockchainApp')
 			locals: {
 				transactions: transactions,
 				transactionHeaders : transactionHeaders,
-				citations : $scope.fileToSend.citations
+				citations :citations
 			},
 			clickOutsideToClose:true,
 			fullscreen: true
@@ -69,8 +71,8 @@ angular.module('blockchainApp')
 	$scope.submitTransaction = submitTransaction;
 	function deleteCitation(index){
 		console.log('walletTransactionPostCtrl','deleteCitation',index);
-		console.log('walletTransactionCtrl','Transaction is selected','index','splice',$scope.fileToSend.citations.splice(index, 1));
-		console.log('walletTransactionCtrl','Transaction is selected','splice',$scope.fileToSend.citations);
+		console.log('walletTransactionCtrl','Transaction is selected','index','splice',$scope.fileToSend.citationsContainer.splice(index, 1));
+		console.log('walletTransactionCtrl','Transaction is selected','splice',$scope.fileToSend.citationsContainer);
 
 	}
 	$scope.deleteCitation = deleteCitation;
@@ -78,14 +80,21 @@ angular.module('blockchainApp')
 	function showCitation(ev){
 		TransactionService.get()
 		.then(function(response){
-			console.log('walletTransactionPostCtrl','success');
+			console.log('walletTransactionPostCtrl','success',$scope.fileToSend );
 			$scope.transactions = response;
-			showAlert(ev,$scope.transactions);
+			showAlert(ev,$scope.transactions, $scope.fileToSend.citationsContainer);
 		},function(response){
 			console.log('walletTransactionPostCtrl','error');
 
 			$scope.transactions = [];
-			showAlert(ev,$scope.transactions);
+			//showAlert(ev,$scope.transactions);
+			$mdToast.show(
+					$mdToast.simple()
+					.textContent('Error Get Transaction: '+error)
+					.position('bottom')
+					//.position($scope.getToastPosition())
+					.hideDelay(5000)
+			);
 		})
 
 	}
