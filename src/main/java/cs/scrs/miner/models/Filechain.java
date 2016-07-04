@@ -694,7 +694,7 @@ public class Filechain {
 			blocksTemp.addAll(blocksTemp2);
 			blocksTemp2.clear();
 
-			if(blocksTemp.size()==1)
+			if(blocksTemp.size()==1&& count<KMAXLEVEL )
 				flag = Boolean.FALSE;
 			
 	
