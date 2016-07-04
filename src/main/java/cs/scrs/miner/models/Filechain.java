@@ -666,87 +666,43 @@ public class Filechain {
 	 * 
 	 */
 	private Block getFatherBlock() {
-
-		Integer heightBFS = blockRepository.findFirstByOrderByChainLevelDesc().getChainLevel();
-		//Lista di lista aventi come chiave il numero e come valore la lista di dei blocchi relativi a quel livello
-		HashMap<Integer, List<Block>> test = new HashMap<>();
-
-		for (int i = 0; i < KMAXLEVEL; i++) {
-			test.put(i+1, blockRepository.findBychainLevel(heightBFS - i));
-		}
-		Integer counter = 0;
-		for (int i = 0; i < KMAXLEVEL; i++) {
-			counter += test.get(i+1).size();
-		}
-
-		if (counter.equals(KMAXLEVEL))
-			//Torno il blocco di valore massimo perche catena è stabile
-			return blockRepository.findBychainLevel(heightBFS).get(0);
-
-		Integer sizeTest=test.size();
-
-		for (int j=sizeTest;j>0;j--) {
-			if (test.get(j).size() > 1) {
-				return test.get(j+1).get(0);
-			}
-		}
-		if(heightBFS- KMAXLEVEL>0)
-		return blockRepository.findBychainLevel(heightBFS- KMAXLEVEL).get(0);
-		else return blockRepository.findBychainLevel(0).get(0);
-	}
-//		Boolean flag = Boolean.TRUE;
-//		while (flag) {
-//		for(int i=0;i<KMAXLEVEL-count;i++){
-//			blocksTemp.addAll(blockRepository.findBychainLevel(heightBFS-i));
-//		}
-//		//Catena pulita setto flag a false e non eseguo il flag
-//		if(blocksTemp.size()<=KMAXLEVEL-count)
-//			flag=Boolean.FALSE;
-//
-//		count++;
-//		/*
-//		//Testo che la catena non ha problemi
-//		if(!flag){
-//			heightBFS--;
-//			// Aggiungo i padri alla lista
-//			for (Block b : blocks) {
-//				sCurrBlocks.add(blockRepository.findByhashBlock(b.getFatherBlockContainer()));
-//			}
-//			// se sono nei primi livelli designati aggiungo altri branch concorrenziali
-//			if (count < KMAXLEVEL)
-//				blocks = blockRepository.findBychainLevel(heightBFS);
-//			for (Block b : blocks) {
-//				sCurrBlocks.add(b);
-//			}
-//			count++;
-//
-//			if (sCurrBlocks.size() == 1 && count == KMAXLEVEL)
-//				flag = Boolean.FALSE;
-//
-//			blocks.clear();
-//			blocks.addAll(sCurrBlocks);
-//			sCurrBlocks.clear();
-//			}*/
-//		}
-//		System.out.println("Blocco Trovato con padre in comune: "+blocks.get(0).toString());
-//		return blocks.get(0);
-
+		
+		Integer count =0;
+		Integer cLevel = blockRepository.findFirstByOrderByChainLevelDesc().getChainLevel();
+		Boolean flag = Boolean.TRUE;
+		
+		Set<Block> blocksTemp = new HashSet<Block>();
+		Set<Block> blocksTemp2 = new HashSet<Block>();
 	
+		
+		
+		//Aggiungo i blocchi che sono all utlimo livello
+			blocksTemp.addAll(blockRepository.findBychainLevel(cLevel));
+		while (flag) {
+			count++;
+			//per ogni blocco nell ultimo livello risalgo la catena
+			//ovvero aggiungo i padri
+			for(Block b : blocksTemp)
+			blocksTemp2.add(blockRepository.findByhashBlock(b.getFatherBlockContainer()));
+			//se il livello di paranoia è maggiore di 0 
+			//aggiungo anche i blocchi concorrenziali	
+			if(count<KMAXLEVEL)
+				blocksTemp2.addAll(blockRepository.findBychainLevel(cLevel-count));
+				
+		
+			blocksTemp.clear();
+			blocksTemp.addAll(blocksTemp2);
+			blocksTemp2.clear();
+
+			if(blocksTemp.size()==1)
+				flag = Boolean.FALSE;
+			
 	
-//	private Block getFatherBlock(){
-//		Integer heightBFS = blockRepository.findFirstByOrderByChainLevelDesc().getChainLevel();
-//		Integer count = KMAXLEVEL;
-//		Set<Block> sCurrBlocks = new HashSet<Block>();
-//		sCurrBlocks.addAll(blockRepository.findBychainLevel(heightBFS));
-//		
-//		while(sCurrBlocks.size()!=1 || count<3){
-//			for()
-//			
-//		}
-//		
-//		
-//		return blocks
-//	}
+		}
+		for(Block b : blocksTemp)
+			return b;
+		return blockRepository.findBychainLevel(0).get(0);
+	 }
 
 	/**
 	 * @param hash
@@ -756,16 +712,16 @@ public class Filechain {
 
 		List<Transaction> transList = new ArrayList<>();
 
-		//Questo get block non serve perchè senò stiamo ritornando il figlio del blocco da cui dobbiamo prende le transazioni e quindi ci perdiamo
-		//le transazioni del blocco B che abbiamo calcolato sopra
-		//Block b = blockRepository.findByhashBlock(f.getFatherBlockContainer());
-		System.out.println("Blocco del padre per ricavare hash: "+b.toString());
-		
+		// Questo get block non serve perchè senò stiamo ritornando il figlio del blocco da cui dobbiamo prende le transazioni e quindi ci perdiamo
+		// le transazioni del blocco B che abbiamo calcolato sopra
+		// Block b = blockRepository.findByhashBlock(f.getFatherBlockContainer());
+		System.out.println("Blocco del padre per ricavare hash: " + b.toString());
+
 		while (b.getFatherBlockContainer() != null && transList != null) {
 			transList.addAll(b.getTransactionsContainer());
 			b = blockRepository.findByhashBlock(b.getFatherBlockContainer());
 		}
-		System.out.println("Tutte le citazioni: "+transList.toString());
+		System.out.println("Tutte le citazioni: " + transList.toString());
 		return transList;
 
 	}
