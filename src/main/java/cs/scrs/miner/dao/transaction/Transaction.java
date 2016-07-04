@@ -7,6 +7,7 @@ package cs.scrs.miner.dao.transaction;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import cs.scrs.miner.dao.citations.Citation;
 
 import cs.scrs.miner.dao.user.User;
 
@@ -20,6 +21,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 
@@ -47,10 +49,13 @@ public class Transaction {
 	@JoinColumn(name = "User_publicKeyHash") // Autore
 	private User authorContainer;
 
-	@ManyToMany
-	@JoinTable(name = "Citations", joinColumns = { @JoinColumn(name = "Transaction_hashFileCite", referencedColumnName = "hashFile") }, inverseJoinColumns = { @JoinColumn(name = "Transaction_hashFileCited", referencedColumnName = "hashFile") })
-	private List<Transaction> citationsContainer;
+	//@ManyToMany
+	//@JoinTable(name = "Citations", joinColumns = { @JoinColumn(name = "Transaction_hashFileCite", referencedColumnName = "hashFile") }, inverseJoinColumns = { @JoinColumn(name = "Transaction_hashFileCited", referencedColumnName = "hashFile") })
+	//private List<Transaction> citationsContainer;
 
+         @OneToMany
+         @JoinColumn(name = "hashCiting")
+         private List<Citation> citations;
 
 	public Transaction(String hashFile, String filename) {
 		super();
@@ -132,18 +137,18 @@ public class Transaction {
 	/**
 	 * @return the citationsContainer
 	 */
-	public List<Transaction> getCitationsContainer() {
+	public List<Citation> getCitations() {
 
-		return citationsContainer;
+		return citations;
 	}
 
 	/**
 	 * @param citationsContainer
 	 *            the citationsContainer to set
 	 */
-	public void setCitationsContainer(List<Transaction> citationsContainer) {
+	public void setCitations(List<Citation> citationsContainer) {
 
-		this.citationsContainer = citationsContainer;
+		this.citations = citationsContainer;
 	}
 
 	public Integer getIndexInBlock() {
@@ -160,6 +165,6 @@ public class Transaction {
 	public String toString() {
 
 		return "Transaction{" + "hashFile='" + hashFile + '\'' + ", filename='" + filename + '\'' + ", indexInBlock=" + indexInBlock + ", blockContainer='" + blockContainer + '\'' + ", authorContainer=" + authorContainer + ", citationsContainer="
-				+ citationsContainer + '}';
+				+ citations + '}';
 	}
 }
