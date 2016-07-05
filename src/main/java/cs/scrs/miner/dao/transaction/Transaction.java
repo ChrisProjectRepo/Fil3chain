@@ -40,15 +40,15 @@ public class Transaction {
 	private String filename;
 	@Column(name = "index_in_block")
 	private Integer indexInBlock;
+
+
 	// Relations
-
-
-	// TODO AGGIUNGERE ONETOMANY MAPPEDBYBLOCKCONTSINER
 	@Column(name = "blockContainer")
 	private String blockContainer;
 
 	@ManyToOne
-	@JoinColumn(name = "User_publicKeyHash") // Autore
+	@JoinColumn(name = "User_publicKeyHash")
+	@Cascade(org.hibernate.annotations.CascadeType.ALL)// Autore
 	private User authorContainer;
 
 	//@ManyToMany
@@ -166,7 +166,6 @@ public class Transaction {
 
 	@Override
 	public String toString() {
-
 		return "Transaction{" + "hashFile='" + hashFile + '\'' + ", filename='" + filename + '\'' + ", indexInBlock=" + indexInBlock + ", blockContainer='" + blockContainer + '\'' + ", authorContainer=" + authorContainer + ", citationsContainer="
 				+ citations + '}';
 	}

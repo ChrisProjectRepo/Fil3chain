@@ -12,6 +12,7 @@ import cs.scrs.miner.dao.transaction.Transaction;
 
 import javax.persistence.*;
 
+import org.hibernate.annotations.Cascade;
 import org.hibernate.validator.constraints.Length;
 
 import java.io.IOException;
@@ -47,13 +48,14 @@ public class User {
 	@Column(name="password")
 	private String password;
 
-	
-	
-	
+
+
+
 	// Relations
-	@OneToMany(mappedBy = "userContainer")
-    @JsonIgnore
-	private List<Block> calculatedBlocks;
+//	@OneToMany(mappedBy = "userContainer")
+//	@JsonIgnore
+//	private List<Block> calculatedBlocks;
+
 /*
 	@OneToMany(mappedBy = "authorContainer")
     @JsonIgnore
@@ -209,22 +211,6 @@ public class User {
 		this.username = username;
 	}
 
-	/**
-	 * @return the calculatedBlocks
-	 */
-	public List<Block> getCalculatedBlocks() {
-
-		return calculatedBlocks;
-	}
-
-	/**
-	 * @param calculatedBlocks
-	 *            the calculatedBlocks to set
-	 */
-	public void setCalculatedBlocks(List<Block> calculatedBlocks) {
-
-		this.calculatedBlocks = calculatedBlocks;
-	}
 
 	/**
 	 * @return the fileContainer
@@ -235,10 +221,7 @@ public class User {
 		return fileContainer;
 	}
 */
-	/**
-	 * @param fileContainer
-	 *            the fileContainer to set
-	 */
+
 	/*
 	public void setFileContainer(List<Transaction> fileContainer) {
 
