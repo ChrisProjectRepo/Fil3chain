@@ -12,6 +12,7 @@ import cs.scrs.service.ip.IPServiceImpl;
 import cs.scrs.service.mining.MiningServiceImpl;
 import cs.scrs.miner.models.Filechain;
 import cs.scrs.miner.models.IP;
+import cs.scrs.service.util.Conversions;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Future;
@@ -44,12 +45,12 @@ public class ControllerBlockRequest {
 	
 	@Autowired
 	private Filechain filechain;
-
-
+        
+        
 
 
 	/////////////////// MAPPING RICHIESTE DI BLOCCHI DELLA FIL3CH4IN ///////////////////////////////////////////////
-
+     
 	// Controller che intercetta arrivo di un nuovo blocco
 	@RequestMapping(value = "/fil3chain/newBlock", method = RequestMethod.POST)
 	@ResponseBody

@@ -12,6 +12,7 @@ import cs.scrs.miner.dao.citations.Citation;
 import cs.scrs.miner.dao.user.User;
 
 import java.util.List;
+import javax.persistence.CascadeType;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -23,6 +24,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import org.hibernate.annotations.Cascade;
 
 
 
@@ -55,6 +57,7 @@ public class Transaction {
 
          @OneToMany
          @JoinColumn(name = "hashCiting")
+         @Cascade(org.hibernate.annotations.CascadeType.ALL)
          private List<Citation> citations;
 
 	public Transaction(String hashFile, String filename) {
