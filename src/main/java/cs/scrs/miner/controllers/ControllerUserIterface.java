@@ -97,24 +97,15 @@ public class ControllerUserIterface {
 		User user = userRepository.findByPublicKey(keysConfigProperties.getPublicKey());
 		transaction.setAuthorContainer(user);
 		String s;
-		s = "{\"transaction\":\""+transaction+ "\"}";
+		s = "{\"transaction\":"+transaction+ "}";
 		asyncRequest.doPost("http://" + networkProperties.getEntrypoint().getIp() + ":" + networkProperties.getEntrypoint().getPort() + networkProperties.getPooldispatcher().getBaseUri() + networkProperties.getActions().getSendTransaction(), s);
+
 //		String temp=asyncRequest.doGet(URL);
-		System.out.println(s);
+//		System.out.println(s);
 //		System.out.println(temp);
 //		Type type = new TypeToken<List<Transaction>>() {}.getType();
 //		List<Transaction> transactionList=Conversions.fromJson(temp,type);
-//
 
-
-		// Make the HTTP GET request, marshaling the response to a IP[] object
-//		ResponseEntity<Transaction[]> ips = restTemplate.postForEntity(URL, transaction.toString(), Transaction[].class);
-//		Transaction[] result = ips.getBody();
-//		System.out.println("IpList length "+result.length);
-//		for (Transaction string : result) {
-//			System.out.println("Transaction found "+ string);
-//		}
-//
 		return "{\"response\":\"ACK\"}";
 	}
 
