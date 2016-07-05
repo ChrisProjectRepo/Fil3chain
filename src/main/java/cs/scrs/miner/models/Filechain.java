@@ -667,13 +667,13 @@ public class Filechain {
 		
 		Integer count =0;
 		Integer cLevel = blockRepository.findFirstByOrderByChainLevelDesc().getChainLevel();
+		if(cLevel-KMAXLEVEL<=0)
+			return blockRepository.findBychainLevel(0).get(0);
 		Boolean flag = Boolean.TRUE;
 		
 		Set<Block> blocksTemp = new HashSet<Block>();
 		Set<Block> blocksTemp2 = new HashSet<Block>();
-	
-		
-		
+
 		//Aggiungo i blocchi che sono all utlimo livello
 			blocksTemp.addAll(blockRepository.findBychainLevel(cLevel));
 		while (flag) {

@@ -58,6 +58,19 @@ public class Citation {
         public void setHashCited(String hashCited) {
             this.hashCited = hashCited;
         }
+
+        @Override
+        public String toString() {
+            return "{\"" +
+                    "\"hashCiting\":" + hashCiting + "\"" +
+                    ", \"hashCited\":\"" + hashCited + "\"" +
+                    '}';
+        }
     }
-	
+
+    @Override
+    public String toString() {
+        return "{\" "+
+                "\"key\":\"" + key +"\"}";
+    }
 }

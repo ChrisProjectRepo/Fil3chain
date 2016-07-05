@@ -1,8 +1,10 @@
 package cs.scrs.miner.controllers;
 
 
+import com.google.common.reflect.TypeToken;
 import cs.scrs.config.KeysConfig;
 import cs.scrs.config.network.Network;
+import cs.scrs.miner.dao.block.Block;
 import cs.scrs.miner.dao.transaction.Transaction;
 import cs.scrs.miner.dao.user.User;
 import cs.scrs.miner.dao.user.UserRepository;
@@ -10,11 +12,14 @@ import cs.scrs.miner.models.Filechain;
 import cs.scrs.service.connection.ConnectionServiceImpl;
 import cs.scrs.service.poolDispatcher.PoolDispatcherServiceImpl;
 import cs.scrs.service.request.AsyncRequest;
+import cs.scrs.service.util.Conversions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
+import java.lang.reflect.Type;
 import java.util.List;
 
 
@@ -87,13 +92,34 @@ public class ControllerUserIterface {
 	@RequestMapping(value = "/fil3chain/sendTransaction", method = RequestMethod.POST)
 	@ResponseBody
 	public String sendTransaction(@RequestBody Transaction transaction) throws Exception {
-
 		System.out.println("Transazione arrivata: " + transaction);
+		String URL = "http://" + networkProperties.getEntrypoint().getIp() + ":" + networkProperties.getEntrypoint().getPort() + networkProperties.getPooldispatcher().getBaseUri() + networkProperties.getActions().getGetTransaction();
 		User user = userRepository.findByPublicKey(keysConfigProperties.getPublicKey());
 		transaction.setAuthorContainer(user);
-		asyncRequest.doPost("http://"+networkProperties.getEntrypoint().getIp()+":"+networkProperties.getEntrypoint().getPort()+ networkProperties.getPooldispatcher().getBaseUri()+networkProperties.getActions().getSendTransaction(),transaction.toString());
+		String s;
+		s = "{\"transaction\":\""+transaction+ "\"}";
+		asyncRequest.doPost("http://" + networkProperties.getEntrypoint().getIp() + ":" + networkProperties.getEntrypoint().getPort() + networkProperties.getPooldispatcher().getBaseUri() + networkProperties.getActions().getSendTransaction(), s);
+//		String temp=asyncRequest.doGet(URL);
+		System.out.println(s);
+//		System.out.println(temp);
+//		Type type = new TypeToken<List<Transaction>>() {}.getType();
+//		List<Transaction> transactionList=Conversions.fromJson(temp,type);
+//
+
+
+		// Make the HTTP GET request, marshaling the response to a IP[] object
+//		ResponseEntity<Transaction[]> ips = restTemplate.postForEntity(URL, transaction.toString(), Transaction[].class);
+//		Transaction[] result = ips.getBody();
+//		System.out.println("IpList length "+result.length);
+//		for (Transaction string : result) {
+//			System.out.println("Transaction found "+ string);
+//		}
+//
 		return "{\"response\":\"ACK\"}";
 	}
+
+
+
 
 	@RequestMapping(value = "/fil3chain/init_user", method = RequestMethod.POST)
 	@ResponseBody

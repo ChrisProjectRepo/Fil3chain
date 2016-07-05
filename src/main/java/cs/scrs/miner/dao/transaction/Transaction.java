@@ -151,7 +151,11 @@ public class Transaction {
 
 	@Override
 	public String toString() {
-		return "Transaction{" + "hashFile='" + hashFile + '\'' + ", filename='" + filename + '\'' + ", indexInBlock=" + indexInBlock + ", blockContainer='" + blockContainer + '\'' + ", authorContainer=" + authorContainer + ", citationsContainer="
-				+ citations + '}';
+		return "{\"" + "hashFile\":\"" + hashFile + "\"" + ","+
+		 		"\"filename\": \"" + filename + "\"" + ","+
+				"\"indexInBlock\":\"" + indexInBlock + "\","+
+				"\"blockContainer\": \"" + blockContainer + "\"" + ","+
+				"\"authorContainer\": " + authorContainer + ","+
+				"\"citationsContainer\": \"" + citations + "\"}";
 	}
 }
