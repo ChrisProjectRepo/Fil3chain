@@ -4,27 +4,8 @@
 package cs.scrs.miner.dao.citations;
 
 
-import cs.scrs.miner.dao.transaction.*;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-
-import cs.scrs.miner.dao.user.User;
+import javax.persistence.*;
 import java.io.Serializable;
-
-import java.util.List;
-
-import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
-import javax.persistence.Embeddable;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
 
 
 
@@ -60,8 +41,7 @@ public class Citation {
         @Column(name = "hashCited")
         private String hashCited; //hash di chi viene citato
         
-        protected Key(){
-        }
+        protected Key(){}
         
         public String getHashCiting() {
             return hashCiting;

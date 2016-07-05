@@ -1,7 +1,5 @@
 package cs.scrs.config.ui;
 
-import java.util.List;
-
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**

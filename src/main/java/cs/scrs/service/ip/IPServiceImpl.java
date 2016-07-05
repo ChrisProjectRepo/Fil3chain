@@ -1,17 +1,11 @@
 package cs.scrs.service.ip;
 
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.stereotype.Component;
+import cs.scrs.miner.models.IP;
 import org.springframework.stereotype.Service;
 
-import cs.scrs.miner.models.IP;
+import java.util.ArrayList;
+import java.util.List;
 
 
 

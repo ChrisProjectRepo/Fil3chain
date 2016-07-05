@@ -1,18 +1,13 @@
 package cs.scrs.service.request;
 
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Properties;
-import java.util.concurrent.Future;
-
-import javax.annotation.PostConstruct;
-
+import com.google.common.reflect.TypeToken;
+import cs.scrs.config.network.Network;
+import cs.scrs.miner.dao.block.Block;
+import cs.scrs.miner.models.IP;
+import cs.scrs.miner.models.Pairs;
+import cs.scrs.miner.models.RequestIpList;
+import cs.scrs.service.util.Conversions;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.config.RequestConfig;
@@ -24,15 +19,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Service;
-import com.google.common.reflect.TypeToken;
 
-import cs.scrs.config.network.Network;
-import cs.scrs.miner.dao.block.Block;
-import cs.scrs.miner.models.IP;
-import cs.scrs.miner.models.Pairs;
-import cs.scrs.miner.models.RequestIpList;
+import javax.annotation.PostConstruct;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.Future;
+
 //import cs.scrs.service.bean.IInjectable;
-import cs.scrs.service.util.Conversions;
 
 
 

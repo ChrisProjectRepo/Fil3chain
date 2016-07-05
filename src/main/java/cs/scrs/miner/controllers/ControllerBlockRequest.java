@@ -1,23 +1,19 @@
 package cs.scrs.miner.controllers;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-
 import cs.scrs.miner.dao.block.Block;
 import cs.scrs.miner.dao.block.BlockRepository;
 import cs.scrs.miner.dao.transaction.Transaction;
 import cs.scrs.miner.dao.transaction.TransactionRepository;
 import cs.scrs.miner.dao.user.UserRepository;
-import cs.scrs.service.ip.IPServiceImpl;
 import cs.scrs.miner.models.Filechain;
-import java.util.ArrayList;
-import java.util.List;
-
+import cs.scrs.service.ip.IPServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
 @RestController

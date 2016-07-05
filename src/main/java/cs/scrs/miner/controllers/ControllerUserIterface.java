@@ -9,17 +9,12 @@ import cs.scrs.miner.dao.user.UserRepository;
 import cs.scrs.miner.models.Filechain;
 import cs.scrs.service.connection.ConnectionServiceImpl;
 import cs.scrs.service.poolDispatcher.PoolDispatcherServiceImpl;
+import cs.scrs.service.request.AsyncRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
-import cs.scrs.service.request.AsyncRequest;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -108,8 +103,7 @@ public class ControllerUserIterface {
 		user.setPublicKeyHash(pkh);
 		userRepository.save(user);
 
-		User user1 = userRepository.findByPublicKey(keyProperties.getPublicKey());
-		System.out.println("User founded " + user1);
+		User user1 = userRepository.findByPublicKey(keyProperties.getPublicKey());	System.out.println("User founded " + user1);
 		return "{\"response\":\"ACK\"}";
 	}
 //

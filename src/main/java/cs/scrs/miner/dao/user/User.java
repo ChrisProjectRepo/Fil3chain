@@ -6,15 +6,14 @@ package cs.scrs.miner.dao.user;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
-
-import javax.persistence.*;
-
 import org.hibernate.validator.constraints.Length;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.List;
 import java.util.Properties;
 
 

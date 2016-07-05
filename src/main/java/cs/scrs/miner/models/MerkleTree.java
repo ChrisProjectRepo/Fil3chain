@@ -1,8 +1,8 @@
 
 package cs.scrs.miner.models;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 /**
  * classe per la costruzione di un merkletree
  * @author giordanocristini

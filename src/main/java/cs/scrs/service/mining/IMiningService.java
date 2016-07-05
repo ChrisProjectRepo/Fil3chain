@@ -1,11 +1,6 @@
 package cs.scrs.service.mining;
 
 
-import java.util.List;
-import java.util.concurrent.Future;
-
-import org.springframework.web.client.RestTemplate;
-
 import cs.scrs.miner.dao.block.Block;
 import cs.scrs.miner.dao.block.BlockRepository;
 import cs.scrs.miner.dao.transaction.Transaction;
@@ -13,6 +8,10 @@ import cs.scrs.miner.dao.transaction.TransactionRepository;
 import cs.scrs.service.connection.ConnectionServiceImpl;
 import cs.scrs.service.ip.IPServiceImpl;
 import cs.scrs.service.poolDispatcher.PoolDispatcherServiceImpl;
+import org.springframework.web.client.RestTemplate;
+
+import java.util.List;
+import java.util.concurrent.Future;
 
 
 

@@ -4,27 +4,12 @@
 package cs.scrs.miner.dao.transaction;
 
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import cs.scrs.miner.dao.citations.Citation;
-
 import cs.scrs.miner.dao.user.User;
-
-import java.util.List;
-import javax.persistence.CascadeType;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
 import org.hibernate.annotations.Cascade;
+
+import javax.persistence.*;
+import java.util.List;
 
 
 

@@ -1,32 +1,21 @@
 package cs.scrs.config;
 
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
+import cs.scrs.config.rest.RestConfig;
+import cs.scrs.miner.models.Filechain;
+import cs.scrs.service.ip.IPServiceImpl;
+import cs.scrs.service.mining.VerifyServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
-import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
-import org.springframework.web.client.*;
+import org.springframework.web.client.RestTemplate;
 
-
-import cs.scrs.service.connection.ConnectionServiceImpl;
-import cs.scrs.service.ip.IPServiceImpl;
-import cs.scrs.service.mining.IMiningService;
-import cs.scrs.service.mining.MiningServiceImpl;
-import cs.scrs.service.mining.VerifyServiceImpl;
-import cs.scrs.service.request.AsyncRequest;
-import cs.scrs.config.network.Network;
-import cs.scrs.config.rest.RestConfig;
-import cs.scrs.config.ui.AUiConfig;
-import cs.scrs.config.ui.UiConfig;
-import cs.scrs.miner.models.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 
 
