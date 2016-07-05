@@ -112,15 +112,15 @@ public class ControllerUserIterface {
 		System.out.println("User founded " + user1);
 		return "{\"response\":\"ACK\"}";
 	}
-
-	@RequestMapping(value = "/fil3chain/transactions", method = RequestMethod.GET)
-	@ResponseBody
-	public String add_transaction(@RequestBody String transaction) throws Exception {
-
-		System.out.println("Transaction arrived: " + transaction);
-//		List<Transaction> result = poolD.getTransactions();
-		return "{\"response\":\"ACK\"}";
-	}
+//
+//	@RequestMapping(value = "/fil3chain/transactions", method = RequestMethod.GET)
+//	@ResponseBody
+//	public String add_transaction(@RequestBody String transaction) throws Exception {
+//
+//		System.out.println("Transaction arrived: " + transaction);
+////		List<Transaction> result = poolD.getTransactions();
+//		return "{\"response\":\"ACK\"}";
+//	}
 
 	@RequestMapping(value = "/fil3chain/citations", method = RequestMethod.GET)
 	@ResponseBody
