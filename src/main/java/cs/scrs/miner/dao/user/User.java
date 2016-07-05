@@ -7,12 +7,9 @@ package cs.scrs.miner.dao.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import cs.scrs.miner.dao.block.Block;
-import cs.scrs.miner.dao.transaction.Transaction;
 
 import javax.persistence.*;
 
-import org.hibernate.annotations.Cascade;
 import org.hibernate.validator.constraints.Length;
 
 import java.io.IOException;

@@ -56,7 +56,6 @@ public class ControllerBlockRequest {
 		//TODO POSSIAMO TOGLIERE IL LISTENER E FARE COSI
 
 		System.out.println("Il miner "+request.getRemoteAddr()+" mi ha mandato il blocco: "+block);
-		System.out.println("CICCIO NON CI VEDE CON IL 4K!!! USER: "+block.getUserContainer().getPassword());
 		filechain.onNewBlockArrived(block);
 		System.out.println("rispondo");
 		return Boolean.TRUE.toString();
@@ -78,7 +77,6 @@ public class ControllerBlockRequest {
 		// blockRepository.findBychainLevel(chainLevel));
 		System.out.println("Il miner "+request.getRemoteAddr()+" mi ha chiesto un blocco con questo Hash: "+hash);
 		Block b = blockRepository.findByhashBlock(hash);
-		System.out.println("CIAO SONO CICCIO E CAGO CAZZI "+b.getUserContainer().getPassword());
 		return b;
 	}
 
