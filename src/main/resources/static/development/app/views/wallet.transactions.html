@@ -1,5 +1,3 @@
-transactions
-
 <style>
 p.transaction {
     display: block;
@@ -23,14 +21,14 @@ p.transaction {
 		<div layout="row" layout-fill layout-padding ng-click="selectUserIndex($index)"
 		class="">
 		<div class="md-tile-left">
-		<p class="transaction" ng-hide="$index == selectedUserIndex">Transaction Hashfile</p>
-		<h3>{{ transaction.hashFile }}</h3>
-			
+		<p class="transaction" ng-hide="$index == selectedUserIndex">Transaction Filename</p>
+		<h3>{{ transaction.filename }}</h3>
+
 		</div>
 		<div flex></div>
 		<div class="md-tile-content" ng-show="selectionMode" layout="row" layout-align="center center">
-			<md-checkbox class="md-secondary" ng-click="addTransaction(transaction)"></md-checkbox>
-			<!-- 
+			<md-checkbox aria-label="Select Transaction" class="md-secondary" ng-click="addTransaction(transaction)"></md-checkbox>
+			<!--
         <p ng-hide="$index == selectedUserIndex">
           <span>Something</span>
         </p>
@@ -39,13 +37,13 @@ p.transaction {
 	</div>
 	<md-divider layout-fill ng-show="$index == selectedUserIndex"></md-divider>
 	<div layout="column" layout-fill class="expanded">
-		<md-list > 
+		<md-list >
 			<md-subheader class="md-no-sticky">Transaction details</md-subheader>
 			 <md-list-item	ng-repeat="h in headers">
 				<p>{{ h.name }}</p>
 				<p>{{ transaction[h.field] }}</p>
 				<md-checkbox class="md-secondary"  ng-show="selectionModeItem"></md-checkbox>
-			</md-list-item> 
+			</md-list-item>
 		</md-list>
 	</div>
 	</md-item-content> <md-divider class="divider-inset" ng-if="!$last"></md-divider> </md-item>

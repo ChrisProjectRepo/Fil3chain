@@ -4,7 +4,8 @@
 	angular
 	.module('blockchainApp')
 	.filter('Transactions', TransactionsFilter)
-	.filter('TransactionsSelected', TransactionsSelectedFilter);
+	.filter('TransactionsSelected', TransactionsSelectedFilter)
+	.filter('TransactionsCitationsAdapter', TransactionsCitationsAdapterFilter);
 
 	TransactionsFilter.$inject = [];
 	function TransactionsFilter() {
@@ -13,7 +14,7 @@
 
 			// Return the items unchanged if all filtering attributes are falsy
 			angular.forEach(items, function(value, key){
-				
+
 				if(value.hashFile === match.hashFile){
 					console.log("Transaction Matching",value,key)
 					matching.push(value);
@@ -25,9 +26,9 @@
 			//matching.push(item);
 			return matching[0];
 		};
-		
+
 	}
-	
+
 	TransactionsSelectedFilter.$inject = [];
 	function TransactionsSelectedFilter() {
 		return function(transactions, citations){
@@ -47,6 +48,33 @@
 			return transactions;
 
 		};
-		
+
+	}
+
+	TransactionsCitationsAdapterFilter.$inject = [];
+	function TransactionsCitationsAdapterFilter() {
+		var CitationModelHibernate=function(hashCiting, hashCited){
+			console.log('TransactionsCitationsAdapterFilter','CitationModelHibernate','params',hashCiting, hashCited);
+			return {
+				key:{
+					hashCiting:hashCiting,
+					hashCited:hashCited
+				}
+			}
+		};
+
+
+		return function(hashFile, citations){
+			console.log('TransactionsCitationsAdapterFilter');
+			var citationsResult=[];
+			var tempCitationModelHibernate;
+			console.log('TransactionsCitationsAdapterFilter','tempCitationModelHibernate',tempCitationModelHibernate);
+			angular.forEach(citations, function(citation, key){
+				citationsResult.push( CitationModelHibernate(hashFile, citation.hashFile) );
+			});
+			return citationsResult;
+
+		};
+
 	}
 })();

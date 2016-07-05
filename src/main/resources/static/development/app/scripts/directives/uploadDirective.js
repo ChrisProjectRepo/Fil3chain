@@ -100,9 +100,12 @@ angular
               scope.file.sha256 = sha;
               //console.log('scope',scope);
               scope.toggleProgress();
-              
+
               scope.fileToSend={
-            		  fileName:file.name,
+            		  filename:file.name,
+                  indexInBlock: 0,
+                  blockContainer: 0,
+                  authorContainer:{}, //------------------------------------------TODO
             		  hashFile:sha,
             		  citations:[]
               }

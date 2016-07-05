@@ -8,8 +8,9 @@
  * Controller of the blockchain
  */
 angular.module('blockchainApp')
-.controller('walletTransactionPostCtrl',['$scope', '$mdDialog', '$mdMedia','$mdToast','TransactionService','transactions','transactionHeaders',
-                                         function($scope,$mdDialog, $mdMedia,$mdToast,TransactionService, transactions , transactionHeaders){
+.controller('walletTransactionPostCtrl',[
+  '$scope', '$mdDialog', '$mdMedia','$mdToast','TransactionService','transactions','transactionHeaders','TransactionsCitationsAdapterFilter',
+  function($scope,$mdDialog, $mdMedia,$mdToast,TransactionService, transactions , transactionHeaders, TransactionsCitationsAdapterFilter){
 	console.log('walletTransactionPostCtrl');
 	$scope.showCitationsList=false;
 	$scope.citationsContainer ={
@@ -19,7 +20,7 @@ angular.module('blockchainApp')
 	}
 	$scope.fileToSend = {};
 	$scope.fileToSend.citations = [];
-	function showAlert(ev, transactions) {
+	function showAlert(ev, transactions, citations) {
 		var useFullScreen = ($mdMedia('sm') || $mdMedia('xs')) ;// && $scope.customFullscreen;
 		console.log('walletTransactionPostCtrl','useFullScreen',useFullScreen);
 		$mdDialog.show({
@@ -30,7 +31,7 @@ angular.module('blockchainApp')
 			locals: {
 				transactions: transactions,
 				transactionHeaders : transactionHeaders,
-				citations : $scope.fileToSend.citations
+				citations : citations
 			},
 			clickOutsideToClose:true,
 			fullscreen: true
@@ -46,7 +47,10 @@ angular.module('blockchainApp')
 		 */
 	};
 	function submitTransaction(file){
-		console.log(file)
+		console.log('walletTransactionPostCtrl','submitTransaction',file);
+    file.citations = TransactionsCitationsAdapterFilter(file.hashFile, file.citations);
+    console.log('walletTransactionPostCtrl','submitTransaction','Adapted',file);
+
 		TransactionService.post(file)
 		.then(function(response){
 			$mdToast.show(
@@ -80,12 +84,12 @@ angular.module('blockchainApp')
 		.then(function(response){
 			console.log('walletTransactionPostCtrl','success');
 			$scope.transactions = response;
-			showAlert(ev,$scope.transactions);
+			showAlert(ev, $scope.transactions, $scope.fileToSend.citations);
 		},function(response){
 			console.log('walletTransactionPostCtrl','error');
 
 			$scope.transactions = [];
-			showAlert(ev,$scope.transactions);
+			//showAlert(ev, $scope.transactions, $scope.fileToSend.citations);
 		})
 
 	}
