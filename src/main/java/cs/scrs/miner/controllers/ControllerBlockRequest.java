@@ -9,21 +9,13 @@ import cs.scrs.miner.dao.transaction.Transaction;
 import cs.scrs.miner.dao.transaction.TransactionRepository;
 import cs.scrs.miner.dao.user.UserRepository;
 import cs.scrs.service.ip.IPServiceImpl;
-import cs.scrs.service.mining.MiningServiceImpl;
 import cs.scrs.miner.models.Filechain;
-import cs.scrs.miner.models.IP;
-import cs.scrs.service.util.Conversions;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Future;
-
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.http.MediaType;
-import org.springframework.util.MultiValueMap;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -64,6 +56,7 @@ public class ControllerBlockRequest {
 		//TODO POSSIAMO TOGLIERE IL LISTENER E FARE COSI
 
 		System.out.println("Il miner "+request.getRemoteAddr()+" mi ha mandato il blocco: "+block);
+		System.out.println("CICCIO NON CI VEDE CON IL 4K!!! USER: "+block.getUserContainer());
 		filechain.onNewBlockArrived(block);
 		System.out.println("rispondo");
 		return Boolean.TRUE.toString();
@@ -84,7 +77,9 @@ public class ControllerBlockRequest {
 		// System.err.println("Rispondo con: " +
 		// blockRepository.findBychainLevel(chainLevel));
 		System.out.println("Il miner "+request.getRemoteAddr()+" mi ha chiesto un blocco con questo Hash: "+hash);
-		return blockRepository.findByhashBlock(hash);
+		Block b = blockRepository.findByhashBlock(hash);
+		System.out.println("CIAO SONO CICCIO E CAGO CAZZI "+b.getUserContainer());
+		return b;
 	}
 
 	// Mappiamo la richiesta di invio di blocchi ad un Peer che la richiede

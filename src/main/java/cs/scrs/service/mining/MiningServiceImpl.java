@@ -398,7 +398,7 @@ public class MiningServiceImpl implements IMiningService {
 		block.setChainLevel(lastBlock.getChainLevel() + 1);
 		block.setMinerPublicKey(publicKey);
 		block.setUserContainer(user);
-
+		System.out.println("CICCIO NON CI VEDE CON IL 4K!!! Creo il blocco "+block);
 		// Prendo le transazioni dal Pool Dispatcher
 		List<Transaction> transactionsList = poolDispService.getTransactions();
 
@@ -430,10 +430,9 @@ public class MiningServiceImpl implements IMiningService {
 		newBlock.setFatherBlockContainer(lastBlock.getHashBlock());
 		newBlock.setChainLevel(lastBlock.getChainLevel() + 1);
 		newBlock.setMinerPublicKey(publicKey);
-		//newBlock.setUserContainer(new User("", "Ciano", "Bug", "Miner", "Mail", "Cianone"));
 		User user = userRepository.findByPublicKey(keysConfigProperties.getPublicKey());
 		newBlock.setUserContainer(user);
-
+		System.out.println("CICCIO NON CI VEDE CON IL 4K2volta!!! Creo il blocco "+block);
 		// Prendo le transazioni dal Pool Dispatcher
 		List<Transaction> transactionsList = poolDispService.getTransactions();
 
