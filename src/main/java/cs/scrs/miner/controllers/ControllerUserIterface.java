@@ -36,7 +36,8 @@ public class ControllerUserIterface {
 	private AsyncRequest asyncRequest;
 	@Autowired
 	private Network networkProperties;
-
+	@Autowired
+	private KeysConfig keysConfigProperties;
 	@Autowired
 	RestTemplate restTemplate;
 	@Autowired
@@ -85,10 +86,12 @@ public class ControllerUserIterface {
 
 	@RequestMapping(value = "/fil3chain/sendTransaction", method = RequestMethod.POST)
 	@ResponseBody
-	public String sendTransaction(@RequestBody String transaction) throws Exception {
+	public String sendTransaction(@RequestBody Transaction transaction) throws Exception {
 
 		System.out.println("Transazione arrivata: " + transaction);
-		// asyncRequest.doPost("http://"+networkProperties.getEntrypoint().getIp()+":"+networkProperties.getEntrypoint().getPort()+ networkProperties.getPooldispatcher().getBaseUri()+networkProperties.getActions().getSendTransaction(), transaction);
+		User user = userRepository.findByPublicKey(keysConfigProperties.getPublicKey());
+		transaction.setAuthorContainer(user);
+		asyncRequest.doPost("http://"+networkProperties.getEntrypoint().getIp()+":"+networkProperties.getEntrypoint().getPort()+ networkProperties.getPooldispatcher().getBaseUri()+networkProperties.getActions().getSendTransaction(),transaction.toString());
 		return "{\"response\":\"ACK\"}";
 	}
 

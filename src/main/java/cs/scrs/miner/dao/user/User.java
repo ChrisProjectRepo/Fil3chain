@@ -208,6 +208,17 @@ public class User {
 		this.username = username;
 	}
 
+	@Override
+	public String toString() {
+		return "User{" +
+				"username='" + username + '\'' +
+				", email='" + email + '\'' +
+				", lastName='" + lastName + '\'' +
+				", name='" + name + '\'' +
+				", publicKey='" + publicKey + '\'' +
+				", publicKeyHash='" + publicKeyHash + '\'' +
+				'}';
+	}
 
 	/**
 	 * @return the fileContainer
