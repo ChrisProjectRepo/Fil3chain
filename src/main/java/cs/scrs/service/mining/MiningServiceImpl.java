@@ -1,20 +1,13 @@
 package cs.scrs.service.mining;
 
 
-import cs.scrs.miner.dao.user.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
-import org.springframework.scheduling.annotation.Async;
-import org.springframework.scheduling.annotation.AsyncResult;
-import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
-
 import cs.scrs.config.KeysConfig;
 import cs.scrs.miner.dao.block.Block;
 import cs.scrs.miner.dao.block.BlockRepository;
 import cs.scrs.miner.dao.transaction.Transaction;
 import cs.scrs.miner.dao.transaction.TransactionRepository;
 import cs.scrs.miner.dao.user.User;
+import cs.scrs.miner.dao.user.UserRepository;
 import cs.scrs.miner.models.IP;
 import cs.scrs.miner.models.MerkleTree;
 import cs.scrs.service.connection.ConnectionServiceImpl;
@@ -23,17 +16,16 @@ import cs.scrs.service.poolDispatcher.PoolDispatcherServiceImpl;
 import cs.scrs.service.request.AsyncRequest;
 import cs.scrs.service.util.AudioUtil;
 import cs.scrs.service.util.CryptoUtil;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-import java.util.concurrent.Future;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.AsyncResult;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.PostConstruct;
+import java.util.*;
+import java.util.concurrent.Future;
 
 
 
@@ -398,7 +390,6 @@ public class MiningServiceImpl implements IMiningService {
 		block.setChainLevel(lastBlock.getChainLevel() + 1);
 		block.setMinerPublicKey(publicKey);
 		block.setUserContainer(user);
-
 		// Prendo le transazioni dal Pool Dispatcher
 		List<Transaction> transactionsList = poolDispService.getTransactions();
 
@@ -430,10 +421,8 @@ public class MiningServiceImpl implements IMiningService {
 		newBlock.setFatherBlockContainer(lastBlock.getHashBlock());
 		newBlock.setChainLevel(lastBlock.getChainLevel() + 1);
 		newBlock.setMinerPublicKey(publicKey);
-		//newBlock.setUserContainer(new User("", "Ciano", "Bug", "Miner", "Mail", "Cianone"));
 		User user = userRepository.findByPublicKey(keysConfigProperties.getPublicKey());
 		newBlock.setUserContainer(user);
-
 		// Prendo le transazioni dal Pool Dispatcher
 		List<Transaction> transactionsList = poolDispService.getTransactions();
 

@@ -1,10 +1,10 @@
 package cs.scrs.config.ui;
 
-import java.util.Iterator;
-import java.util.List;
-
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.NestedConfigurationProperty;
+
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * Basic properties for profile development of Ui module

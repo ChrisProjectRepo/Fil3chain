@@ -1,8 +1,8 @@
 package cs.scrs.miner.models;
 
-import java.util.List;
-
 import cs.scrs.miner.dao.block.Block;
+
+import java.util.List;
 
 public class RequestBlockList {
 	/**

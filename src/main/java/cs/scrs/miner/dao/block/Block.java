@@ -5,12 +5,11 @@
 package cs.scrs.miner.dao.block;
 
 
+import cs.scrs.miner.dao.transaction.Transaction;
+import cs.scrs.miner.dao.user.User;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.validator.constraints.Length;
-
-import cs.scrs.miner.dao.transaction.Transaction;
-import cs.scrs.miner.dao.user.User;
 
 import javax.persistence.*;
 import java.util.List;

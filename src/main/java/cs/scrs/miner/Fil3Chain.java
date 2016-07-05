@@ -1,7 +1,9 @@
 package cs.scrs.miner;
 
 
-
+import cs.scrs.config.network.Network;
+import cs.scrs.miner.models.Filechain;
+import cs.scrs.service.mining.IMiningService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -10,10 +12,6 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.web.client.RestTemplate;
-
-import cs.scrs.config.network.Network;
-import cs.scrs.miner.models.Filechain;
-import cs.scrs.service.mining.IMiningService;
 
 
 

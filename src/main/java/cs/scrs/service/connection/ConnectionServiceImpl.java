@@ -1,8 +1,16 @@
 package cs.scrs.service.connection;
 
 
-import java.io.IOException;
-import java.io.InputStream;
+import com.google.common.reflect.TypeToken;
+import cs.scrs.config.network.Network;
+import cs.scrs.miner.models.IP;
+import cs.scrs.service.ip.IPServiceImpl;
+import cs.scrs.service.request.AsyncRequest;
+import cs.scrs.service.util.Conversions;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import javax.annotation.PostConstruct;
 import java.lang.reflect.Type;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
@@ -11,20 +19,6 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Properties;
-
-import javax.annotation.PostConstruct;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import com.google.common.reflect.TypeToken;
-
-import cs.scrs.config.network.Network;
-import cs.scrs.miner.models.IP;
-import cs.scrs.service.ip.IPServiceImpl;
-import cs.scrs.service.request.AsyncRequest;
-import cs.scrs.service.util.Conversions;
 
 
 @Service("ConnectionServiceImpl")

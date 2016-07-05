@@ -1,10 +1,10 @@
 
 package cs.scrs.config;
 
-import java.util.Iterator;
-
+import cs.scrs.config.ui.AUiConfig;
+import cs.scrs.config.ui.Resource;
+import cs.scrs.config.ui.UiConfig;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
@@ -13,9 +13,7 @@ import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
-import cs.scrs.config.ui.AUiConfig;
-import cs.scrs.config.ui.Resource;
-import cs.scrs.config.ui.UiConfig;
+import java.util.Iterator;
 
 
 /**

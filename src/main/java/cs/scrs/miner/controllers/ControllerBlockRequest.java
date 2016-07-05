@@ -1,31 +1,19 @@
 package cs.scrs.miner.controllers;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-
 import cs.scrs.miner.dao.block.Block;
 import cs.scrs.miner.dao.block.BlockRepository;
 import cs.scrs.miner.dao.transaction.Transaction;
 import cs.scrs.miner.dao.transaction.TransactionRepository;
 import cs.scrs.miner.dao.user.UserRepository;
-import cs.scrs.service.ip.IPServiceImpl;
-import cs.scrs.service.mining.MiningServiceImpl;
 import cs.scrs.miner.models.Filechain;
-import cs.scrs.miner.models.IP;
-import cs.scrs.service.util.Conversions;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.Future;
-
-
+import cs.scrs.service.ip.IPServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.http.MediaType;
-import org.springframework.util.MultiValueMap;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
 @RestController
@@ -84,7 +72,8 @@ public class ControllerBlockRequest {
 		// System.err.println("Rispondo con: " +
 		// blockRepository.findBychainLevel(chainLevel));
 		System.out.println("Il miner "+request.getRemoteAddr()+" mi ha chiesto un blocco con questo Hash: "+hash);
-		return blockRepository.findByhashBlock(hash);
+		Block b = blockRepository.findByhashBlock(hash);
+		return b;
 	}
 
 	// Mappiamo la richiesta di invio di blocchi ad un Peer che la richiede

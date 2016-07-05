@@ -1,11 +1,10 @@
 package cs.scrs.service.util;
 
-import java.lang.reflect.Type;
-
-import org.springframework.stereotype.Service;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import org.springframework.stereotype.Service;
+
+import java.lang.reflect.Type;
 
 @Service
 public class Conversions {

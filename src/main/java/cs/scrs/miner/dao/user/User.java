@@ -6,18 +6,14 @@ package cs.scrs.miner.dao.user;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import cs.scrs.miner.dao.block.Block;
-import cs.scrs.miner.dao.transaction.Transaction;
-
-import javax.persistence.*;
-
-import org.hibernate.annotations.Cascade;
 import org.hibernate.validator.constraints.Length;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.List;
 import java.util.Properties;
 
 
@@ -46,6 +42,7 @@ public class User {
 	@Column(name = "username")
 	private String username;
 	@Column(name="password")
+	@JsonIgnore
 	private String password;
 
 

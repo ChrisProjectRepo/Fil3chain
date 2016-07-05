@@ -1,28 +1,23 @@
 package cs.scrs.service.mining;
 
 
-import java.io.IOException;
+import cs.scrs.miner.dao.block.Block;
+import cs.scrs.miner.dao.block.BlockRepository;
+import cs.scrs.miner.dao.transaction.Transaction;
+import cs.scrs.miner.models.MerkleTree;
+import cs.scrs.service.poolDispatcher.PoolDispatcherServiceImpl;
+import cs.scrs.service.util.CryptoUtil;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.crypto.BadPaddingException;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import cs.scrs.miner.dao.block.Block;
-import cs.scrs.miner.dao.block.BlockRepository;
-import cs.scrs.miner.dao.transaction.Transaction;
-import cs.scrs.miner.dao.user.User;
-import cs.scrs.miner.models.MerkleTree;
-import cs.scrs.service.connection.ConnectionServiceImpl;
-import cs.scrs.service.poolDispatcher.PoolDispatcherServiceImpl;
-import cs.scrs.service.util.CryptoUtil;
 
 
 

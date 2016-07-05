@@ -1,16 +1,6 @@
 package cs.scrs.miner.models;
 
 
-import java.io.IOException;
-import java.util.*;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Async;
-import org.springframework.scheduling.annotation.AsyncResult;
-import org.springframework.scheduling.annotation.EnableAsync;
-import org.springframework.stereotype.Service;
-
 import cs.scrs.miner.dao.block.Block;
 import cs.scrs.miner.dao.block.BlockRepository;
 import cs.scrs.miner.dao.transaction.Transaction;
@@ -19,6 +9,16 @@ import cs.scrs.service.ip.IPServiceImpl;
 import cs.scrs.service.mining.IMiningService;
 import cs.scrs.service.mining.VerifyServiceImpl;
 import cs.scrs.service.request.AsyncRequest;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.AsyncResult;
+import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.stereotype.Service;
+
+import java.io.IOException;
+import java.util.*;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 
 
 
@@ -52,8 +52,7 @@ public class Filechain {
 	private Boolean flagRunningMinining = Boolean.FALSE;
 
 	// private static final Integer KMAXLEVEL = 4;//DECISO DA CHRISTIAN SIMOLO IL 1/7/16 15:35 (A Random) SPOSTARE NEL PROPERTIES
-	// static final Integer KMAXLEVEL = 15;// DECISO DA CHRISTIAN SIMOLO IL 1/7/16 15:36 (MOTIVATO:perche me pare più completo de 4,SImene vinciguerra aggiunge 1/5 sezione aurea) SPOSTARE NEL PROPERTIES
-	private static final Integer KMAXLEVEL = 5;// DECISO DA LUPO IL 4/7/16 15:36 (MOTIVATO:valore decente) SPOSTARE NEL PROPERTIES
+	private static final Integer KMAXLEVEL = 15;// DECISO DA CHRISTIAN SIMOLO IL 1/7/16 15:36 (MOTIVATO:perche me pare più completo de 4,SImene vinciguerra aggiunge 1/5 sezione aurea) SPOSTARE NEL PROPERTIES
 
 
 	/**
@@ -665,39 +664,43 @@ public class Filechain {
 	 * 
 	 */
 	private Block getFatherBlock() {
-
-		Integer count = 0;
+		
+		Integer count =0;
 		Integer cLevel = blockRepository.findFirstByOrderByChainLevelDesc().getChainLevel();
 		Boolean flag = Boolean.TRUE;
-
+		
 		Set<Block> blocksTemp = new HashSet<Block>();
 		Set<Block> blocksTemp2 = new HashSet<Block>();
-
-		// Aggiungo i blocchi che sono all utlimo livello
-		blocksTemp.addAll(blockRepository.findBychainLevel(cLevel));
+	
+		
+		
+		//Aggiungo i blocchi che sono all utlimo livello
+			blocksTemp.addAll(blockRepository.findBychainLevel(cLevel));
 		while (flag) {
 			count++;
-			// per ogni blocco nell ultimo livello risalgo la catena
-			// ovvero aggiungo i padri
-			for (Block b : blocksTemp)
-				blocksTemp2.add(blockRepository.findByhashBlock(b.getFatherBlockContainer()));
-			// se il livello di paranoia è maggiore di 0
-			// aggiungo anche i blocchi concorrenziali
-			if (count < KMAXLEVEL)
-				blocksTemp2.addAll(blockRepository.findBychainLevel(cLevel - count));
-
+			//per ogni blocco nell ultimo livello risalgo la catena
+			//ovvero aggiungo i padri
+			for(Block b : blocksTemp)
+			blocksTemp2.add(blockRepository.findByhashBlock(b.getFatherBlockContainer()));
+			//se il livello di paranoia è maggiore di 0 
+			//aggiungo anche i blocchi concorrenziali	
+			if(count<KMAXLEVEL)
+				blocksTemp2.addAll(blockRepository.findBychainLevel(cLevel-count));
+				
+		
 			blocksTemp.clear();
 			blocksTemp.addAll(blocksTemp2);
 			blocksTemp2.clear();
 
-			if (blocksTemp.size() == 1 && count >= KMAXLEVEL)
+			if(blocksTemp.size()==1&& count>=KMAXLEVEL )
 				flag = Boolean.FALSE;
-
+			
+	
 		}
-		for (Block b : blocksTemp)
+		for(Block b : blocksTemp)
 			return b;
 		return blockRepository.findBychainLevel(0).get(0);
-	}
+	 }
 
 	/**
 	 * @param hash
