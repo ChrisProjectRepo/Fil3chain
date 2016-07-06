@@ -31,7 +31,6 @@ import java.util.concurrent.Future;
 
 
 /**
- * Created by Marco Date: 08/06/2016
  */
 @Service
 public class MiningServiceImpl implements IMiningService {
