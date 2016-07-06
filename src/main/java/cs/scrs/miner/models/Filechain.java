@@ -4,6 +4,8 @@ package cs.scrs.miner.models;
 import cs.scrs.miner.dao.block.Block;
 import cs.scrs.miner.dao.block.BlockRepository;
 import cs.scrs.miner.dao.transaction.Transaction;
+import cs.scrs.miner.dao.user.User;
+import cs.scrs.miner.dao.user.UserRepository;
 import cs.scrs.service.connection.ConnectionServiceImpl;
 import cs.scrs.service.ip.IPServiceImpl;
 import cs.scrs.service.mining.IMiningService;
@@ -43,6 +45,9 @@ public class Filechain {
 
 	@Autowired
 	private IMiningService miningService;
+
+	@Autowired
+	private UserRepository userRepo;
 
 	@Autowired
 	private ConnectionServiceImpl connectionServiceImpl;
@@ -452,8 +457,8 @@ public class Filechain {
 
 			// TODO miner.verifyBlock(blockResponse)
 			if (verifyBlock(blockResponse)) {
-				System.out.println("Salvo il blocco");
-				blockRepository.save(blockResponse);
+
+			//	blockRepository.save(blockResponse);
 				return Boolean.TRUE;
 			} else {
 				// Elimino il miner se il blocco non è verificato
@@ -498,9 +503,23 @@ public class Filechain {
 
 		bFather = blockRepository.findByhashBlock(b.getFatherBlockContainer());
 
-		if ((bFather != null || result) && verifySerice.singleBlockVerify(b))
-			return Boolean.TRUE;
+		if ((bFather != null || result) && verifySerice.singleBlockVerify(b)){
+			User u=b.getUserContainer();
+			if(userRepo.findByPublicKeyHash(u.getPublicKeyHash())==null)
+			userRepo.save(u);
 
+			for (Transaction trans : b.getTransactionsContainer()) {
+//				trans.setBlockContainer(b.getHashBlock());//TODO checkitout looponserito da wualcuno quando non arrivano i utenti nelle tran vedere se tolto funziona
+				u=userRepo.findByPublicKeyHash(trans.getAuthorContainer().getPublicKeyHash());
+				if(u==null) {
+					userRepo.save(trans.getAuthorContainer());
+				}
+			}
+					System.out.println("Salvo il blocco");
+					// Salvo il blocco nella catena
+					blockRepository.save(b);
+					return Boolean.TRUE;
+		}
 		return Boolean.FALSE;
 
 	}
@@ -526,9 +545,9 @@ public class Filechain {
 				// miner.verifyBlock(b, blockRepository) TODO
 				b = blockResponse.get(i);
 				if (verifyBlock(b)) {
-					for (Transaction t : b.getTransactionsContainer())
-						t.setBlockContainer(b.getHashBlock());
-					blockRepository.save(b);
+//					for (Transaction t : b.getTransactionsContainer())
+//						t.setBlockContainer(b.getHashBlock());
+//					blockRepository.save(b);
 
 					// Se il miner attuale ha un livello minore o uguale al mio lo elimino
 					if (designedMiner.getValue2() <= blockRepository.findFirstByOrderByChainLevelDesc().getChainLevel()) {
@@ -581,7 +600,7 @@ public class Filechain {
 			// mi salvo l altrezza prima dell inserimento
 			Integer heightBFS = blockRepository.findFirstByOrderByChainLevelDesc().getChainLevel();
 			// Salvo il blocco nella catena
-			blockRepository.save(block);
+//			blockRepository.save(block);
 			// se il blocco è con chain level maggiore del mio blocco il mining
 			if (block.getChainLevel() > heightBFS) {
 				flagNewBlock = Boolean.TRUE;
@@ -703,7 +722,7 @@ public class Filechain {
 	 }
 
 	/**
-	 * @param hash
+	 * @param b
 	 * @return
 	 */
 	private List<Transaction> getAllTransFromHash(Block b) {

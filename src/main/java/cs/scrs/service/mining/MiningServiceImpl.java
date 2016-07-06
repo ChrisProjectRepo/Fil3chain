@@ -133,6 +133,8 @@ public class MiningServiceImpl implements IMiningService {
 			System.err.println("Complessità per il calcolo del blocco errata, impossibile minare");
 			return new AsyncResult<Boolean>(Boolean.FALSE);
 		}
+		if(transactions.isEmpty())
+			return new AsyncResult<Boolean>(Boolean.FALSE);
 
 		// Calcolo le maschere per il check dell'hash.
 		calculateMasks();
