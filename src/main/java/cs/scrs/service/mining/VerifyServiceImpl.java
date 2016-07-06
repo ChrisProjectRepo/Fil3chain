@@ -17,6 +17,8 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 
@@ -41,6 +43,12 @@ public class VerifyServiceImpl {
 	 */
 	public Boolean singleBlockVerify(Block blockToVerify) {
 
+		
+		
+		
+		List<Transaction> x = blockToVerify.getTransactionsContainer();
+		for(Integer i=0;i<x.size();i++)
+			System.out.println(" Trans ricevte dal blocco in verifica "+ x.get(i) +" posizione " +x.get(i).getIndexInBlock());
 		// Ordine di verifica migliore: Firma, PoW, Markle root, Double Trans
 		// TODO
 		// COntrolla se il apdre è ad un livello meno 1 del mio chain level
@@ -162,14 +170,19 @@ public class VerifyServiceImpl {
 
 		ArrayList<String> transactionsHash = new ArrayList<>();
 
+		
+		
+		Collections.sort(block.getTransactionsContainer(), Comparator.comparing(Transaction::getIndexInBlock));
 		for (Transaction transaction : block.getTransactionsContainer()) {
-			System.out.println(transaction.getIndexInBlock());
+			System.out.println("controllo merkle posione nel blocco"+ transaction.getIndexInBlock());
 			transactionsHash.add(transaction.getHashFile());
 		}
 		if (transactionsHash.size() == 0) {
 			System.out.println("Merkle root verify: Nessuna transazione nel blocco con hash: " + block.getHashBlock());
 			return Boolean.FALSE;
 		}
+		
+			
 		System.out.println("Merckle Hash Block:" + block.getHashBlock());
 		String checkMerkle = MerkleTree.buildMerkleTree(transactionsHash);
 		// Collections.reverse(transactionsHash);

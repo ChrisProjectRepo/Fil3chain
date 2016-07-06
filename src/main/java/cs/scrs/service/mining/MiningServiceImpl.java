@@ -133,7 +133,7 @@ public class MiningServiceImpl implements IMiningService {
 			System.err.println("Complessità per il calcolo del blocco errata, impossibile minare");
 			return new AsyncResult<Boolean>(Boolean.FALSE);
 		}
-		if(transactions.isEmpty())
+		if(transactions.isEmpty() || block.getUserContainer()== null )
 			return new AsyncResult<Boolean>(Boolean.FALSE);
 
 		// Calcolo le maschere per il check dell'hash.
@@ -379,7 +379,7 @@ public class MiningServiceImpl implements IMiningService {
 	 */
 	@Override
 	public void updateService(Block miningBlock, Block previousBlock, int difficulty, List<Transaction> transactionList) {
-
+//TODO MERGE !
 		System.out.println("Update service");
 		this.block = miningBlock;
 		this.previousBlock = previousBlock;
@@ -393,7 +393,7 @@ public class MiningServiceImpl implements IMiningService {
 	 */
 	@Override
 	public void initializeService() {
-
+		//TODO MERGE !
 		System.out.println("Inizializza servizio");
 		User user = userRepository.findByPublicKey(keysConfigProperties.getPublicKey());
 		System.out.println("User founded "+ user);
@@ -430,7 +430,7 @@ public class MiningServiceImpl implements IMiningService {
 	 */
 	@Override
 	public void updateMiningService() {
-
+		//TODO MERGE !
 		// Prendo l'ultmo blocco della catena
 		Block lastBlock = blockRepository.findFirstByOrderByChainLevelDesc();
 		// Inizializzo il nuovo blocco da minare

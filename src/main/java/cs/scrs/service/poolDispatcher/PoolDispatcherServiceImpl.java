@@ -66,7 +66,7 @@ public class PoolDispatcherServiceImpl {
     public Integer getCurrentComplexity() {
         try {
             JSONObject result  = new JSONObject(asyncRequest.doPost("http://vmanager:80/sdcmgr/PD/get_complexity", "{\"date\" : \"" + new Date().getTime() + "\"}"));
-            return (Integer) result.get("complexity")-10;
+            return (Integer) result.get("complexity")-4;
         } catch (Exception e) {
             e.printStackTrace();
             return -1;
@@ -149,6 +149,7 @@ public class PoolDispatcherServiceImpl {
                 if(i<transactionsTemp.size())
                 transactions.add(transactionsTemp.get(i));
             }
+            System.out.println("NUMERO TRANSAZIONI DA CONVALIDARE "+ transactions.size());
         }
 
         return transactions;

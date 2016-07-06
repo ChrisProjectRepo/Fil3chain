@@ -458,7 +458,7 @@ public class Filechain {
 			// TODO miner.verifyBlock(blockResponse)
 			if (verifyBlock(blockResponse)) {
 
-			//	blockRepository.save(blockResponse);
+				// blockRepository.save(blockResponse);
 				return Boolean.TRUE;
 			} else {
 				// Elimino il miner se il blocco non è verificato
@@ -503,22 +503,22 @@ public class Filechain {
 
 		bFather = blockRepository.findByhashBlock(b.getFatherBlockContainer());
 
-		if ((bFather != null || result) && verifySerice.singleBlockVerify(b)){
-			User u=b.getUserContainer();
-			if(userRepo.findByPublicKeyHash(u.getPublicKeyHash())==null)
-			userRepo.save(u);
+		if ((bFather != null || result) && verifySerice.singleBlockVerify(b)) {
+			User u = b.getUserContainer();
+			if (userRepo.findByPublicKeyHash(u.getPublicKeyHash()) == null)
+				userRepo.save(u);
 
 			for (Transaction trans : b.getTransactionsContainer()) {
-//				trans.setBlockContainer(b.getHashBlock());//TODO checkitout looponserito da wualcuno quando non arrivano i utenti nelle tran vedere se tolto funziona
-				u=userRepo.findByPublicKeyHash(trans.getAuthorContainer().getPublicKeyHash());
-				if(u==null) {
+				trans.setBlockContainer(b.getHashBlock());// TODO checkitout looponserito da wualcuno quando non arrivano i utenti nelle tran vedere se tolto funziona
+				u = userRepo.findByPublicKeyHash(trans.getAuthorContainer().getPublicKeyHash());
+				if (u == null) {
 					userRepo.save(trans.getAuthorContainer());
 				}
 			}
-					System.out.println("Salvo il blocco");
-					// Salvo il blocco nella catena
-					blockRepository.save(b);
-					return Boolean.TRUE;
+			System.out.println("Salvo il blocco");
+			// Salvo il blocco nella catena
+			blockRepository.save(b);
+			return Boolean.TRUE;
 		}
 		return Boolean.FALSE;
 
@@ -545,9 +545,9 @@ public class Filechain {
 				// miner.verifyBlock(b, blockRepository) TODO
 				b = blockResponse.get(i);
 				if (verifyBlock(b)) {
-//					for (Transaction t : b.getTransactionsContainer())
-//						t.setBlockContainer(b.getHashBlock());
-//					blockRepository.save(b);
+					// for (Transaction t : b.getTransactionsContainer())
+					// t.setBlockContainer(b.getHashBlock());
+					// blockRepository.save(b);
 
 					// Se il miner attuale ha un livello minore o uguale al mio lo elimino
 					if (designedMiner.getValue2() <= blockRepository.findFirstByOrderByChainLevelDesc().getChainLevel()) {
@@ -600,7 +600,7 @@ public class Filechain {
 			// mi salvo l altrezza prima dell inserimento
 			Integer heightBFS = blockRepository.findFirstByOrderByChainLevelDesc().getChainLevel();
 			// Salvo il blocco nella catena
-//			blockRepository.save(block);
+			// blockRepository.save(block);
 			// se il blocco è con chain level maggiore del mio blocco il mining
 			if (block.getChainLevel() > heightBFS) {
 				flagNewBlock = Boolean.TRUE;
@@ -683,43 +683,41 @@ public class Filechain {
 	 * 
 	 */
 	private Block getFatherBlock() {
-		
-		Integer count =0;
+
+		Integer count = 0;
 		Integer cLevel = blockRepository.findFirstByOrderByChainLevelDesc().getChainLevel();
-		if(cLevel-KMAXLEVEL<=0)
+		if (cLevel - KMAXLEVEL <= 0)
 			return blockRepository.findBychainLevel(0).get(0);
 		Boolean flag = Boolean.TRUE;
-		
+
 		Set<Block> blocksTemp = new HashSet<Block>();
 		Set<Block> blocksTemp2 = new HashSet<Block>();
 
-		//Aggiungo i blocchi che sono all utlimo livello
-			blocksTemp.addAll(blockRepository.findBychainLevel(cLevel));
+		// Aggiungo i blocchi che sono all utlimo livello
+		blocksTemp.addAll(blockRepository.findBychainLevel(cLevel));
 		while (flag) {
 			count++;
-			//per ogni blocco nell ultimo livello risalgo la catena
-			//ovvero aggiungo i padri
-			for(Block b : blocksTemp)
-			blocksTemp2.add(blockRepository.findByhashBlock(b.getFatherBlockContainer()));
-			//se il livello di paranoia è maggiore di 0 
-			//aggiungo anche i blocchi concorrenziali	
-			if(count<KMAXLEVEL)
-				blocksTemp2.addAll(blockRepository.findBychainLevel(cLevel-count));
-				
-		
+			// per ogni blocco nell ultimo livello risalgo la catena
+			// ovvero aggiungo i padri
+			for (Block b : blocksTemp)
+				blocksTemp2.add(blockRepository.findByhashBlock(b.getFatherBlockContainer()));
+			// se il livello di paranoia è maggiore di 0
+			// aggiungo anche i blocchi concorrenziali
+			if (count < KMAXLEVEL)
+				blocksTemp2.addAll(blockRepository.findBychainLevel(cLevel - count));
+
 			blocksTemp.clear();
 			blocksTemp.addAll(blocksTemp2);
 			blocksTemp2.clear();
 
-			if(blocksTemp.size()==1&& count>=KMAXLEVEL )
+			if (blocksTemp.size() == 1 && count >= KMAXLEVEL)
 				flag = Boolean.FALSE;
-			
-	
+
 		}
-		for(Block b : blocksTemp)
+		for (Block b : blocksTemp)
 			return b;
 		return blockRepository.findBychainLevel(0).get(0);
-	 }
+	}
 
 	/**
 	 * @param b
