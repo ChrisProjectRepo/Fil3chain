@@ -42,9 +42,9 @@ public class MerkleTree {
                     aux.add(j, MerkleTree.joinNodes(n1, n2));
                 }
             }
-            
+            merkleRoot=aux.get(0);
         }else System.out.println("non ci sono transazioni per costruire il merkleTree");
-        merkleRoot=aux.get(0);
+   
         return merkleRoot;
     }
 
