@@ -118,9 +118,11 @@ public class PoolDispatcherServiceImpl {
 
         for (int i=0;i<transactionsTemp.size();i++){
             if (transRepo.findByHashFile(transactionsTemp.get(i).getHashFile()) != null)
-                transactionsTemp.remove(transactionsTemp.get(i));
+                buff.remove(transactionsTemp.get(i));
         }
-
+        
+        transactionsTemp.clear();
+        transactionsTemp.addAll(buff);
 //        for(int i = 0; i < TRANSINBLOCK; i++) {
 //            // Transazione mock
 //            Transaction transaction = new Transaction();
