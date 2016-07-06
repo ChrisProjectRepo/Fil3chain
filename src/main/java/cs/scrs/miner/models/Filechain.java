@@ -57,7 +57,7 @@ public class Filechain {
 	private Boolean flagRunningMinining = Boolean.FALSE;
 
 	// private static final Integer KMAXLEVEL = 4;//DECISO DA CHRISTIAN SIMOLO IL 1/7/16 15:35 (A Random) SPOSTARE NEL PROPERTIES
-	private static final Integer KMAXLEVEL = 5;// DECISO DA CHRISTIAN SIMOLO IL 1/7/16 15:36 (MOTIVATO:perche me pare più completo de 4,SImene vinciguerra aggiunge 1/5 sezione aurea) SPOSTARE NEL PROPERTIES
+	private static final Integer KMAXLEVEL = 1;// DECISO DA CHRISTIAN SIMOLO IL 1/7/16 15:36 (MOTIVATO:perche me pare più completo de 4,SImene vinciguerra aggiunge 1/5 sezione aurea) SPOSTARE NEL PROPERTIES
 
 
 	/**
