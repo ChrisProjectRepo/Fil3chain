@@ -61,16 +61,12 @@ public class Citation {
 
         @Override
         public String toString() {
-            return "{\"" +
-                    "\"hashCiting\":" + hashCiting + "\"" +
-                    ", \"hashCited\":\"" + hashCited + "\"" +
-                    '}';
+            return "{\"hashCiting\":\"" + hashCiting + "\",\"hashCited\":\"" + hashCited + "\"}";
         }
     }
 
     @Override
     public String toString() {
-        return "{\" "+
-                "\"key\":\"" + key +"\"}";
+        return "{\"key\":" + key +"}";
     }
 }
