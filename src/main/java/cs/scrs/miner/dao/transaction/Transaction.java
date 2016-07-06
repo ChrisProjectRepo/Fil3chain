@@ -158,6 +158,6 @@ public class Transaction {
 				"\"indexInBlock\":\"" + indexInBlock + "\","+
 				"\"blockContainer\": \"" + blockContainer + "\"" + ","+
 				"\"authorContainer\": " + authorContainer + ","+
-				"\"citationsContainer\": \"" + citations + "\"}";
+				"\"citationsContainer\": " + citations + "}";
 	}
 }
