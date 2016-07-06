@@ -47,6 +47,7 @@ public class VerifyServiceImpl {
 		
 		
 		List<Transaction> x = blockToVerify.getTransactionsContainer();
+		System.out.println("transazioni nel blocco");
 		for(Integer i=0;i<x.size();i++)
 			System.out.println(" Trans ricevte dal blocco in verifica "+ x.get(i) +" posizione " +x.get(i).getIndexInBlock());
 		// Ordine di verifica migliore: Firma, PoW, Markle root, Double Trans

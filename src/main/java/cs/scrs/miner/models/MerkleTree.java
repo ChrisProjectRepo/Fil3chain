@@ -25,7 +25,8 @@ public class MerkleTree {
             aux.add(0, MerkleTree.joinNodes(n1, n1));
             return aux.get(0);
         }
-        System.out.println("transazioni numero: "+aux.size());
+        System.out.println("Merkle transazioni numero: "+aux.size());
+        if(aux.size()>0)
         while(aux.size()!=1){
             for(int j=0;j<aux.size();j++){
                 
@@ -42,7 +43,7 @@ public class MerkleTree {
                 }
             }
             
-        }
+        }else System.out.println("non ci sono transazioni per costruire il merkleTree");
         merkleRoot=aux.get(0);
         return merkleRoot;
     }
