@@ -3,6 +3,7 @@ package cs.scrs.service.poolDispatcher;
 
 import cs.scrs.miner.dao.block.Block;
 import cs.scrs.miner.dao.transaction.Transaction;
+import cs.scrs.miner.dao.transaction.TransactionRepository;
 import cs.scrs.service.request.AsyncRequest;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,6 +56,8 @@ public class PoolDispatcherServiceImpl {
     private AsyncRequest asyncRequest;
     @Autowired
     private Network networkProperties;
+    @Autowired
+    private TransactionRepository transRepo;
 	
     /**
      * Metodo sincrono per la richiesta della complessità attuale
@@ -63,7 +66,7 @@ public class PoolDispatcherServiceImpl {
     public Integer getCurrentComplexity() {
         try {
             JSONObject result  = new JSONObject(asyncRequest.doPost("http://vmanager:80/sdcmgr/PD/get_complexity", "{\"date\" : \"" + new Date().getTime() + "\"}"));
-            return (Integer) result.get("complexity");
+            return (Integer) result.get("complexity")-10;
         } catch (Exception e) {
             e.printStackTrace();
             return -1;
@@ -109,6 +112,15 @@ public class PoolDispatcherServiceImpl {
         Type type = new TypeToken<List<Transaction>>() {}.getType();
         transactionsTemp=Conversions.fromJson(request,type);
 
+        List<Transaction> buff = new ArrayList<>();
+        buff.addAll(transactionsTemp);
+
+
+        for (int i=0;i<transactionsTemp.size();i++){
+            if (transRepo.findByHashFile(transactionsTemp.get(i).getHashFile()) != null)
+                transactionsTemp.remove(transactionsTemp.get(i));
+        }
+
 //        for(int i = 0; i < TRANSINBLOCK; i++) {
 //            // Transazione mock
 //            Transaction transaction = new Transaction();
@@ -118,6 +130,7 @@ public class PoolDispatcherServiceImpl {
 //            transactions.add(transaction);
 //        }
 //
+
         //Controllo che non siano vuote
         if(!transactionsTemp.isEmpty()){
 

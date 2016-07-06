@@ -24,6 +24,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.PostConstruct;
+import javax.jws.soap.SOAPBinding;
 import java.util.*;
 import java.util.concurrent.Future;
 
@@ -180,25 +181,39 @@ public class MiningServiceImpl implements IMiningService {
 		block.setSignature(CryptoUtil.sign(hexHash, privateKey));
 		block.setMinerPublicKey(publicKey);
 		block.setFatherBlockContainer(previousBlock.getHashBlock());
+
+		// per ogni transazione mette il riferimento al blocco container
+		int indexInBlock = 0;
+		User temp;
+		for (Transaction trans : transactions) {
+		temp=userRepository.findByPublicKeyHash(trans.getAuthorContainer().getPublicKeyHash());
+			if(temp==null){
+			userRepository.save(trans.getAuthorContainer());
+		}
+			trans.setBlockContainer(block.getHashBlock());
+			trans.setIndexInBlock(indexInBlock);
+			System.out.println(trans.getIndexInBlock());
+			//transRepo.save(trans);
+			indexInBlock++;
+		}
+
+
 		block.setTransactionsContainer(transactions);
 
 		block.setCreationTime(Long.toString(System.currentTimeMillis()));
 		System.out.println("Hash trovato: " + block.getHashBlock() + " con difficoltà: " + difficulty + " Nonce: " + nonce + " Tempo impiegato: " + totalTime + " secondi");
 		System.out.println("Hash provati: " + (Math.abs(nonceFinish - nonceStart)) + " HashRate: " + (((Math.abs(nonceFinish - nonceStart)) / totalTime) / 1000000.0f) + " MH/s");
+
+
 		// Salvo il blocco
-		if (blockRepository != null)
-			blockRepository.save(block);
-		// per ogni transazione mette il riferimento al blocco container
-		int indexInBlock = 0;
-		for (Transaction trans : transactions) {
-			trans.setBlockContainer(block.getHashBlock());
-			trans.setIndexInBlock(indexInBlock);
-			System.out.println(trans.getIndexInBlock());
-			transRepo.save(trans);
-			indexInBlock++;
+		try {
+			if (blockRepository != null)
+				blockRepository.save(block);
+			sendBlockToMiners();
+		}catch (Exception ex){
+		ex.printStackTrace();
 		}
 
-		sendBlockToMiners();
 		return new AsyncResult<Boolean>(Boolean.TRUE);
 	}
 

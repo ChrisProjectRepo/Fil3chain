@@ -220,6 +220,20 @@ public class User {
 				"}";
 	}
 
+
+	@Override
+	public boolean equals(Object o) {
+		User u=(User)o;
+		if(this.getPublicKeyHash()== u.getPublicKeyHash() && this.getPublicKey()==u.getPublicKey() && this.getName() == u.getName() && this.getLastName() == u.getLastName() && this.getEmail()==u.getEmail()&& this.getUsername()==u.getUsername())
+			return Boolean.TRUE;
+		return Boolean.FALSE;
+	}
+
+	@Override
+	public int hashCode() {
+		return 0;
+	}
+
 	/**
 	 * @return the fileContainer
 	 */

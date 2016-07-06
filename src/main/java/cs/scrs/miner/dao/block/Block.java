@@ -8,10 +8,13 @@ package cs.scrs.miner.dao.block;
 import cs.scrs.miner.dao.transaction.Transaction;
 import cs.scrs.miner.dao.user.User;
 import org.apache.commons.codec.digest.DigestUtils;
-import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.*;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.OrderBy;
 import java.util.List;
 
 

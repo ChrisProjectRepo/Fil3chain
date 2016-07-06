@@ -19,6 +19,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
+import javax.jws.soap.SOAPBinding;
 import java.lang.reflect.Type;
 import java.util.List;
 
