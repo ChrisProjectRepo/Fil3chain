@@ -594,11 +594,10 @@ public class Filechain {
 		}
 
 		System.out.println("Blocco valido? " + isVerified);
-
+		Integer heightBFS = blockRepository.findFirstByOrderByChainLevelDesc().getChainLevel();
 		if (isVerified) {
 			// Stoppo il processo di mining
 			// mi salvo l altrezza prima dell inserimento
-			Integer heightBFS = blockRepository.findFirstByOrderByChainLevelDesc().getChainLevel();
 			// Salvo il blocco nella catena
 			// blockRepository.save(block);
 			// se il blocco è con chain level maggiore del mio blocco il mining

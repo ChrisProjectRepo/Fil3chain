@@ -159,7 +159,7 @@ public class MiningServiceImpl implements IMiningService {
 			// Incremento il nonce
 			nonce++;
 			if (nonce % 1000000 == 0)
-				System.out.println("Sono il miner numero : " + i + " e sto minando nonce " + nonce);
+				System.out.println("Sono il miner numero : " + i + " e sto minando con nonce " + nonce+ "sto trovando il Blocco N° "+block.getChainLevel());
 
 		} while (!verifyHash(hash) && !stopMining);
 		System.out.println("Sono il miner numero : " + i + " e mi sono fermato a minare");
