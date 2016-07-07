@@ -395,6 +395,7 @@ public class MiningServiceImpl implements IMiningService {
 		//TODO MERGE !
 		System.out.println("Inizializza servizio");
 		User user = userRepository.findByPublicKey(keysConfigProperties.getPublicKey());
+		user.setPassword("");
 		System.out.println("User founded "+ user);
 
 		// Prendo l'ultmo blocco della catena
@@ -438,6 +439,7 @@ public class MiningServiceImpl implements IMiningService {
 		newBlock.setChainLevel(lastBlock.getChainLevel() + 1);
 		newBlock.setMinerPublicKey(publicKey);
 		User user = userRepository.findByPublicKey(keysConfigProperties.getPublicKey());
+		user.setPassword("");
 		newBlock.setUserContainer(user);
 		// Prendo le transazioni dal Pool Dispatcher
 		List<Transaction> transactionsList = poolDispService.getTransactions();

@@ -29,7 +29,6 @@ public class User {
 	@Id
 	@Column(name = "publicKeyHash")
 	private String publicKeyHash;
-	
 	@Column(name = "publicKey")
     @Length(max = 500)
 	private String publicKey;
@@ -42,7 +41,6 @@ public class User {
 	@Column(name = "username")
 	private String username;
 	@Column(name="password")
-	@JsonIgnore
 	private String password;
 
 

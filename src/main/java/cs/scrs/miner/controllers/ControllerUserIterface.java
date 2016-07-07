@@ -156,4 +156,12 @@ public class ControllerUserIterface {
 		return result;
 	}
 
+
+
+	@RequestMapping(value = "/fil3chain/user_test", method = RequestMethod.GET)
+	@ResponseBody
+	public User get_user() throws Exception {
+return userRepository.findByPublicKey(keyProperties.getPublicKey());
+	}
+
 }
