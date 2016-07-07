@@ -14,4 +14,6 @@ public interface UserRepository extends CrudRepository<User,String> {
 	User findByPublicKey(@Param("pubKey") String pubKey);
 	User findByPublicKeyHash(@Param("pubKeyHash") String pubKeyHash);
 	User findByPassword(@Param("password")String password);
+	User findByUsernameAndPassword(@Param("username")String username,@Param("password")String password);
+
 }

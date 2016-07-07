@@ -23,9 +23,10 @@
 			                          },{
 			                        	  name: 'Block Container',
 			                        	  field: 'blockContainer'
-			                          },{
+			                          }
+																,{
 			                        	  name: 'Citations',
-			                        	  field: 'citationContainer'
+			                        	  field: 'citations'
 			                          }
 			                          ];
 		var transactionsMock=[
@@ -78,7 +79,7 @@
 				//alert('Errore durante l\'invio della transazione');
 				console.log(response);
 				deferred.reject(response);    //riattivare
-				//deferred.resolve(transactionsMock); //disattivare 
+				//deferred.resolve(transactionsMock); //disattivare
 			});
 			return deferred.promise;
 		}
