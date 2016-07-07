@@ -577,6 +577,7 @@ public class Filechain {
 
 		Boolean isVerified = Boolean.FALSE;
 
+		Integer heightBFS = blockRepository.findFirstByOrderByChainLevelDesc().getChainLevel();
 		// Se ho già il blocco nella catena termina.
 		if (blockRepository.findByhashBlock(block.getHashBlock()) != null)
 			return new AsyncResult<Boolean>(isVerified);
@@ -594,7 +595,6 @@ public class Filechain {
 		}
 
 		System.out.println("Blocco valido? " + isVerified);
-		Integer heightBFS = blockRepository.findFirstByOrderByChainLevelDesc().getChainLevel();
 		if (isVerified) {
 			// Stoppo il processo di mining
 			// mi salvo l altrezza prima dell inserimento
