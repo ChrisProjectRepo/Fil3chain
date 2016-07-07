@@ -1,6 +1,7 @@
 package cs.scrs.miner.controllers;
 
 
+import com.google.common.primitives.Booleans;
 import com.google.common.reflect.TypeToken;
 import cs.scrs.config.KeysConfig;
 import cs.scrs.config.network.Network;
@@ -112,10 +113,9 @@ public class ControllerUserIterface {
 
 
 
-
-	@RequestMapping(value = "/fil3chain/init_user", method = RequestMethod.POST)
+	@RequestMapping(value = "/fil3chain/sign_out", method = RequestMethod.POST)
 	@ResponseBody
-	public String initUser(@RequestBody User user) throws Exception {
+	public String signOut(@RequestBody User user) throws Exception {
 
 		System.out.println("User arrivato: " + user);
 		// asyncRequest.doPost("http://"+networkProperties.getEntrypoint().getIp()+":"+networkProperties.getEntrypoint().getPort()+ networkProperties.getPooldispatcher().getBaseUri()+networkProperties.getActions().getSendTransaction(), transaction);
@@ -127,7 +127,17 @@ public class ControllerUserIterface {
 		User user1 = userRepository.findByPublicKey(keyProperties.getPublicKey());	System.out.println("User founded " + user1);
 		return "{\"response\":\"ACK\"}";
 	}
-//
+
+	@RequestMapping(value = "/fil3chain/sign_in", method = RequestMethod.POST)
+	@ResponseBody
+	public String signIn(@RequestBody User user) throws Exception {
+		User u=userRepository.findByPassword(user.getPassword());
+		if(u!=null)
+		return u.getPublicKey();
+		return Boolean.FALSE.toString();
+	}
+
+
 //	@RequestMapping(value = "/fil3chain/transactions", method = RequestMethod.GET)
 //	@ResponseBody
 //	public String add_transaction(@RequestBody String transaction) throws Exception {
@@ -155,13 +165,4 @@ public class ControllerUserIterface {
 		// System.out.println("transazioni ricevute "+x);
 		return result;
 	}
-
-
-
-	@RequestMapping(value = "/fil3chain/user_test", method = RequestMethod.GET)
-	@ResponseBody
-	public User get_user() throws Exception {
-return userRepository.findByPublicKey(keyProperties.getPublicKey());
-	}
-
 }
