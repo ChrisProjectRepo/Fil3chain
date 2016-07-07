@@ -97,6 +97,7 @@ public class ControllerUserIterface {
 		System.out.println("Transazione arrivata: " + transaction);
 		String URL = "http://" + networkProperties.getEntrypoint().getIp() + ":" + networkProperties.getEntrypoint().getPort() + networkProperties.getPooldispatcher().getBaseUri() + networkProperties.getActions().getGetTransaction();
 		User user = userRepository.findByPublicKey(keysConfigProperties.getPublicKey());
+		user.setPassword("");
 		transaction.setAuthorContainer(user);
 		String s;
 		s = "{\"transaction\":"+transaction+ "}";
