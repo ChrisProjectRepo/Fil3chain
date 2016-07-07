@@ -7,6 +7,8 @@ import com.google.common.reflect.TypeToken;
 import cs.scrs.config.KeysConfig;
 import cs.scrs.config.network.Network;
 import cs.scrs.miner.dao.block.Block;
+import cs.scrs.miner.dao.login.Login;
+import cs.scrs.miner.dao.login.LoginRepository;
 import cs.scrs.miner.dao.transaction.Transaction;
 import cs.scrs.miner.dao.user.User;
 import cs.scrs.miner.dao.user.UserRepository;
@@ -16,6 +18,7 @@ import cs.scrs.service.poolDispatcher.PoolDispatcherServiceImpl;
 import cs.scrs.service.request.AsyncRequest;
 import cs.scrs.service.util.Conversions;
 
+import org.apache.commons.logging.Log;
 import org.apache.http.HttpStatus;
 import org.apache.http.protocol.HTTP;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,6 +58,8 @@ public class ControllerUserIterface {
 	RestTemplate restTemplate;
 	@Autowired
 	PoolDispatcherServiceImpl poolD;
+	@Autowired
+	LoginRepository loginRepository;
 
 	@Autowired
 	ConnectionServiceImpl connectionServiceImpl; 
@@ -131,6 +136,11 @@ public class ControllerUserIterface {
 		user.setPublicKeyHash(pkh);
 		userRepository.save(user);
 
+		Login login=new Login();
+		login.setPassword(user.getPassword());
+		login.setUsername(user.getUsername());
+		loginRepository.save(login);
+
 		User user1 = userRepository.findByPublicKey(keyProperties.getPublicKey());	System.out.println("User founded " + user1);
 		return "{\"response\":\"ACK\"}";
 	}
@@ -138,17 +148,17 @@ public class ControllerUserIterface {
 	@RequestMapping(value = "/fil3chain/sign_in", method = RequestMethod.POST)
 	@ResponseBody
 	public User signIn(@RequestBody User user, HttpServletResponse error) throws Exception {
-		User u=userRepository.findByUsernameAndPassword(user.getUsername(),user.getPassword());
-		if(u!=null){
+		Login l=loginRepository.findByUsernameAndPassword(user.getUsername(),user.getPassword());
+		User u=new User();
+		if(l!=null){
+			u=userRepository.findByPublicKey(l.getPublicKey());
 			System.out.println("Sign_in User found: "+ u);
 			u.setPassword(null);
 		}else{
 			error.sendError(HttpStatus.SC_NOT_FOUND);
 		}
 
-		//if(u!=null)
-		return u;
-		//return Boolean.FALSE.toString();
+			return u;
 	}
 
 
