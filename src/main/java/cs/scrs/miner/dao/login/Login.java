@@ -16,17 +16,34 @@ import javax.persistence.Table;
 @Table(name = "Login")
 public class Login {
 
-    @Column(name = "role")
-    private Integer role;
     @Id
+    @Column(name = "publicKeyHash")
+    private String publicKeyHash;
     @Column(name = "publicKey")
     @Length(max = 500)
     private String publicKey;
+    @Column(name = "role")
+    private Integer role;
     @Column(name = "username")
     private String username;
     @Column(name = "password")
     private String password;
 
+    public Login(String publicKeyHash, String publicKey, Integer role, String username, String password) {
+        this.publicKeyHash = publicKeyHash;
+        this.publicKey = publicKey;
+        this.role = role;
+        this.username = username;
+        this.password = password;
+    }
+
+    public String getPublicKeyHash() {
+        return publicKeyHash;
+    }
+
+    public void setPublicKeyHash(String publicKeyHash) {
+        this.publicKeyHash = publicKeyHash;
+    }
 
     public Integer getRole() {
         return role;

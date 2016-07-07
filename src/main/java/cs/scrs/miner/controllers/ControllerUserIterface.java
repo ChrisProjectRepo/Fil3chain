@@ -136,9 +136,7 @@ public class ControllerUserIterface {
 		user.setPublicKeyHash(pkh);
 		userRepository.save(user);
 
-		Login login=new Login();
-		login.setPassword(user.getPassword());
-		login.setUsername(user.getUsername());
+		Login login=new Login(pkh,user.getPublicKey(),0,user.getUsername(),user.getPassword());
 		loginRepository.save(login);
 
 		User user1 = userRepository.findByPublicKey(keyProperties.getPublicKey());	System.out.println("User founded " + user1);
