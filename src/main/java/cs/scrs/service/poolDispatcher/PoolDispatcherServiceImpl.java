@@ -51,7 +51,7 @@ public class PoolDispatcherServiceImpl {
 			try {
 				JSONObject result = new JSONObject(asyncRequest.doPost("http://vmanager:80/sdcmgr/PD/get_complexity", "{\"date\" : \"" + new Date().getTime() + "\"}"));
 				flag = Boolean.FALSE;
-				return (Integer) result.get("complexity") - 4;
+				return (Integer) result.get("complexity");
 			} catch (Exception e) {
 				try {
 					Thread.sleep(250);
