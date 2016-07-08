@@ -44,7 +44,7 @@ public class Transaction {
 	@OneToMany
 	@JoinColumn(name = "hashCiting")
 	@Cascade(org.hibernate.annotations.CascadeType.ALL)
-	private List<Citation> citationsContainer;
+	private List<Citation> citations;
 
 
 	public Transaction(String hashFile, String filename) {
@@ -124,21 +124,12 @@ public class Transaction {
 		this.authorContainer = authorContainer;
 	}
 
-	/**
-	 * @return the citationsContainer
-	 */
-	public List<Citation> getCitationsContainer() {
-
-		return citationsContainer;
+	public List<Citation> getCitations() {
+		return citations;
 	}
 
-	/**
-	 * @param citationsContainer
-	 *            the citationsContainer to set
-	 */
-	public void setCitationsContainer(List<Citation> citationsContainer) {
-
-		this.citationsContainer = citationsContainer;
+	public void setCitations(List<Citation> citations) {
+		this.citations = citations;
 	}
 
 	public Integer getIndexInBlock() {
@@ -155,6 +146,6 @@ public class Transaction {
 	public String toString() {
 
 		return "{\"" + "hashFile\":\"" + hashFile + "\"" + "," + "\"filename\": \"" + filename + "\"" + "," + "\"indexInBlock\":\"" + indexInBlock + "\"," + "\"blockContainer\": \"" + blockContainer + "\"" + "," + "\"authorContainer\": "
-				+ authorContainer + "," + "\"citationsContainer\": " + citationsContainer + "}";
+				+ authorContainer + "," + "\"citations\": " + citations + "}";
 	}
 }

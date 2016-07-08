@@ -108,7 +108,7 @@ public class ControllerUserIterface {
 
 	@RequestMapping(value = "/fil3chain/sendTransaction", method = RequestMethod.POST)
 	@ResponseBody
-	public String sendTransaction(@RequestBody Transaction transaction) throws Exception {
+	public String on(@RequestBody Transaction transaction) throws Exception {
 		System.out.println("Transazione arrivata: " + transaction);
 		String URL = "http://" + networkProperties.getEntrypoint().getIp() + ":" + networkProperties.getEntrypoint().getPort() + networkProperties.getPooldispatcher().getBaseUri() + networkProperties.getActions().getGetTransaction();
 		User user = userRepository.findByPublicKey(keysConfigProperties.getPublicKey());
@@ -169,7 +169,7 @@ public class ControllerUserIterface {
 		public String add_transaction(@RequestBody Transaction transaction) throws Exception {
 	
 			System.out.println("Transaction arrived: " + transaction);
-			List<Citation> lCit = transaction.getCitationsContainer();
+			List<Citation> lCit = transaction.getCitations();
 			if(lCit==null)
 				System.out.println("Citazione vuota");
 			else 
