@@ -102,6 +102,7 @@ angular
               scope.toggleProgress();
 
               scope.fileToSend={
+            		  hashTransBlock:'',
             		  filename:file.name,
                   indexInBlock: 0,
                   blockContainer: 0,

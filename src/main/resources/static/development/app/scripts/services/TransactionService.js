@@ -10,46 +10,47 @@
 		var service = {};
 		var TRANSACTION_ENDPOINT_CITATIONS = 'fil3chain/citations';
 		var TRANSACTION_ENDPOINT_TRANSACTION = 'fil3chain/sendTransaction';
-			var TRANSACTION_HEADERS =[
-			                          {
-			                        	  name: 'Hash File',
-			                        	  field: 'hashFile'
-			                          },{
-			                        	  name:'File name',
-			                        	  field: 'filename'
-			                          },{
-			                        	  name: 'Index in Block',
-			                        	  field: 'index_in_block'
-			                          },{
-			                        	  name: 'Block Container',
-			                        	  field: 'blockContainer'
-			                          }
-																,{
-			                        	  name: 'Citations',
-			                        	  field: 'citations'
-			                          }
-			                          ];
-		var transactionsMock=[
-		                      {
-		                    	  hashFile:'oihsoaidhsodhsad',
-		                    	  filename:'filename',
-		                    	  index_in_block:'null',
-		                    	  blockContainer:'null',
-		                    	  authorContainer:'author',
-		                    	  citationContainer:[
+		var TRANSACTION_HEADERS =[{
+			name: 'Id Transazione',
+			field: 'hashTransBlock'
+		},{
+			name: 'Hash File',
+			field: 'hashFile'
+		},{
+			name:'File name',
+			field: 'filename'
+		},{
+			name: 'Index in Block',
+			field: 'index_in_block'
+		},{
+			name: 'Block Container',
+			field: 'blockContainer'
+		}
+		,{
+			name: 'Citations',
+			field: 'citations'
+		}
+		];
+		var transactionsMock=[{
+			hashFile:'oihsoaidhsodhsad',
+			filename:'filename',
+			index_in_block:'null',
+			blockContainer:'null',
+			authorContainer:'author',
+			citationContainer:[
 
-		                    	                     ]
-		                      },{
-		                    	  hashFile:'hash2',
-		                    	  filename:'filename',
-		                    	  index_in_block:'null',
-		                    	  blockContainer:'null',
-		                    	  authorContainer:'author',
-		                    	  citationContainer:[
+			                   ]
+		},{
+			hashFile:'hash2',
+			filename:'filename',
+			index_in_block:'null',
+			blockContainer:'null',
+			authorContainer:'author',
+			citationContainer:[
 
-		                    	                     ]
-		                      }
-		                      ]
+			                   ]
+		}
+		]
 		service.get = GetTransaction;
 		service.getTransactionHeader = GetTransactionHeader;
 		service.post = PostTransaction;
