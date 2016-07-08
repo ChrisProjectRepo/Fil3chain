@@ -19,18 +19,25 @@ import java.util.List;
 
 
 
+/**
+ *MinerConfig instanzia i bean, ovvero gli oggetti, iniziali base per poter avviare il programma
+ *l'ordine in cui vengono creati è importante, poiché sono dipendenti.
+ */
 @Configuration
 public class MinerConfig {
+
 	@Autowired
 	RestConfig restProperties;
+
 
 	// Creazione del bean per ottenere i servizi altrove
 
 	@Bean
 	public HttpComponentsClientHttpRequestFactory HttpRequestFactory() {
-		System.out.println("1\n"+restProperties.getConnection());
-		
-		HttpComponentsClientHttpRequestFactory crf =  new HttpComponentsClientHttpRequestFactory();
+
+		System.out.println("1\n" + restProperties.getConnection());
+
+		HttpComponentsClientHttpRequestFactory crf = new HttpComponentsClientHttpRequestFactory();
 		crf.setConnectTimeout(restProperties.getConnection().getConnectTimeout());
 		crf.setConnectionRequestTimeout(restProperties.getConnection().getRequestTimeout());
 		crf.setReadTimeout(restProperties.getConnection().getReadTimeout());
@@ -39,32 +46,32 @@ public class MinerConfig {
 
 	@Bean
 	public RestTemplate RestTemplate() {
+
 		System.out.println("2");
 		RestTemplate restTemplate = new RestTemplate(HttpRequestFactory());
-		
+
 		List<MediaType> mediaTypes = new ArrayList<MediaType>();
 		mediaTypes.add(MediaType.TEXT_PLAIN);
 
 		MappingJackson2HttpMessageConverter mc = new MappingJackson2HttpMessageConverter();
 		mc.setSupportedMediaTypes(mediaTypes);
-		
+
 		restTemplate.getMessageConverters().add(mc);
 		return restTemplate;
 	}
 
-
 	@Bean
 	public IPServiceImpl IPServiceImpl() {
+
 		System.out.println("3");
 		IPServiceImpl ipServiceImpl = new IPServiceImpl();
 		ipServiceImpl.setIpList(Collections.synchronizedList(new ArrayList<>()));
 		return ipServiceImpl;
 	}
 
-
-
 	@Bean
 	public VerifyServiceImpl verifyServiceImpl() {
+
 		System.out.println("6");
 		VerifyServiceImpl verifyServiceImpl = new VerifyServiceImpl();
 		return verifyServiceImpl;
@@ -73,10 +80,10 @@ public class MinerConfig {
 
 	@Bean
 	public Filechain Filechain() {
+
 		System.out.println("8");
 		Filechain filechain = new Filechain();
 		return filechain;
 	}
-
 
 }

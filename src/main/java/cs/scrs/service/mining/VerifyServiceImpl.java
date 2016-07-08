@@ -43,13 +43,10 @@ public class VerifyServiceImpl {
 	 */
 	public Boolean singleBlockVerify(Block blockToVerify) {
 
-		
-		
-		
 		List<Transaction> x = blockToVerify.getTransactionsContainer();
 		System.out.println("transazioni nel blocco");
-		for(Integer i=0;i<x.size();i++)
-			System.out.println(" Trans ricevte dal blocco in verifica "+ x.get(i) +" posizione " +x.get(i).getIndexInBlock());
+		for (Integer i = 0; i < x.size(); i++)
+			System.out.println(" Trans ricevte dal blocco in verifica " + x.get(i) + " posizione " + x.get(i).getIndexInBlock());
 		// Ordine di verifica migliore: Firma, PoW, Markle root, Double Trans
 		// TODO
 		// COntrolla se il apdre è ad un livello meno 1 del mio chain level
@@ -171,19 +168,16 @@ public class VerifyServiceImpl {
 
 		ArrayList<String> transactionsHash = new ArrayList<>();
 
-		
-		
 		Collections.sort(block.getTransactionsContainer(), Comparator.comparing(Transaction::getIndexInBlock));
 		for (Transaction transaction : block.getTransactionsContainer()) {
-			System.out.println("controllo merkle posione nel blocco"+ transaction.getIndexInBlock());
+			System.out.println("controllo merkle posione nel blocco" + transaction.getIndexInBlock());
 			transactionsHash.add(transaction.getHashFile());
 		}
 		if (transactionsHash.size() == 0) {
 			System.out.println("Merkle root verify: Nessuna transazione nel blocco con hash: " + block.getHashBlock());
 			return Boolean.FALSE;
 		}
-		
-			
+
 		System.out.println("Merckle Hash Block:" + block.getHashBlock());
 		String checkMerkle = MerkleTree.buildMerkleTree(transactionsHash);
 		// Collections.reverse(transactionsHash);
@@ -213,56 +207,64 @@ public class VerifyServiceImpl {
 	private Boolean verifyUniqueTransactions(Block block) {
 
 		List<Block> predecessori = new ArrayList<>();
-		Block currentBlock = block;
+		Block currentBlock = blockRepository.findByhashBlock(block.getFatherBlockContainer());
+		List<Transaction> tList = block.getTransactionsContainer();
 
+		
+		//finche il padre è diverso è da null aggiungi risali il ramo e aggiungi i blocchi
 		while (currentBlock.getFatherBlockContainer() != null) {
-			predecessori.add(blockRepository.findByhashBlock(currentBlock.getFatherBlockContainer()));
+			//aggiungo l blocco a predecesori
+			predecessori.add(currentBlock);
+			//avanzo il blocco indice
 			currentBlock = blockRepository.findByhashBlock(currentBlock.getFatherBlockContainer());
 		}
-		for (Block p : predecessori) {
-			for (Transaction t : block.getTransactionsContainer()) {
-				if (p.getTransactionsContainer().contains(t)) {
-					System.err.println("La transazione è presente in uno dei predecessori.");
-					return Boolean.FALSE;
-				}
-			}
+		//per ogni blocco neo predecessori
+		for (Integer i = 0; i < predecessori.size(); i++) {
+			//per ogni transazione nel blocco dei predecessori
+			for (Integer j = 0; j < predecessori.get(i).getTransactionsContainer().size(); j++)
+				//per ogni transazione nel blocco che mi è stato mandato
+				for (Integer k = 0; k < tList.size(); k++)
+					//se la transazione nella catena e quella nel blocco hanno lo stesso hash sono uguali
+					if (predecessori.get(i).getTransactionsContainer().get(j).getHashFile().equals((tList.get(k).getHashFile()))) {
+						System.err.println("La transazione è presente in uno dei predecessori.");
+						return Boolean.FALSE;
+					}
 		}
+		System.out.println("transazioni validate");
 		return Boolean.TRUE;
 	}
 
-	
 	/**
 	 * @return the blockRepository
 	 */
 	public BlockRepository getBlockRepository() {
-	
+
 		return blockRepository;
 	}
 
-	
 	/**
-	 * @param blockRepository the blockRepository to set
+	 * @param blockRepository
+	 *            the blockRepository to set
 	 */
 	public void setBlockRepository(BlockRepository blockRepository) {
-	
+
 		this.blockRepository = blockRepository;
 	}
 
-	
 	/**
 	 * @return the poolDispService
 	 */
 	public PoolDispatcherServiceImpl getPoolDispService() {
-	
+
 		return poolDispService;
 	}
 
-	
 	/**
-	 * @param poolDispService the poolDispService to set
+	 * @param poolDispService
+	 *            the poolDispService to set
 	 */
 	public void setPoolDispService(PoolDispatcherServiceImpl poolDispService) {
-	
+
 		this.poolDispService = poolDispService;
 	}
 
