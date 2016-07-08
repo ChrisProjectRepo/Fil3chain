@@ -16,17 +16,20 @@ import cs.scrs.service.poolDispatcher.PoolDispatcherServiceImpl;
 import cs.scrs.service.request.AsyncRequest;
 import cs.scrs.service.util.AudioUtil;
 import cs.scrs.service.util.CryptoUtil;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.apache.commons.codec.digest.DigestUtils.*;
 
 import javax.annotation.PostConstruct;
 import javax.jws.soap.SOAPBinding;
 import java.util.*;
 import java.util.concurrent.Future;
+
 
 
 
@@ -154,8 +157,8 @@ public class MiningServiceImpl implements IMiningService {
 
 		System.out.println("Sono il miner numero : " + i);
 		do {
-			// Genera nuovo hash
-			hash = org.apache.commons.codec.digest.DigestUtils.sha256(block.toString() + nonce);
+			// Genera nuovo hash 256
+			hash = DigestUtils.sha256(block.toString() + nonce);
 			// Incremento il nonce
 			nonce++;
 			if (nonce % 1000000 == 0)
@@ -173,7 +176,7 @@ public class MiningServiceImpl implements IMiningService {
 		// Calcolo hash corretto in esadecimale
 		// Spiegazione nonce - 1: Viene fatto -1 perché nell'ultima iterazione
 		// viene incrementato anche se l'hash era corretto.
-		String hexHash = org.apache.commons.codec.digest.DigestUtils.sha256Hex(block.toString() + (nonce - 1));
+		String hexHash = DigestUtils.sha256Hex(block.toString() + (nonce - 1));
 
 		// Impostazione dell'hash e del nonce
 		block.setHashBlock(hexHash);
@@ -194,13 +197,18 @@ public class MiningServiceImpl implements IMiningService {
 			trans.setBlockContainer(block.getHashBlock());
 			trans.setIndexInBlock(indexInBlock);
 			System.out.println(trans.getIndexInBlock());
+
+//			//TODO La porcata delle porcate o salvezza suprema?
+//			String newTransHash=DigestUtils.sha256Hex(trans.toString());
+//			trans.setHashFile(newTransHash);
+//			//TODO La porcata delle porcate o salvezza suprema?
+
 			//transRepo.save(trans);
 			indexInBlock++;
 		}
 
 
 		block.setTransactionsContainer(transactions);
-
 		block.setCreationTime(Long.toString(System.currentTimeMillis()));
 		System.out.println("Hash trovato: " + block.getHashBlock() + " con difficoltà: " + difficulty + " Nonce: " + nonce + " Tempo impiegato: " + totalTime + " secondi");
 		System.out.println("Hash provati: " + (Math.abs(nonceFinish - nonceStart)) + " HashRate: " + (((Math.abs(nonceFinish - nonceStart)) / totalTime) / 1000000.0f) + " MH/s");
@@ -425,7 +433,7 @@ public class MiningServiceImpl implements IMiningService {
 	}
 
 	/*
-	 * (non-Javadoc)
+	 * (non-Javadoc)p
 	 * @see cs.scrs.service.mining.IMiningServiceImpl#updateMiningService()
 	 */
 	@Override

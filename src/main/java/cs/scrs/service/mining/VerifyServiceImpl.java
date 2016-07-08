@@ -7,6 +7,7 @@ import cs.scrs.miner.dao.transaction.Transaction;
 import cs.scrs.miner.models.MerkleTree;
 import cs.scrs.service.poolDispatcher.PoolDispatcherServiceImpl;
 import cs.scrs.service.util.CryptoUtil;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -109,7 +110,7 @@ public class VerifyServiceImpl {
 			restMask = (byte) (restMask << (8 - restanti));
 		}
 
-		byte[] hash = org.apache.commons.codec.digest.DigestUtils.sha256(block.toString() + block.getNonce());
+		byte[] hash = DigestUtils.sha256(block.toString() + block.getNonce());
 
 		// Verifica dei primi fullMask byte interi
 		for (int i = 0; i < fullMask; i++) {
