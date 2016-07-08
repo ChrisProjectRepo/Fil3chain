@@ -20,8 +20,12 @@ import java.util.List;
 @Table(name = "transaction")
 public class Transaction {
 
-	// Columns
+	// Rappresenta l'hash della transazione, calcolata dopo aver aggiunto
+	// a essa il blocco a cui fa riferimento
 	@Id
+	@Column(name = "hashTransBlock")
+	private String hashTransBlock;
+
 	@Column(name = "hashFile")
 	private String hashFile;
 	@Column(name = "filename")
@@ -142,10 +146,18 @@ public class Transaction {
 		this.indexInBlock = indexInBlock;
 	}
 
+	public String getHashTransBlock() {
+		return hashTransBlock;
+	}
+
+	public void setHashTransBlock(String hashTransBlock) {
+		this.hashTransBlock = hashTransBlock;
+	}
+
 	@Override
 	public String toString() {
 
-		return "{\"" + "hashFile\":\"" + hashFile + "\"" + "," + "\"filename\": \"" + filename + "\"" + "," + "\"indexInBlock\":\"" + indexInBlock + "\"," + "\"blockContainer\": \"" + blockContainer + "\"" + "," + "\"authorContainer\": "
+		return "{\"hashTransBlock\":\"" + hashTransBlock + "\"" + "," + "\"hashFile\":\"" + hashFile + "\"" + "," + "\"filename\": \"" + filename + "\"" + "," + "\"indexInBlock\":\"" + indexInBlock + "\"," + "\"blockContainer\": \"" + blockContainer + "\"" + "," + "\"authorContainer\": "
 				+ authorContainer + "," + "\"citations\": " + citations + "}";
 	}
 }

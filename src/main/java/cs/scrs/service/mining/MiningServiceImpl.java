@@ -199,8 +199,8 @@ public class MiningServiceImpl implements IMiningService {
 			System.out.println(trans.getIndexInBlock());
 
 //			//TODO La porcata delle porcate o salvezza suprema?
-//			String newTransHash=DigestUtils.sha256Hex(trans.toString());
-//			trans.setHashFile(newTransHash);
+			String newTransHash=DigestUtils.sha256Hex(trans.toString());
+			trans.setHashTransBlock(newTransHash);
 //			//TODO La porcata delle porcate o salvezza suprema?
 
 			//transRepo.save(trans);
