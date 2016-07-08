@@ -120,7 +120,7 @@ public class PoolDispatcherServiceImpl {
 		buff.addAll(transactionsTemp);
 
 		for (int i = 0; i < transactionsTemp.size(); i++) {
-			if (transRepo.findByHashFile(transactionsTemp.get(i).getHashFile()) != null)
+			if (transRepo.findByHashFile(transactionsTemp.get(i).getHashFile()).size() > 0)
 				buff.remove(transactionsTemp.get(i));
 		}
 

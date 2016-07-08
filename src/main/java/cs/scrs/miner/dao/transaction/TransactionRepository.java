@@ -12,7 +12,11 @@ public interface TransactionRepository extends CrudRepository<Transaction, Long>
 
     List<Transaction> findByhashFile(String hashBlock);
 
-    Transaction findByHashFile(@Param("hashFile") String hashFile);
+    
+    //torna lista perche potrebbe esserci lo stesso file su piu branch
+    List<Transaction> findByHashFile(@Param("hashFile") String hashFile);
+    
+    Transaction findByHashTransBlock(@Param("hashTransBlock") String hashTransBlock);
     
 
 }
