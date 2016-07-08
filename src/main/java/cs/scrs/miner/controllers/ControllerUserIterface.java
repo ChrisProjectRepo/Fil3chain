@@ -7,9 +7,11 @@ import com.google.common.reflect.TypeToken;
 import cs.scrs.config.KeysConfig;
 import cs.scrs.config.network.Network;
 import cs.scrs.miner.dao.block.Block;
+import cs.scrs.miner.dao.citations.Citation;
 import cs.scrs.miner.dao.login.Login;
 import cs.scrs.miner.dao.login.LoginRepository;
 import cs.scrs.miner.dao.transaction.Transaction;
+import cs.scrs.miner.dao.transaction.TransactionRepository;
 import cs.scrs.miner.dao.user.User;
 import cs.scrs.miner.dao.user.UserRepository;
 import cs.scrs.miner.models.Filechain;
@@ -60,7 +62,9 @@ public class ControllerUserIterface {
 	PoolDispatcherServiceImpl poolD;
 	@Autowired
 	LoginRepository loginRepository;
-
+	@Autowired 
+	TransactionRepository transRepo;
+	
 	@Autowired
 	ConnectionServiceImpl connectionServiceImpl; 
 
@@ -160,14 +164,23 @@ public class ControllerUserIterface {
 	}
 
 
-	//	@RequestMapping(value = "/fil3chain/transactions", method = RequestMethod.GET)
-	//	@ResponseBody
-	//	public String add_transaction(@RequestBody String transaction) throws Exception {
-	//
-	//		System.out.println("Transaction arrived: " + transaction);
-	////		List<Transaction> result = poolD.getTransactions();
-	//		return "{\"response\":\"ACK\"}";
-	//	}
+		@RequestMapping(value = "/fil3chain/transactions", method = RequestMethod.POST)
+		@ResponseBody
+		public String add_transaction(@RequestBody Transaction transaction) throws Exception {
+	
+			System.out.println("Transaction arrived: " + transaction);
+			List<Citation> lCit = transaction.getCitationsContainer();
+			if(lCit==null)
+				System.out.println("Citazione vuota");
+			else 
+				for(Integer i =0 ; i<lCit.size();i++ )
+				System.out.println("Citazione transazione "+ lCit.get(i));
+				
+			System.out.println(transRepo.save(transaction));
+			
+	//		List<Transaction> result = poolD.getTransactions();
+			return "{\"response\":\"ACK\"}";
+		}
 
 	@RequestMapping(value = "/fil3chain/citations", method = RequestMethod.GET)
 	@ResponseBody

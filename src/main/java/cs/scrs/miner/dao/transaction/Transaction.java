@@ -29,7 +29,6 @@ public class Transaction {
 	@Column(name = "index_in_block")
 	private Integer indexInBlock;
 
-
 	// Relations
 	@Column(name = "blockContainer")
 	private String blockContainer;
@@ -38,14 +37,15 @@ public class Transaction {
 	@JoinColumn(name = "User_publicKeyHash")
 	private User authorContainer;
 
-	//@ManyToMany
-	//@JoinTable(name = "Citations", joinColumns = { @JoinColumn(name = "Transaction_hashFileCite", referencedColumnName = "hashFile") }, inverseJoinColumns = { @JoinColumn(name = "Transaction_hashFileCited", referencedColumnName = "hashFile") })
-	//private List<Transaction> citationsContainer;
+	// @ManyToMany
+	// @JoinTable(name = "Citations", joinColumns = { @JoinColumn(name = "Transaction_hashFileCite", referencedColumnName = "hashFile") }, inverseJoinColumns = { @JoinColumn(name = "Transaction_hashFileCited", referencedColumnName = "hashFile") })
+	// private List<Transaction> citationsContainer;
 
-         @OneToMany
-         @JoinColumn(name = "hashCiting")
-         @Cascade(org.hibernate.annotations.CascadeType.ALL)
-         private List<Citation> citations;
+	@OneToMany
+	@JoinColumn(name = "hashCiting")
+	@Cascade(org.hibernate.annotations.CascadeType.ALL)
+	private List<Citation> citationsContainer;
+
 
 	public Transaction(String hashFile, String filename) {
 		super();
@@ -73,11 +73,11 @@ public class Transaction {
 		this.hashFile = hashFile;
 	}
 
-
 	/**
 	 * @return the filename
 	 */
 	public String getFilename() {
+
 		return filename;
 	}
 
@@ -127,18 +127,18 @@ public class Transaction {
 	/**
 	 * @return the citationsContainer
 	 */
-	public List<Citation> getCitations() {
+	public List<Citation> getCitationsContainer() {
 
-		return citations;
+		return citationsContainer;
 	}
 
 	/**
 	 * @param citationsContainer
 	 *            the citationsContainer to set
 	 */
-	public void setCitations(List<Citation> citationsContainer) {
+	public void setCitationsContainer(List<Citation> citationsContainer) {
 
-		this.citations = citationsContainer;
+		this.citationsContainer = citationsContainer;
 	}
 
 	public Integer getIndexInBlock() {
@@ -153,11 +153,8 @@ public class Transaction {
 
 	@Override
 	public String toString() {
-		return "{\"" + "hashFile\":\"" + hashFile + "\"" + ","+
-		 		"\"filename\": \"" + filename + "\"" + ","+
-				"\"indexInBlock\":\"" + indexInBlock + "\","+
-				"\"blockContainer\": \"" + blockContainer + "\"" + ","+
-				"\"authorContainer\": " + authorContainer + ","+
-				"\"citationsContainer\": " + citations + "}";
+
+		return "{\"" + "hashFile\":\"" + hashFile + "\"" + "," + "\"filename\": \"" + filename + "\"" + "," + "\"indexInBlock\":\"" + indexInBlock + "\"," + "\"blockContainer\": \"" + blockContainer + "\"" + "," + "\"authorContainer\": "
+				+ authorContainer + "," + "\"citationsContainer\": " + citationsContainer + "}";
 	}
 }
