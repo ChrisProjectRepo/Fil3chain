@@ -4,6 +4,7 @@ package cs.scrs.service.mining;
 import cs.scrs.config.KeysConfig;
 import cs.scrs.miner.dao.block.Block;
 import cs.scrs.miner.dao.block.BlockRepository;
+import cs.scrs.miner.dao.citations.Citation;
 import cs.scrs.miner.dao.transaction.Transaction;
 import cs.scrs.miner.dao.transaction.TransactionRepository;
 import cs.scrs.miner.dao.user.User;
@@ -199,8 +200,11 @@ public class MiningServiceImpl implements IMiningService {
 			System.out.println(trans.getIndexInBlock());
 
 //			//TODO La porcata delle porcate o salvezza suprema?
-			String newTransHash=DigestUtils.sha256Hex(trans.toString());
+			String newTransHash=DigestUtils.sha256Hex(trans.getHashFile()+trans.getBlockContainer());
 			trans.setHashTransBlock(newTransHash);
+                        for(Citation cit: trans.getCitations()){
+                            cit.getKey().setHashCiting(trans.getHashTransBlock());
+                        }
 //			//TODO La porcata delle porcate o salvezza suprema?
 
 			//transRepo.save(trans);
