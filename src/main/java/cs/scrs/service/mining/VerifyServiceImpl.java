@@ -85,7 +85,7 @@ public class VerifyServiceImpl {
 	// Metodo di verifica della proof of work
 	private Boolean verifyProofOfWork(Block block) {
 
-		Integer complexity = poolDispService.getBlockComplexity(block.getCreationTime()) - 10;// TODO SEMPLIFICATO LA DIFF
+		Integer complexity = poolDispService.getBlockComplexity(block.getCreationTime());
 
 		// Se c'è stato un errore o la complessità non è stata trovata nel
 		// server
