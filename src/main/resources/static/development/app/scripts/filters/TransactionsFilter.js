@@ -53,12 +53,12 @@
 
 	TransactionsCitationsAdapterFilter.$inject = [];
 	function TransactionsCitationsAdapterFilter() {
-		var CitationModelHibernate=function(hashCiting, hashCited){
-			console.log('TransactionsCitationsAdapterFilter','CitationModelHibernate','params',hashCiting, hashCited);
+		var CitationModelHibernate=function(hashCiting, hashTransBlock){
+			console.log('TransactionsCitationsAdapterFilter','CitationModelHibernate','params',hashCiting, hashTransBlock);
 			return {
 				key:{
 					hashCiting:hashCiting,
-					hashCited:hashCited
+					hashCited:hashTransBlock
 				}
 			}
 		};
@@ -70,7 +70,7 @@
 			var tempCitationModelHibernate;
 			console.log('TransactionsCitationsAdapterFilter','tempCitationModelHibernate',tempCitationModelHibernate);
 			angular.forEach(citations, function(citation, key){
-				citationsResult.push( CitationModelHibernate(hashFile, citation.hashFile) );
+				citationsResult.push( CitationModelHibernate(hashFile, citation.hashTransBlock) );
 			});
 			return citationsResult;
 
