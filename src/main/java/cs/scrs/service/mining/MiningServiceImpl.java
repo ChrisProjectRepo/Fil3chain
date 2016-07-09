@@ -420,7 +420,7 @@ public class MiningServiceImpl implements IMiningService {
 		block.setMinerPublicKey(publicKey);
 		block.setUserContainer(user);
 		// Prendo le transazioni dal Pool Dispatcher
-		List<Transaction> transactionsList = poolDispService.getTransactions();
+		List<Transaction> transactionsList = poolDispService.getTransactions(lastBlock);
 
 		ArrayList<String> hashTransactions = new ArrayList<>();
 		for (Transaction transaction : transactionsList) {
@@ -454,7 +454,7 @@ public class MiningServiceImpl implements IMiningService {
 		user.setPassword(null);
 		newBlock.setUserContainer(user);
 		// Prendo le transazioni dal Pool Dispatcher
-		List<Transaction> transactionsList = poolDispService.getTransactions();
+		List<Transaction> transactionsList = poolDispService.getTransactions(lastBlock);
 
 		ArrayList<String> hashTransactions = new ArrayList<>();
 		for (Transaction transaction : transactionsList) {

@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 
 import com.google.common.reflect.TypeToken;
 import cs.scrs.config.network.Network;
+import cs.scrs.miner.dao.block.Block;
+import cs.scrs.miner.dao.block.BlockRepository;
 import cs.scrs.service.poolDispatcher.PoolDispatcherServiceImpl;
 import cs.scrs.service.util.Conversions;
 
@@ -37,6 +39,8 @@ public class PoolDispatcherServiceImpl {
 	private Network networkProperties;
 	@Autowired
 	private TransactionRepository transRepo;
+        @Autowired
+	private BlockRepository blockRepository;
 
 
 	/**
@@ -91,8 +95,10 @@ public class PoolDispatcherServiceImpl {
 		return -1;
 	}
 
-	public List<Transaction> getTransactions() {
-
+	public List<Transaction> getTransactions(Block lastBlockOnChain) {
+                //il parametro indica l'ultimo blocco della catena, servirà per 
+                // scartare le transazioni che sono state già aggiunte sul ramo
+                //più lungo
 		List<Transaction> transactionsTemp = new ArrayList<>();
 		List<Transaction> transactions = new ArrayList<>();
 		String URL = "http://" + networkProperties.getEntrypoint().getIp() + ":" + networkProperties.getEntrypoint().getPort() + networkProperties.getPooldispatcher().getBaseUri() + networkProperties.getActions().getGetTransaction();
@@ -116,11 +122,23 @@ public class PoolDispatcherServiceImpl {
 		}.getType();
 		transactionsTemp = Conversions.fromJson(request, type);
 
+                //recupero le transazioni che sono sul ramo più lungo
+                // e metto il loro hash in un insieme ottimizzato per le operazioni
+                // di inserimento e find
+                Set<String> transOnLongestBranch = new HashSet<>();
+                Block b = lastBlockOnChain;
+                while (b.getFatherBlockContainer() != null) {
+			for (Transaction t: b.getTransactionsContainer()){
+                            transOnLongestBranch.add(t.getHashFile());
+                        }
+			b = blockRepository.findByhashBlock(b.getFatherBlockContainer());
+		}
+                
 		List<Transaction> buff = new ArrayList<>();
 		buff.addAll(transactionsTemp);
 
 		for (int i = 0; i < transactionsTemp.size(); i++) {
-			if (transRepo.findByHashFile(transactionsTemp.get(i).getHashFile()).size() > 0)
+			if (transOnLongestBranch.contains(transactionsTemp.get(i).getHashFile()))
 				buff.remove(transactionsTemp.get(i));
 		}
 
