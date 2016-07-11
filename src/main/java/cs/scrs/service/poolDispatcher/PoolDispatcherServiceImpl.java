@@ -141,7 +141,7 @@ public class PoolDispatcherServiceImpl {
 		for (int i = 0; i < transactionsTemp.size(); i++) {
 			if (transOnLongestBranch.contains(transactionsTemp.get(i).getHashFile())) {
 				buff.remove(transactionsTemp.get(i));
-				i--;
+				
 			}
 		}
 
