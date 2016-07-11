@@ -10,6 +10,7 @@ import cs.scrs.miner.models.IP;
 import cs.scrs.miner.models.WidgetModel;
 import cs.scrs.service.ip.IPServiceImpl;
 import cs.scrs.service.mining.IMiningService;
+import cs.scrs.service.util.Conversions;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -18,11 +19,11 @@ import org.apache.commons.codec.digest.DigestUtils.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
-/**
- * Created by Christian on 11/07/2016.
- */
+
 @Component
 @RestController
 public class ControllerStatistics {
@@ -48,8 +49,7 @@ public class ControllerStatistics {
             case "blocks":
                     return "{\"value\":"+blockRepository.findAll().size()+"}";
             case "fil3chain":
-                getBlockToDraw(widgetModel.getPage());
-                return null;
+                return getBlockToDraw(widgetModel.getPage());
             case "mlevel":
                 //Attuale chain level massimo
                 return "{\"value\":"+blockRepository.findFirstByOrderByChainLevelDesc().getChainLevel()+"}";
@@ -58,7 +58,7 @@ public class ControllerStatistics {
                 return "{\"value\":"+filechain.getMiningService().getAveragePowerMachine()+"}";
 
         }
-        return null;
+        return "error";
     }
 
 
@@ -71,37 +71,45 @@ public class ControllerStatistics {
         Integer sup=10*(val)-1;
 
         String myHashKey= DigestUtils.sha256Hex(keyProperties.getPublicKey());
-
-
         List<Block> blocks=blockRepository.findByChainLevelBetweenOrderByChainLevelAsc(inf,sup);
-
-        HashMap<String,DndTree> result=new HashMap<>();
-
-        HashMap<Integer,List<Block>> temp=new HashMap<>();
-
-
-        for(Block b:blocks){
-            temp.put(b.getChainLevel(),new ArrayList<>());
+        if(blocks.size() == 0)
+            return "empty";
+        DndTree root;
+        // se la pagina è la 1 la root è il blocco 0 altrimenti devo creare un 
+        // blocco fittizio
+        if(val == 1){
+            root= new DndTree("0","{\"style\":\"zeroBlock\"}");
+        }else{
+            root= new DndTree("0","{\"style\":\"fakeBlock\"}");
         }
-
-
+        Set<String> hashBlocks = new HashSet<>(); // contiene gli hash dei blocchi recuperati
+        //popolo l'insieme
         for(Block b:blocks){
-            temp.get(b.getChainLevel()).add(b);
+            hashBlocks.add(b.getHashBlock());
+        }  
+        
+        HashMap<String,DndTree> addedNode= new HashMap<>();//contiene i nodi già aggiunti al dndTree
+        String father;
+        String hashBlock;
+        for(Block b: blocks){
+            if(b.getHashBlock().equals("0")){
+                continue;
+            }else{
+                father = b.getFatherBlockContainer();
+                hashBlock = b.getHashBlock();
+                if(myHashKey.equals(b.getUserContainer().getPublicKeyHash())){
+                    addedNode.put(hashBlock,new DndTree(hashBlock,"{\"style\":\"myBlock\"}"));
+                }else{
+                    addedNode.put(hashBlock,new DndTree(hashBlock,"{\"style\":\"otherBlock\"}"));
+                }
+                if((father.equals("0"))||(!hashBlocks.contains(father))){
+                    root.getChildren().add(addedNode.get(hashBlock));
+                }else{
+                    addedNode.get(father).getChildren().add(addedNode.get(hashBlock));
+                }
+            }
         }
-
-
-        for(Block b:blocks){
-            if(temp.get(inf).size()>1)
-                result.put(b.getHashBlock(),new DndTree("previous","{\"Style\":\"other\"}"));
-            else
-                if(b.getMinerPublicKey().equals(myHashKey))
-                    result.put(b.getHashBlock(),new DndTree(b.getHashBlock(),"{\"Style\":\"my\"}"));
-                else
-                    result.put(b.getHashBlock(),new DndTree(b.getHashBlock(),"{\"Style\":\"other\"}"));
-
-        }
-
-        return null;
+        return Conversions.toJson(root);
     }
 
 
