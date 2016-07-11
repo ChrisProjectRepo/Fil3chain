@@ -39,7 +39,7 @@ public class PoolDispatcherServiceImpl {
 	private Network networkProperties;
 	@Autowired
 	private TransactionRepository transRepo;
-        @Autowired
+	@Autowired
 	private BlockRepository blockRepository;
 
 
@@ -96,9 +96,10 @@ public class PoolDispatcherServiceImpl {
 	}
 
 	public List<Transaction> getTransactions(Block lastBlockOnChain) {
-                //il parametro indica l'ultimo blocco della catena, servirà per 
-                // scartare le transazioni che sono state già aggiunte sul ramo
-                //più lungo
+
+		// il parametro indica l'ultimo blocco della catena, servirà per
+		// scartare le transazioni che sono state già aggiunte sul ramo
+		// più lungo
 		List<Transaction> transactionsTemp = new ArrayList<>();
 		List<Transaction> transactions = new ArrayList<>();
 		String URL = "http://" + networkProperties.getEntrypoint().getIp() + ":" + networkProperties.getEntrypoint().getPort() + networkProperties.getPooldispatcher().getBaseUri() + networkProperties.getActions().getGetTransaction();
@@ -122,24 +123,26 @@ public class PoolDispatcherServiceImpl {
 		}.getType();
 		transactionsTemp = Conversions.fromJson(request, type);
 
-                //recupero le transazioni che sono sul ramo più lungo
-                // e metto il loro hash in un insieme ottimizzato per le operazioni
-                // di inserimento e find
-                Set<String> transOnLongestBranch = new HashSet<>();
-                Block b = lastBlockOnChain;
-                while (b.getFatherBlockContainer() != null) {
-			for (Transaction t: b.getTransactionsContainer()){
-                            transOnLongestBranch.add(t.getHashFile());
-                        }
+		// recupero le transazioni che sono sul ramo più lungo
+		// e metto il loro hash in un insieme ottimizzato per le operazioni
+		// di inserimento e find
+		Set<String> transOnLongestBranch = new HashSet<>();
+		Block b = lastBlockOnChain;
+		while (b.getFatherBlockContainer() != null) {
+			for (Transaction t : b.getTransactionsContainer()) {
+				transOnLongestBranch.add(t.getHashFile());
+			}
 			b = blockRepository.findByhashBlock(b.getFatherBlockContainer());
 		}
-                
+
 		List<Transaction> buff = new ArrayList<>();
 		buff.addAll(transactionsTemp);
 
 		for (int i = 0; i < transactionsTemp.size(); i++) {
-			if (transOnLongestBranch.contains(transactionsTemp.get(i).getHashFile()))
+			if (transOnLongestBranch.contains(transactionsTemp.get(i).getHashFile())) {
 				buff.remove(transactionsTemp.get(i));
+				i--;
+			}
 		}
 
 		transactionsTemp.clear();
@@ -166,35 +169,26 @@ public class PoolDispatcherServiceImpl {
 			// else
 			// size=TRANSINBLOCK;
 			//
-                        Set<String> transactionAddedInBlock = new HashSet<>();
-                        //contiene le transazioni che sono state scelte per metterle
-                        //nel blocco, serve per evitare di mettere lo stesso file 
-                        // più volte nello stesso blocco
-                        // è necessario perche il PD ammette trans duplicate nella
-                        //sua lista
-                        int cont=0; // conta le transazioni selezionate
-                        
-                        for(Transaction t: transactionsTemp){
-                            if(!transactionAddedInBlock.contains(t.getHashFile())){
-                                transactions.add(t);
-                                transactionAddedInBlock.add(t.getHashFile());
-                                cont++;
-                            }
-                            if(cont==TRANSINBLOCK)
-                                break;
-                        }
-                        /* ciccio codice contorto
-			for (int i = 0; i < TRANSINBLOCK; i++) {
-				// Eseguo un piccolo controllo in modo da evitare di inserire più blocchi
-				// di quanti effettivamente ne possiedo
-				if (i < transactionsTemp.size()){
-                                    if(!transactionAddedInBlock.contains(transactionsTemp.get(i).getHashFile())){
-					transactions.add(transactionsTemp.get(i));
-                                        transactionAddedInBlock.add(transactionsTemp.get(i).getHashFile());
-                                    }
-                                }
+			Set<String> transactionAddedInBlock = new HashSet<>();
+			// contiene le transazioni che sono state scelte per metterle
+			// nel blocco, serve per evitare di mettere lo stesso file
+			// più volte nello stesso blocco
+			// è necessario perche il PD ammette trans duplicate nella
+			// sua lista
+			int cont = 0; // conta le transazioni selezionate
+
+			for (Transaction t : transactionsTemp) {
+				if (!transactionAddedInBlock.contains(t.getHashFile())) {
+					transactions.add(t);
+					transactionAddedInBlock.add(t.getHashFile());
+					cont++;
+				}
+				if (cont == TRANSINBLOCK)
+					break;
 			}
-                        */
+			/*
+			 * ciccio codice contorto for (int i = 0; i < TRANSINBLOCK; i++) { // Eseguo un piccolo controllo in modo da evitare di inserire più blocchi // di quanti effettivamente ne possiedo if (i < transactionsTemp.size()){ if(!transactionAddedInBlock.contains(transactionsTemp.get(i).getHashFile())){ transactions.add(transactionsTemp.get(i)); transactionAddedInBlock.add(transactionsTemp.get(i).getHashFile()); } } }
+			 */
 			System.out.println("NUMERO TRANSAZIONI DA CONVALIDARE " + transactions.size());
 		}
 
