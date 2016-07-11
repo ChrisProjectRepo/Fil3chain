@@ -81,7 +81,7 @@ public class PoolDispatcherServiceImpl {
 			try {
 				JSONObject result = new JSONObject(asyncRequest.doPost("http://vmanager:80/sdcmgr/PD/get_complexity", "{\"date\" : \"" + blockCreationTime + "\"}"));
 				flag = Boolean.FALSE;
-				return ((Integer) (result.get("complexity")));
+				return ((Integer) (result.get("complexity")))-10;
 			} catch (Exception e) {
 				e.printStackTrace();
 				try {
@@ -166,12 +166,35 @@ public class PoolDispatcherServiceImpl {
 			// else
 			// size=TRANSINBLOCK;
 			//
+                        Set<String> transactionAddedInBlock = new HashSet<>();
+                        //contiene le transazioni che sono state scelte per metterle
+                        //nel blocco, serve per evitare di mettere lo stesso file 
+                        // più volte nello stesso blocco
+                        // è necessario perche il PD ammette trans duplicate nella
+                        //sua lista
+                        int cont=0; // conta le transazioni selezionate
+                        
+                        for(Transaction t: transactionsTemp){
+                            if(!transactionAddedInBlock.contains(t.getHashFile())){
+                                transactions.add(t);
+                                transactionAddedInBlock.add(t.getHashFile());
+                                cont++;
+                            }
+                            if(cont==TRANSINBLOCK)
+                                break;
+                        }
+                        /* ciccio codice contorto
 			for (int i = 0; i < TRANSINBLOCK; i++) {
 				// Eseguo un piccolo controllo in modo da evitare di inserire più blocchi
 				// di quanti effettivamente ne possiedo
-				if (i < transactionsTemp.size())
+				if (i < transactionsTemp.size()){
+                                    if(!transactionAddedInBlock.contains(transactionsTemp.get(i).getHashFile())){
 					transactions.add(transactionsTemp.get(i));
+                                        transactionAddedInBlock.add(transactionsTemp.get(i).getHashFile());
+                                    }
+                                }
 			}
+                        */
 			System.out.println("NUMERO TRANSAZIONI DA CONVALIDARE " + transactions.size());
 		}
 
