@@ -171,4 +171,7 @@ public interface IMiningService{
 	public Boolean getStopMining();
 
 	public void setStopMining(Boolean stopMining);
+
+	public Float getAveragePowerMachine();
+
 }

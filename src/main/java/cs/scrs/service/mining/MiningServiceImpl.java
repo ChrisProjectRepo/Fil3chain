@@ -24,10 +24,8 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-import org.apache.commons.codec.digest.DigestUtils.*;
 
 import javax.annotation.PostConstruct;
-import javax.jws.soap.SOAPBinding;
 import java.util.*;
 import java.util.concurrent.Future;
 
@@ -65,6 +63,10 @@ public class MiningServiceImpl implements IMiningService {
 
 	// Lista di transazioni presente nel blocco
 	private List<Transaction> transactions;
+
+	//Potenza media di calcolo della macchina
+	private Float averagePowerMachine;
+
 	@Autowired
 	private UserRepository userRepository;
 	// Block repository
@@ -211,11 +213,13 @@ public class MiningServiceImpl implements IMiningService {
 			indexInBlock++;
 		}
 
+		Float calculatePower=(((Math.abs(nonceFinish - nonceStart)) / totalTime) / 1000000.0f);
+		avgPower(calculatePower);
 
 		block.setTransactionsContainer(transactions);
 		block.setCreationTime(Long.toString(System.currentTimeMillis()));
 		System.out.println("Hash trovato: " + block.getHashBlock() + " con difficoltà: " + difficulty + " Nonce: " + nonce + " Tempo impiegato: " + totalTime + " secondi");
-		System.out.println("Hash provati: " + (Math.abs(nonceFinish - nonceStart)) + " HashRate: " + (((Math.abs(nonceFinish - nonceStart)) / totalTime) / 1000000.0f) + " MH/s");
+		System.out.println("Hash provati: " + (Math.abs(nonceFinish - nonceStart)) + " HashRate: " + calculatePower + " MH/s");
 
 
 		// Salvo il blocco
@@ -717,5 +721,13 @@ public class MiningServiceImpl implements IMiningService {
 	public void setStopMining(Boolean stopMining) {
 
 		this.stopMining = stopMining;
+	}
+
+	private void avgPower(Float val){
+		averagePowerMachine =(averagePowerMachine +val)/2;
+	}
+
+	public Float getAveragePowerMachine() {
+		return averagePowerMachine;
 	}
 }

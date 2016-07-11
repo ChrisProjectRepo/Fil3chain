@@ -5,9 +5,11 @@ import cs.scrs.miner.dao.block.Block;
 import cs.scrs.miner.dao.block.BlockRepository;
 import cs.scrs.miner.dao.login.LoginRepository;
 import cs.scrs.miner.models.DndTree;
+import cs.scrs.miner.models.Filechain;
 import cs.scrs.miner.models.IP;
 import cs.scrs.miner.models.WidgetModel;
 import cs.scrs.service.ip.IPServiceImpl;
+import cs.scrs.service.mining.IMiningService;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -30,9 +32,9 @@ public class ControllerStatistics {
     @Autowired
     private BlockRepository blockRepository;
     @Autowired
-    LoginRepository loginRepository;
-    @Autowired
     private KeysConfig keyProperties;
+    @Autowired
+    private Filechain filechain;
 
 
 
@@ -48,6 +50,12 @@ public class ControllerStatistics {
             case "fil3chain":
                 getBlockToDraw(widgetModel.getPage());
                 return null;
+            case "mlevel":
+                //Attuale chain level massimo
+                return "{\"value\":"+blockRepository.findFirstByOrderByChainLevelDesc().getChainLevel()+"}";
+            case "power":
+                //Potenza media di calcolo dell'hash
+                return "{\"value\":"+filechain.getMiningService().getAveragePowerMachine()+"}";
 
         }
         return null;
@@ -76,6 +84,7 @@ public class ControllerStatistics {
             temp.put(b.getChainLevel(),new ArrayList<>());
         }
 
+
         for(Block b:blocks){
             temp.get(b.getChainLevel()).add(b);
         }
@@ -92,12 +101,8 @@ public class ControllerStatistics {
 
         }
 
-
         return null;
     }
-
-
-
 
 
 }
