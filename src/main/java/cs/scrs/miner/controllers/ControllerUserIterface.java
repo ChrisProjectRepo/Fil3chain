@@ -138,10 +138,14 @@ public class ControllerUserIterface {
 		user.setPublicKey(keyProperties.getPublicKey());
 		String pkh = org.apache.commons.codec.digest.DigestUtils.sha256Hex(keyProperties.getPublicKey());
 		user.setPublicKeyHash(pkh);
-		userRepository.save(user);
 
 		Login login=new Login(pkh,user.getPublicKey(),0,user.getUsername(),user.getPassword());
 		loginRepository.save(login);
+
+		user.setPassword(null);
+		userRepository.save(user);
+
+
 
 		User user1 = userRepository.findByPublicKey(keyProperties.getPublicKey());	System.out.println("User founded " + user1);
 		return "{\"response\":\"ACK\"}";

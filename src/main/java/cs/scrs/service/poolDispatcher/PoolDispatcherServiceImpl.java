@@ -186,9 +186,7 @@ public class PoolDispatcherServiceImpl {
 				if (cont == TRANSINBLOCK)
 					break;
 			}
-			/*
-			 * ciccio codice contorto for (int i = 0; i < TRANSINBLOCK; i++) { // Eseguo un piccolo controllo in modo da evitare di inserire più blocchi // di quanti effettivamente ne possiedo if (i < transactionsTemp.size()){ if(!transactionAddedInBlock.contains(transactionsTemp.get(i).getHashFile())){ transactions.add(transactionsTemp.get(i)); transactionAddedInBlock.add(transactionsTemp.get(i).getHashFile()); } } }
-			 */
+
 			System.out.println("NUMERO TRANSAZIONI DA CONVALIDARE " + transactions.size());
 		}
 
