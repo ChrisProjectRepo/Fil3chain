@@ -49,6 +49,7 @@ public class Fil3Chain implements CommandLineRunner {
 	public void run(String... args) throws Exception {
 		System.out.println(ms.getPrivateKey()+" "+ms.getPublicKey());
 		filechain.initializeFilechain();
+		filechain.update();
 		/*
 		 * Example of post Request with messageConverter
 		 */
