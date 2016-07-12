@@ -81,7 +81,7 @@ public class ConnectionServiceImpl {
 		}else{
 
 			//			String input = (String) JOptionPane.showInputDialog(null, "Scegli il tuo indirizzo IP", "Lista IP", JOptionPane.QUESTION_MESSAGE, null, // Use
-			//					// default
+			//		 			// default
 			//					// icon
 			//					ips.toArray(), // Array of choices
 			//					ips.get(0)); // Initial choice
