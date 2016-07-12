@@ -64,7 +64,7 @@ public class ConnectionServiceImpl {
 	//@PostConstruct
 	//	private void initalizeConnectionServiceImpl() {
 	//		this.selectIp();
-	//		this.loadNetworkConfig();
+	//		this.loadNetworkConfig();n 
 	//		this.firstConnectToEntryPoint();
 	//	}
 	/**

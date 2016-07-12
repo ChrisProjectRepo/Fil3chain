@@ -246,18 +246,21 @@ public class MiningServiceImpl implements IMiningService {
 		Map<IP, Integer> map = new HashMap<IP, Integer>();
 		Map<IP, Integer> counter = Collections.synchronizedMap(map);
 		connectionServiceImpl.firstConnectToEntryPoint();
+		List<IP> minerList=new ArrayList<IP>();
 		synchronized (counter) {
 			for (IP ip : ipService.getIPList()) {
 				counter.put(ip, 0);
+				minerList.add(ip);
 			}
 
 			System.out.println("dimensione lista hashmap " + counter.size());
 
 		}
-
+		
+	
 		while (counter.size() > 0) {
 
-			for (IP ip : ipService.getIPList()) {
+			for (IP ip : minerList ) {
 				System.out.println("Invio blocco a: " + ip.getIp());
 				try {
 					// String response = HttpUtil.doPost("http://" + ip.getIp() + "/fil3chain/newBlock",
@@ -278,8 +281,10 @@ public class MiningServiceImpl implements IMiningService {
 					System.out.println("Errore invio blocco: " + bool);
 				} finally {
 					synchronized (counter) {
+						System.out.println("Fail aumento di uno");
 						// altrimenti aumenta il counter di uno
 						if (counter.get(ip) != null) {
+							System.out.println();
 							counter.put(ip, counter.get(ip) + 1);
 							if (counter.get(ip) > AsyncRequest.REQNUMBER)
 								counter.remove(ip);
