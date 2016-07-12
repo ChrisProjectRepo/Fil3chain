@@ -20,15 +20,14 @@ public class ControllerPDEP {
     private IPServiceImpl ipService;
 
 
-
     // Controller che intercetta la connessione di un utente
     @RequestMapping(value = "/user_connect", method = RequestMethod.POST)
     public void newUserConnection(@RequestBody String ip) {
         JsonObject jobj = new Gson().fromJson(ip, JsonObject.class);
         String ipHost = jobj.get("user_ip").getAsString();
         ipService.addIP(new IP(ipHost));
-        // IPManager.getManager().getIPList().forEach(i ->
-        // System.out.println(i));
+        ipService.getIPList().forEach(i ->
+         System.out.println(i));
     }
 
     // Controller che intercetta la disconnessione di un utente

@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "description": "Client application for Blockchain system",
   "dev":{
-    "basePath":"development",
-    "main": "development/index.html"
+    "basePath":"app",
+    "main": "app/index.html"
   },
   "prod":{
     "basePath":"production",
