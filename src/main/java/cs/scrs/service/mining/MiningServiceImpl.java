@@ -31,7 +31,6 @@ import java.util.concurrent.Future;
 
 
 
-
 /**
  */
 @Service
@@ -64,8 +63,8 @@ public class MiningServiceImpl implements IMiningService {
 	// Lista di transazioni presente nel blocco
 	private List<Transaction> transactions;
 
-	//Potenza media di calcolo della macchina
-	private Float averagePowerMachine= 0f;
+	// Potenza media di calcolo della macchina
+	private Float averagePowerMachine = 0f;
 
 	@Autowired
 	private UserRepository userRepository;
@@ -138,7 +137,7 @@ public class MiningServiceImpl implements IMiningService {
 			System.err.println("Complessità per il calcolo del blocco errata, impossibile minare");
 			return new AsyncResult<Boolean>(Boolean.FALSE);
 		}
-		if(transactions.isEmpty() || block.getUserContainer()== null )
+		if (transactions.isEmpty() || block.getUserContainer() == null)
 			return new AsyncResult<Boolean>(Boolean.FALSE);
 
 		// Calcolo le maschere per il check dell'hash.
@@ -165,7 +164,7 @@ public class MiningServiceImpl implements IMiningService {
 			// Incremento il nonce
 			nonce++;
 			if (nonce % 1000000 == 0)
-				System.out.println("Sono il miner numero : " + i + " e sto minando con nonce " + nonce+ " sto trovando il Blocco con ChainLevel "+block.getChainLevel());
+				System.out.println("Sono il miner numero : " + i + " e sto minando con nonce " + nonce + " sto trovando il Blocco con ChainLevel " + block.getChainLevel());
 
 		} while (!verifyHash(hash) && !stopMining);
 		System.out.println("Sono il miner numero : " + i + " e mi sono fermato a minare");
@@ -194,31 +193,31 @@ public class MiningServiceImpl implements IMiningService {
 		int indexInBlock = 0;
 		User temp;
 		for (Transaction trans : transactions) {
-		temp=userRepository.findByPublicKeyHash(trans.getAuthorContainer().getPublicKeyHash());
-			if(temp==null){
-			userRepository.save(trans.getAuthorContainer());
-		}
+			temp = userRepository.findByPublicKeyHash(trans.getAuthorContainer().getPublicKeyHash());
+			if (temp == null) {
+				userRepository.save(trans.getAuthorContainer());
+			}
 			trans.setBlockContainer(block.getHashBlock());
 			trans.setIndexInBlock(indexInBlock);
 			System.out.println(trans.getIndexInBlock());
 
-//			//TODO La porcata delle porcate o salvezza suprema?
-			String newTransHash=DigestUtils.sha256Hex(trans.getHashFile()+trans.getBlockContainer());
+			// //TODO La porcata delle porcate o salvezza suprema?
+			String newTransHash = DigestUtils.sha256Hex(trans.getHashFile() + trans.getBlockContainer());
 			trans.setHashTransBlock(newTransHash);
-                        for(Citation cit: trans.getCitations()){
-                            cit.getKey().setHashCiting(trans.getHashTransBlock());
-                        }
-//			//TODO La porcata delle porcate o salvezza suprema?
+			for (Citation cit : trans.getCitations()) {
+				cit.getKey().setHashCiting(trans.getHashTransBlock());
+			}
+			// //TODO La porcata delle porcate o salvezza suprema?
 
-			//transRepo.save(trans);
+			// transRepo.save(trans);
 			indexInBlock++;
 		}
 
-		Float calculatePower=(((Math.abs(nonceFinish - nonceStart)) / totalTime) / 1000000.0f);
-		if(averagePowerMachine!=0f)
+		Float calculatePower = (((Math.abs(nonceFinish - nonceStart)) / totalTime) / 1000000.0f);
+		if (averagePowerMachine != 0f)
 			avgPower(calculatePower);
 		else
-			averagePowerMachine=calculatePower;
+			averagePowerMachine = calculatePower;
 
 		block.setTransactionsContainer(transactions);
 		block.setCreationTime(Long.toString(System.currentTimeMillis()));
@@ -230,8 +229,8 @@ public class MiningServiceImpl implements IMiningService {
 			if (blockRepository != null)
 				blockRepository.save(block);
 			sendBlockToMiners();
-		}catch (Exception ex){
-		ex.printStackTrace();
+		} catch (Exception ex) {
+			ex.printStackTrace();
 		}
 
 		return new AsyncResult<Boolean>(Boolean.TRUE);
@@ -253,9 +252,11 @@ public class MiningServiceImpl implements IMiningService {
 		Map<IP, Integer> map = new HashMap<IP, Integer>();
 		Map<IP, Integer> counter = Collections.synchronizedMap(map);
 		connectionServiceImpl.firstConnectToEntryPoint();
+		List<IP> minerList = new ArrayList<IP>();
 		synchronized (counter) {
 			for (IP ip : ipService.getIPList()) {
 				counter.put(ip, 0);
+				minerList.add(ip);
 			}
 
 			System.out.println("dimensione lista hashmap " + counter.size());
@@ -264,7 +265,7 @@ public class MiningServiceImpl implements IMiningService {
 
 		while (counter.size() > 0) {
 
-			for (IP ip : ipService.getIPList()) {
+			for (IP ip : minerList) {
 				System.out.println("Invio blocco a: " + ip.getIp());
 				try {
 					// String response = HttpUtil.doPost("http://" + ip.getIp() + "/fil3chain/newBlock",
@@ -333,6 +334,94 @@ public class MiningServiceImpl implements IMiningService {
 
 	/*
 	 * (non-Javadoc)
+	 * @see cs.scrs.service.mining.IMiningServiceImpl#updateService(cs.scrs.miner.dao.block.Block, cs.scrs.miner.dao.block.Block, int, java.util.List)
+	 */
+	@Override
+	public void updateService(Block miningBlock, Block previousBlock, int difficulty, List<Transaction> transactionList) {
+
+		// TODO MERGE !
+		System.out.println("Update service");
+		this.block = miningBlock;
+		this.previousBlock = previousBlock;
+		this.difficulty = difficulty;
+		this.transactions = transactionList;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see cs.scrs.service.mining.IMiningServiceImpl#initializeService()
+	 */
+	@Override
+	public void initializeService() {
+
+		// TODO MERGE !
+		System.out.println("Inizializza servizio");
+		User user = userRepository.findByPublicKey(keysConfigProperties.getPublicKey());
+		user.setPassword(null);
+		System.out.println("User founded " + user);
+
+		// Prendo l'ultmo blocco della catena
+		Block lastBlock = blockRepository.findFirstByOrderByChainLevelDesc();
+
+		// Inizializzo il nuovo blocco da minare
+		block = new Block();
+		block.setFatherBlockContainer(lastBlock.getHashBlock());
+		block.setChainLevel(lastBlock.getChainLevel() + 1);
+		block.setMinerPublicKey(publicKey);
+		block.setUserContainer(user);
+		// Prendo le transazioni dal Pool Dispatcher
+		List<Transaction> transactionsList = poolDispService.getTransactions(lastBlock);
+
+		ArrayList<String> hashTransactions = new ArrayList<>();
+		for (Transaction transaction : transactionsList) {
+			hashTransactions.add(transaction.getHashFile());
+		}
+		block.setMerkleRoot(MerkleTree.buildMerkleTree(hashTransactions));
+
+		// Test chiamata per difficoltà
+		Integer complexity = poolDispService.getCurrentComplexity();
+
+		previousBlock = lastBlock;
+		difficulty = complexity;
+		transactions = transactionsList;
+	}
+
+	/*
+	 * (non-Javadoc)p
+	 * @see cs.scrs.service.mining.IMiningServiceImpl#updateMiningService()
+	 */
+	@Override
+	public void updateMiningService() {
+
+		// TODO MERGE !
+		// Prendo l'ultmo blocco della catena
+		Block lastBlock = blockRepository.findFirstByOrderByChainLevelDesc();
+		// Inizializzo il nuovo blocco da minare
+		Block newBlock = new Block();
+		newBlock.setFatherBlockContainer(lastBlock.getHashBlock());
+		newBlock.setChainLevel(lastBlock.getChainLevel() + 1);
+		newBlock.setMinerPublicKey(publicKey);
+		User user = userRepository.findByPublicKey(keysConfigProperties.getPublicKey());
+		user.setPassword(null);
+		newBlock.setUserContainer(user);
+		// Prendo le transazioni dal Pool Dispatcher
+		List<Transaction> transactionsList = poolDispService.getTransactions(lastBlock);
+
+		ArrayList<String> hashTransactions = new ArrayList<>();
+		for (Transaction transaction : transactionsList) {
+			hashTransactions.add(transaction.getHashFile());
+		}
+
+		newBlock.setMerkleRoot(MerkleTree.buildMerkleTree(hashTransactions));
+
+		// Test chiamata per difficoltà
+		Integer complexity = poolDispService.getCurrentComplexity();
+
+		updateService(newBlock, lastBlock, complexity, transactionsList);
+	}
+
+	/*
+	 * (non-Javadoc)
 	 * @see cs.scrs.service.mining.IMiningServiceImpl#setBlock(cs.scrs.miner.dao.block.Block)
 	 */
 	@Override
@@ -389,91 +478,6 @@ public class MiningServiceImpl implements IMiningService {
 	public Boolean isInitialized() {
 
 		return (block != null && difficulty != -1);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see cs.scrs.service.mining.IMiningServiceImpl#updateService(cs.scrs.miner.dao.block.Block, cs.scrs.miner.dao.block.Block, int, java.util.List)
-	 */
-	@Override
-	public void updateService(Block miningBlock, Block previousBlock, int difficulty, List<Transaction> transactionList) {
-//TODO MERGE !
-		System.out.println("Update service");
-		this.block = miningBlock;
-		this.previousBlock = previousBlock;
-		this.difficulty = difficulty;
-		this.transactions = transactionList;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see cs.scrs.service.mining.IMiningServiceImpl#initializeService()
-	 */
-	@Override
-	public void initializeService() {
-		//TODO MERGE !
-		System.out.println("Inizializza servizio");
-		User user = userRepository.findByPublicKey(keysConfigProperties.getPublicKey());
-		user.setPassword(null);
-		System.out.println("User founded "+ user);
-
-		// Prendo l'ultmo blocco della catena
-		Block lastBlock = blockRepository.findFirstByOrderByChainLevelDesc();
-
-		// Inizializzo il nuovo blocco da minare
-		block = new Block();
-		block.setFatherBlockContainer(lastBlock.getHashBlock());
-		block.setChainLevel(lastBlock.getChainLevel() + 1);
-		block.setMinerPublicKey(publicKey);
-		block.setUserContainer(user);
-		// Prendo le transazioni dal Pool Dispatcher
-		List<Transaction> transactionsList = poolDispService.getTransactions(lastBlock);
-
-		ArrayList<String> hashTransactions = new ArrayList<>();
-		for (Transaction transaction : transactionsList) {
-			hashTransactions.add(transaction.getHashFile());
-		}
-		block.setMerkleRoot(MerkleTree.buildMerkleTree(hashTransactions));
-
-		// Test chiamata per difficoltà
-		Integer complexity = poolDispService.getCurrentComplexity();
-
-		previousBlock = lastBlock;
-		difficulty = complexity;
-		transactions = transactionsList;
-	}
-
-	/*
-	 * (non-Javadoc)p
-	 * @see cs.scrs.service.mining.IMiningServiceImpl#updateMiningService()
-	 */
-	@Override
-	public void updateMiningService() {
-		//TODO MERGE !
-		// Prendo l'ultmo blocco della catena
-		Block lastBlock = blockRepository.findFirstByOrderByChainLevelDesc();
-		// Inizializzo il nuovo blocco da minare
-		Block newBlock = new Block();
-		newBlock.setFatherBlockContainer(lastBlock.getHashBlock());
-		newBlock.setChainLevel(lastBlock.getChainLevel() + 1);
-		newBlock.setMinerPublicKey(publicKey);
-		User user = userRepository.findByPublicKey(keysConfigProperties.getPublicKey());
-		user.setPassword(null);
-		newBlock.setUserContainer(user);
-		// Prendo le transazioni dal Pool Dispatcher
-		List<Transaction> transactionsList = poolDispService.getTransactions(lastBlock);
-
-		ArrayList<String> hashTransactions = new ArrayList<>();
-		for (Transaction transaction : transactionsList) {
-			hashTransactions.add(transaction.getHashFile());
-		}
-
-		newBlock.setMerkleRoot(MerkleTree.buildMerkleTree(hashTransactions));
-
-		// Test chiamata per difficoltà
-		Integer complexity = poolDispService.getCurrentComplexity();
-
-		updateService(newBlock, lastBlock, complexity, transactionsList);
 	}
 
 	/*
@@ -726,11 +730,13 @@ public class MiningServiceImpl implements IMiningService {
 		this.stopMining = stopMining;
 	}
 
-	private void avgPower(Float val){
-		averagePowerMachine =(averagePowerMachine +val)/2;
+	private void avgPower(Float val) {
+
+		averagePowerMachine = (averagePowerMachine + val) / 2;
 	}
 
 	public Float getAveragePowerMachine() {
+
 		return averagePowerMachine;
 	}
 }
