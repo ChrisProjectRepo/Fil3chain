@@ -65,7 +65,7 @@ public class MiningServiceImpl implements IMiningService {
 	private List<Transaction> transactions;
 
 	//Potenza media di calcolo della macchina
-	private Float averagePowerMachine;
+	private Float averagePowerMachine= 0f;
 
 	@Autowired
 	private UserRepository userRepository;
@@ -184,6 +184,7 @@ public class MiningServiceImpl implements IMiningService {
 		// Impostazione dell'hash e del nonce
 		block.setHashBlock(hexHash);
 		block.setNonce(nonce - 1);
+
 		// private key null
 		block.setSignature(CryptoUtil.sign(hexHash, privateKey));
 		block.setMinerPublicKey(publicKey);
@@ -214,13 +215,15 @@ public class MiningServiceImpl implements IMiningService {
 		}
 
 		Float calculatePower=(((Math.abs(nonceFinish - nonceStart)) / totalTime) / 1000000.0f);
-		avgPower(calculatePower);
+		if(averagePowerMachine!=0f)
+			avgPower(calculatePower);
+		else
+			averagePowerMachine=calculatePower;
 
 		block.setTransactionsContainer(transactions);
 		block.setCreationTime(Long.toString(System.currentTimeMillis()));
 		System.out.println("Hash trovato: " + block.getHashBlock() + " con difficoltà: " + difficulty + " Nonce: " + nonce + " Tempo impiegato: " + totalTime + " secondi");
 		System.out.println("Hash provati: " + (Math.abs(nonceFinish - nonceStart)) + " HashRate: " + calculatePower + " MH/s");
-
 
 		// Salvo il blocco
 		try {

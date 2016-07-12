@@ -81,7 +81,7 @@ public class ConnectionServiceImpl {
 		}else{
 
 			//			String input = (String) JOptionPane.showInputDialog(null, "Scegli il tuo indirizzo IP", "Lista IP", JOptionPane.QUESTION_MESSAGE, null, // Use
-			//		 			// default
+			//					// default
 			//					// icon
 			//					ips.toArray(), // Array of choices
 			//					ips.get(0)); // Initial choice
@@ -387,42 +387,5 @@ public class ConnectionServiceImpl {
 
 		this.conversionsService = conversionsService;
 	}
-
-
-
-	//
-	//	/**
-	//	 * @return the blockRepository
-	//	 */
-	//	public BlockRepository getBlockRepository() {
-	//
-	//		return blockRepository;
-	//	}
-	//
-	//	/**
-	//	 * @param blockRepository
-	//	 *            the blockRepository to set
-	//	 */
-	//	public void setBlockRepository(BlockRepository blockRepository) {
-	//
-	//		this.blockRepository = blockRepository;
-	//	}
-	//
-	//	/**
-	//	 * @return the filechain
-	//	 */
-	//	public Filechain getFilechain() {
-	//
-	//		return filechain;
-	//	}
-	//
-	//	/**
-	//	 * @param filechain
-	//	 *            the filechain to set
-	//	 */
-	//	public void setFilechain(Filechain filechain) {
-	//
-	//		this.filechain = filechain;
-	//	}
 
 }
