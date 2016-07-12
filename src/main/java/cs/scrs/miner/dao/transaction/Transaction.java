@@ -6,12 +6,9 @@ package cs.scrs.miner.dao.transaction;
 
 import cs.scrs.miner.dao.citations.Citation;
 import cs.scrs.miner.dao.user.User;
-import org.hibernate.annotations.*;
-import org.hibernate.annotations.CascadeType;
+import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
-import javax.persistence.Entity;
-import javax.persistence.Table;
 import java.util.List;
 
 

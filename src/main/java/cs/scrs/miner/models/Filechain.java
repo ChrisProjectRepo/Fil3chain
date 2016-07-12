@@ -626,7 +626,7 @@ public class Filechain {
 				response.cancel(Boolean.TRUE);
 				response = null;
 			}
-			System.out.println("richiesta asincrona");
+			System.out.println("Richiesta asincrona");
 			try {
 				miningService.updateMiningService();
 				// Reimposto la variabile di arrivo nuovo blocco a false
@@ -637,10 +637,10 @@ public class Filechain {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			System.out.println("sono asincrona?");
+			System.out.println("Sono asincrona?");
 
 			do {
-				System.out.println("dormo ZzZzZ");
+				System.out.println("Riposo ZzZzZ");
 				try {
 					Thread.sleep(2500);
 				} catch (InterruptedException e) {
@@ -656,7 +656,7 @@ public class Filechain {
 				System.out.println("Il miner stava minando ed è stato bloccato");
 			}
 
-			System.out.println("ho aspettato la risposta" + response.isDone() + " oppure è arrivao il blocco " + flagNewBlock + "oppure ho fermato il mining");
+			System.out.println("Ho aspettato la risposta: " + response.isDone() + " oppure mi è arrivato il blocco: " + flagNewBlock + " oppure ho fermato il mining");
 			// flagNewBlock=Boolean.FALSE;
 
 		}

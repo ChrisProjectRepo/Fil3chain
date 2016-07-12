@@ -47,7 +47,8 @@ public class Fil3Chain implements CommandLineRunner {
 	// Applicazione reale
 	@Override
 	public void run(String... args) throws Exception {
-		System.out.println(ms.getPrivateKey()+" "+ms.getPublicKey());
+		System.out.println("Chiave Privata Personale: "+ms.getPrivateKey());
+		System.out.println("Chiave Pubblica: "+ms.getPublicKey());
 		filechain.initializeFilechain();
 		filechain.update();
 		/*
