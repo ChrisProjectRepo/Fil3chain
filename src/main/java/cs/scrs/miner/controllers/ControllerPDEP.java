@@ -25,7 +25,9 @@ public class ControllerPDEP {
     public void newUserConnection(@RequestBody String ip) {
         JsonObject jobj = new Gson().fromJson(ip, JsonObject.class);
         String ipHost = jobj.get("user_ip").getAsString();
-        ipService.addIP(new IP(ipHost));
+        if(ipService.indexOf(ipHost)==-1)
+            ipService.addIP(new IP(ipHost));
+        System.out.println("IP connect:");
         ipService.getIPList().forEach(i ->
          System.out.println(i));
     }
