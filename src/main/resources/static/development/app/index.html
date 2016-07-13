@@ -6,10 +6,8 @@
 <meta name="description" content="">
 <meta name="viewport" content="width=device-width">
 <!-- bower:css -->
-<link rel="stylesheet"
-	href="../bower_components/angular-material/angular-material.css" />
-<link rel="stylesheet"
-	href="../bower_components/angular-chart.js/dist/angular-chart.css" />
+<link rel="stylesheet" href="../bower_components/angular-material/angular-material.css" />
+<link rel="stylesheet" href="../bower_components/angular-chart.js/dist/angular-chart.css" />
 <!-- endbower -->
 <!-- include: "type": "css", "files": "styles/**/*.css" -->
 <link href="styles/css/animate.css" rel="stylesheet" type="text/css">
@@ -39,6 +37,7 @@ md-content {
 </style>
 </head>
 <body ng-app="blockchainApp" flex>
+	sadsadsad
 	<ui-view name="master" layout="row" layout-fill></ui-view>
 
 	<!-- bower:js -->
@@ -50,15 +49,17 @@ md-content {
 	<script src="../bower_components/angular-material/angular-material.js"></script>
 	<script src="../bower_components/angular-resource/angular-resource.js"></script>
 	<script src="../bower_components/angular-route/angular-route.js"></script>
-	<script
-		src="../bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+	<script src="../bower_components/angular-ui-router/release/angular-ui-router.js"></script>
 	<script src="../bower_components/Chart.js/Chart.js"></script>
-	<script
-		src="../bower_components/angular-chart.js/dist/angular-chart.js"></script>
+	<script src="../bower_components/angular-chart.js/dist/angular-chart.js"></script>
+
+	<script src="../bower_components/jquery/dist/jquery.js"></script>
+	<script src="../bower_components/d3/d3.js"></script>
 	<!-- endbower -->
 	<!-- include: "type": "js", "files": "scripts/**/*.js" -->
 	<script src="scripts/app.js"></script>
 	<script src="scripts/controllers/citation.dialog.js"></script>
+	<script src="scripts/controllers/fil3chain.widget.js"></script>
 	<script src="scripts/controllers/miner.dialog.js"></script>
 	<script src="scripts/controllers/miner.js"></script>
 	<script src="scripts/controllers/wallet.statistics.js"></script>
@@ -67,6 +68,7 @@ md-content {
 	<script src="scripts/controllers/welcome.signin.js"></script>
 	<script src="scripts/controllers/welcome.signup.js"></script>
 	<script src="scripts/directives/uploadDirective.js"></script>
+	<script src="scripts/dndTree.js"></script>
 	<script src="scripts/filters/ExactMatch/ExactMatchFilter.js"></script>
 	<script src="scripts/filters/fabState/fabStateFilter.js"></script>
 	<script src="scripts/filters/TransactionsFilter.js"></script>
@@ -89,6 +91,7 @@ md-content {
 	<script src="scripts/modules/speedDial.fil3chain/services/config.js"></script>
 	<script src="scripts/modules/speedDial.fil3chain/services/service.js"></script>
 	<script src="scripts/modules/speedDial.fil3chain/speedDial.js"></script>
+	<script src="scripts/modules/statistics.fil3chain/controllers/fil3chain.controller.js"></script>
 	<script src="scripts/modules/statistics.fil3chain/directives/directive.js"></script>
 	<script src="scripts/modules/statistics.fil3chain/filters/stateFilter.js"></script>
 	<script src="scripts/modules/statistics.fil3chain/filters/stateFilterTab.js"></script>

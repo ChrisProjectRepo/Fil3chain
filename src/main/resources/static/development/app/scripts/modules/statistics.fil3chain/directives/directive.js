@@ -27,7 +27,60 @@
     ]);
   }
   module.directive('widget', GraphDirective);
+  module.directive('filechain', Fil3chainDirective);
+  Fil3chainDirective.$inject = [
+    '$log',
+    '$compile',
+    '$http',
+    '$state',
+    'Statistics',
+    'StatisticsConfig'
+  ];
+  function Fil3chainDirective($log, $compile, $http, $state, Statistics, StatisticsConfig) {
+    return{
+      restrict:'A',
+      scope:{},
+      //template:'<svg id="tree-container" style="width:100%"></svg>',
+      link: function(scope, element, attrs){
+        $log.debug('Fil3chainDirective',scope, element, attrs)
+        var json ={
+          "name": "flare",
+          "children": [{
+            "name": "analytics",
+            "children": [{
+              "name": "cluster",
+              "children": [{
+                "name": "AgglomerativeCluster",
+                "size": 3938
+              }, {
+                "name": "CommunityStructure",
+                "size": 3812
+              }, {
+                "name": "HierarchicalCluster",
+                "size": 6714
+              }, {
+                "name": "MergeEdge",
+                "size": 743
+              }]
+            }]
+          }]
+        }
+        $log.debug('Fil3chainDirective','element chart:', element[0])
+        angular.element(element[0]).css('width','100%');
+        angular.element(element[0]).css('height','100%');
 
+        //var tree = new dndTree( '#chart' );
+        //tree.update(json)
+        var container = $(element[0]);
+        $log.debug('Fil3chainDirective','Container width',element[0].offsetHeight);
+        $log.debug('Fil3chainDirective','Container height',$(element[0]).outerWidth());
+
+        initTree(element[0], json )
+        $log.debug('Fil3chainDirective','result chart:')
+
+      }
+    }
+  }
   GraphDirective.$inject = [
     '$log',
     '$compile',

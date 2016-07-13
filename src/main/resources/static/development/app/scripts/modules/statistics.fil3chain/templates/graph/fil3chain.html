@@ -1,0 +1,131 @@
+<style media="screen">
+  md-card-content {
+    height: 299px;
+  }
+
+  .node {
+    cursor: pointer;
+  }
+
+  .overlay{
+    background-color:#EEE;
+  }
+
+  .node circle {
+    fill: #fff;
+    stroke: steelblue;
+    stroke-width: 1.5px;
+  }
+
+  .node text {
+    font-size:10px;
+    font-family:sans-serif;
+  }
+
+  .link {
+    fill: none;
+    stroke: #ccc;
+    stroke-width: 1.5px;
+  }
+
+  .templink {
+    fill: none;
+    stroke: red;
+    stroke-width: 3px;
+  }
+
+  .ghostCircle.show{
+    display:block;
+  }
+
+  .ghostCircle, .activeDrag .ghostCircle{
+    display: none;
+  }
+</style>
+<md-card flex="noshrink">
+  <md-card-header >
+
+    <!--
+    <span flex></span>
+    <md-card-avatar>
+    <img class="md-user-avatar" src="img/100-2.jpeg"/>
+  </md-card-avatar>
+-->
+
+<md-card-header-text layout layout-align="end center">
+  <span class="md-headline">Fil3chain</span>
+  <span flex></span>
+  <md-button class="md-icon-button" aria-label="Refresh widget">
+    <md-icon  md-menu-origin ng-click="openWidgetMenu($mdOpenMenu, $event)" md-svg-src="icons/ic_keyboard_arrow_left_black_24px.svg" alt="Refresh widget" </md-icon>
+    </md-button>
+    <p>Page 1{{data.page}}</p>
+    <md-button class="md-icon-button" aria-label="Refresh widget">
+      <md-icon  md-menu-origin ng-click="openWidgetMenu($mdOpenMenu, $event)" md-svg-src="icons/ic_keyboard_arrow_right_black_24px.svg" alt="Refresh widget" </md-icon>
+      </md-button>
+      <md-menu md-position-mode="target">
+        <md-button class="md-icon-button" aria-label="Refresh widget">
+          <md-icon  md-menu-origin ng-click="openWidgetMenu($mdOpenMenu, $event)" md-svg-src="icons/ic_more_vert_black_24px.svg" alt="Refresh widget" </md-icon>
+          </md-button>
+          <!-- <span class="md-subhead">subhead</span> -->
+          <md-menu-content width="4">
+            <md-menu-item>
+              <md-button ng-click="ctrl.redial($event)">
+                <md-icon md-svg-src="icons/ic_refresh_black_24px.svg" alt="Refresh widget" md-menu-align-target></md-icon>
+                Refresh
+              </md-button>
+            </md-menu-item>
+          </md-menu>
+        </md-card-header-text>
+      </md-card-header>
+      <!--
+      <img ng-src="{{imagePath}}" class="md-card-image" alt="Washed Out">
+      <md-card-title>
+      <md-card-title-text>
+      <span class="md-headline">In-card mixed actions</span>
+      <span class="md-subhead">Reversed</span>
+    </md-card-title-text>
+  </md-card-title>
+
+  <md-card-actions layout="row" layout-align="start center">
+  <md-button>Action 1</md-button>
+  <md-button>Action 2</md-button>
+  <md-card-icon-actions>
+  <md-button class="md-icon-button" aria-label="toggle">
+  <md-icon md-svg-icon="md-toggle-arrow"></md-icon>
+</md-button>
+</md-card-icon-actions>
+</md-card-actions>
+-->
+<md-card-content layout layout-padding>
+  <div id="tree-container" filechain></div>
+  <div layout="column" layout-fill class="expanded">
+		<md-list>
+			<md-subheader class="md-no-sticky">Block details</md-subheader>
+      <md-list-item>
+       <p>ok</p>
+       <p>ok</p>
+       <md-checkbox class="md-secondary"  ng-show="selectionModeItem"></md-checkbox>
+     </md-list-item>
+     <md-list-item>
+      <p>ok</p>
+      <p>ok</p>
+      <md-checkbox class="md-secondary"  ng-show="selectionModeItem"></md-checkbox>
+    </md-list-item>
+    <md-list-item>
+     <p>ok</p>
+     <p>ok</p>
+     <md-checkbox class="md-secondary"  ng-show="selectionModeItem"></md-checkbox>
+   </md-list-item>
+			 <md-list-item	ng-repeat="h in headers">
+				<p>{{ h.name }}</p>
+				<p>{{ block[h.field] }}</p>
+				<md-checkbox class="md-secondary"  ng-show="selectionModeItem"></md-checkbox>
+			</md-list-item>
+		</md-list>
+	</div>
+</md-card-content>
+<md-card-footer layout layout-align="end center">
+  Card footer
+
+</md-card-footer>
+</md-card>

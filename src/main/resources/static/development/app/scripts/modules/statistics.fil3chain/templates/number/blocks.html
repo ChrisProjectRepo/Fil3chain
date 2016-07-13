@@ -18,7 +18,7 @@
         </md-card-header-text>
       </md-card-header>
       <md-card-content layout layout-align="end center">
-        <h2 ng-if="data.value">{{data.value}}</h2>
-        <p ng-if="data.value ==='undefined'">Please refresh widget</p>
+        <h2 ng-if="data.value != undefined">{{data.value}}</h2>
+        <p ng-if="data.value === 'undefined'">Please refresh widget</p>
       </md-card-content>
     </md-card>
