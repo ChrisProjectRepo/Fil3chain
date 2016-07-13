@@ -7,6 +7,7 @@ import cs.scrs.miner.dao.transaction.TransactionRepository;
 import cs.scrs.miner.dao.user.UserRepository;
 import cs.scrs.miner.models.Filechain;
 import cs.scrs.service.ip.IPServiceImpl;
+import cs.scrs.service.util.Conversions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
@@ -75,6 +76,15 @@ public class ControllerBlockRequest {
 		Block b = blockRepository.findByhashBlock(hash);
 		return b;
 	}
+        
+        //viene utilizzato quando dall'interfaccia vengono richiesti i
+        // dettagli di un blocco
+        @RequestMapping(value = "/fil3chain/blockDetail", method = RequestMethod.POST)
+	@ResponseBody
+	public String getBlockDetail(@RequestBody Block b) {		
+		Block block = blockRepository.findByhashBlock(b.getHashBlock());
+		return Conversions.toJson(block);
+	}
 
 	// Mappiamo la richiesta di invio di blocchi ad un Peer che la richiede
 	@RequestMapping(value = "/fil3chain/updateAtMaxLevel", method = RequestMethod.GET)
@@ -85,6 +95,7 @@ public class ControllerBlockRequest {
 		System.out.println("Il miner "+request.getRemoteAddr()+" mi ha chiesto il mio Chain Level ");
 		return blockRepository.findFirstByOrderByChainLevelDesc().getChainLevel();
 	}
+        
 
 /////////MAPPING DI RICHIESTER A SCOPO DI TESTING//////////////////////
 
@@ -122,6 +133,7 @@ public class ControllerBlockRequest {
         }
         return trans;
     }
+    	
 
 	/**
 	 * @return the transactionRepository

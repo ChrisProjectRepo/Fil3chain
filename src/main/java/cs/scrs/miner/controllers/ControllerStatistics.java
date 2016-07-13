@@ -6,6 +6,7 @@ import cs.scrs.miner.dao.block.BlockRepository;
 import cs.scrs.miner.models.DndTree;
 import cs.scrs.miner.models.Filechain;
 import cs.scrs.miner.models.WidgetModel;
+import cs.scrs.service.connection.ConnectionServiceImpl;
 import cs.scrs.service.ip.IPServiceImpl;
 import cs.scrs.service.util.Conversions;
 import org.apache.commons.codec.digest.DigestUtils;
@@ -31,6 +32,8 @@ public class ControllerStatistics {
     private KeysConfig keyProperties;
     @Autowired
     private Filechain filechain;
+    @Autowired
+    private ConnectionServiceImpl connectionServiceImpl;
 
 
 
@@ -58,6 +61,7 @@ public class ControllerStatistics {
 
 
     private Integer getNumbersConnectedIp(){
+        connectionServiceImpl.firstConnectToEntryPoint();
         return ipService.getIPList().size();
     }
 
@@ -69,13 +73,21 @@ public class ControllerStatistics {
         List<Block> blocks=blockRepository.findByChainLevelBetweenOrderByChainLevelAsc(inf,sup);
         if(blocks.size() == 0)
             return "empty";
+        //verifico se ci sono ulteriori nodi
+        List<Block> succ = blockRepository.findBychainLevel(sup+1);
+        String last;
+        if(succ.size()>0){
+            last = "false";
+        }else{
+            last = "true";
+        }
         DndTree root;
         // se la pagina è la 1 la root è il blocco 0 altrimenti devo creare un 
         // blocco fittizio
         if(val == 1){
-            root= new DndTree("0","{\"style\":\"zeroBlock\"}");
+            root= new DndTree("0","{\"style\":\"zeroBlock\",\"last\":\""+last+"\"}");
         }else{
-            root= new DndTree("0","{\"style\":\"fakeBlock\"}");
+            root= new DndTree("0","{\"style\":\"fakeBlock\",\"last\":\""+last+"\"}");
         }
         Set<String> hashBlocks = new HashSet<>(); // contiene gli hash dei blocchi recuperati
         //popolo l'insieme
