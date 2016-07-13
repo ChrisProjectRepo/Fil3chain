@@ -55,6 +55,7 @@ angular
     var reader;
     var inputWrapper;
     var innerButton;
+
     scope.toggleProgress = function(){
       console.log('Toggle',scope.progressMode);
       if(!scope.progressMode || scope.progressMode===''){
@@ -77,6 +78,7 @@ angular
         console.log('pddddddd',element.find('input')[0]);
         element.find('input')[0].click();
       })
+
       element.on('change',function(event){
 
         console.log('Input changed',event);
@@ -129,35 +131,6 @@ angular
         .hideDelay(5000)
       );
     });
-    /*
-    var inputWrapper = element[0].children[0];
-    var innerButton = element[0].children[1];
-
-    angular.element(innerButton).on('click',function(){
-    inputWrapper.click();
-  })
-
-  element.on('change',function(event){
-  console.log('Input changed',event);
-  console.log(element);
-  var files = event.target.files; // FileList object
-  console.log('Files in input',files);
-  var file = event.target.files[0];
-  var reader = new FileReader();
-  // Closure to capture the file information.
-  reader.onload = (function(theFile) {
-  return function(e) {
-  console.log('Reader OnLoad',e,theFile);
-  //console.log('Blob', e.currentTarget.result);
-  var sha = sha256Service.hash(e.currentTarget.result);
-  console.log('Sha256', sha);
-}
-})(file);
-// Read in the image file as a data URL.
-reader.readAsDataURL(file);
-
-})
-*/
 };
 
 }])

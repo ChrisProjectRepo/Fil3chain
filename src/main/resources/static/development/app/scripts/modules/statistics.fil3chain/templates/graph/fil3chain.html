@@ -55,14 +55,15 @@
 <md-card-header-text layout layout-align="end center">
   <span class="md-headline">Fil3chain</span>
   <span flex></span>
-  <md-button class="md-icon-button" aria-label="Refresh widget">
-    <md-icon  md-menu-origin ng-click="pagination(data.page)" md-svg-src="icons/ic_keyboard_arrow_left_black_24px.svg" alt="Refresh widget" </md-icon>
+  <md-button ng-if="data.info.page != undefined" class="md-icon-button" aria-label="Previous Page">
+    <md-icon  md-menu-origin ng-click="paginationPrev(data.info.page)" md-svg-src="icons/ic_keyboard_arrow_left_black_24px.svg" alt="Refresh widget" </md-icon>
     </md-button>
-    <p ng-if="data.page !== 'undefined'">Page {{data.page}}</p>
-    <p ng-if="data.page === 'undefined'">Page not available</p>
-    <md-button class="md-icon-button" aria-label="Refresh widget">
-      <md-icon  md-menu-origin ng-click="pagination(data.page)" md-svg-src="icons/ic_keyboard_arrow_right_black_24px.svg" alt="Refresh widget" </md-icon>
+    <p ng-if="data.info.page != undefined">Page {{data.info.page}}</p>
+    <p ng-if="data.info.page === undefined">Pages are not available</p>
+    <md-button ng-if="data.info.page != undefined" class="md-icon-button" aria-label="Next Page">
+      <md-icon  md-menu-origin ng-click="paginationSucc(data.info.page)" md-svg-src="icons/ic_keyboard_arrow_right_black_24px.svg" alt="Refresh widget" </md-icon>
       </md-button>
+
       <md-menu md-position-mode="target">
         <md-button class="md-icon-button" aria-label="Refresh widget">
           <md-icon  md-menu-origin ng-click="openWidgetMenu($mdOpenMenu, $event)" md-svg-src="icons/ic_more_vert_black_24px.svg" alt="Refresh widget" </md-icon>
@@ -70,7 +71,7 @@
           <!-- <span class="md-subhead">subhead</span> -->
           <md-menu-content width="4">
             <md-menu-item>
-              <md-button ng-click="ctrl.redial($event)">
+              <md-button ng-click="refreshWidget($event)">
                 <md-icon md-svg-src="icons/ic_refresh_black_24px.svg" alt="Refresh widget" md-menu-align-target></md-icon>
                 Refresh
               </md-button>
@@ -98,7 +99,7 @@
 </md-card-actions>
 -->
 <md-card-content layout layout-padding>
-  <div id="tree-container" filechain></div>
+  <div id="tree-container" data="{{data}}" filechain></div>
   <div layout="column" layout-fill class="expanded">
 		<md-list>
 			<md-subheader class="md-no-sticky">Block details</md-subheader>
@@ -125,7 +126,6 @@
 		</md-list>
 	</div>
 </md-card-content>
-{{data}}
 <md-card-footer layout layout-align="end center">
   Card footer
 

@@ -9,8 +9,8 @@
  */
 angular.module('blockchainApp')
 .controller('walletTransactionPostCtrl',[
-  '$scope', '$mdDialog', '$mdMedia','$mdToast','TransactionService','transactions','transactionHeaders','TransactionsCitationsAdapterFilter',
-  function($scope,$mdDialog, $mdMedia,$mdToast,TransactionService, transactions , transactionHeaders, TransactionsCitationsAdapterFilter){
+  '$scope', '$mdDialog', '$mdMedia','$mdToast','$state','TransactionService','transactions','transactionHeaders','TransactionsCitationsAdapterFilter',
+  function($scope,$mdDialog, $mdMedia,$mdToast,$state,TransactionService, transactions , transactionHeaders, TransactionsCitationsAdapterFilter){
 	console.log('walletTransactionPostCtrl');
 	$scope.showCitationsList=false;
 	$scope.citationsContainer ={
@@ -60,6 +60,7 @@ angular.module('blockchainApp')
 					//.position($scope.getToastPosition())
 					.hideDelay(5000)
 			);
+      $state.go('app.wallet.transactions')
 		},function(error){
 			$mdToast.show(
 					$mdToast.simple()
@@ -68,6 +69,7 @@ angular.module('blockchainApp')
 					//.position($scope.getToastPosition())
 					.hideDelay(5000)
 			);
+      $state.go('app.wallet.transactions')
 		})
 	}
 	$scope.submitTransaction = submitTransaction;
