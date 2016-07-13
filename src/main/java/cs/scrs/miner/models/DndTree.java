@@ -7,19 +7,19 @@ import java.util.ArrayList;
  */
 public class DndTree {
     String name;
-    String info;
+    NodeInfo info;
     ArrayList<DndTree> children=new ArrayList<>();
 
     public DndTree() {
     }
 
-    public DndTree(String name, String info, ArrayList<DndTree> children) {
+    public DndTree(String name, NodeInfo info, ArrayList<DndTree> children) {
         this.name = name;
         this.info = info;
         this.children = children;
     }
 
-    public DndTree(String name, String info) {
+    public DndTree(String name, NodeInfo info) {
         this.name = name;
         this.info = info;
     }
@@ -32,11 +32,11 @@ public class DndTree {
         this.name = name;
     }
 
-    public String getInfo() {
+    public NodeInfo getInfo() {
         return info;
     }
 
-    public void setInfo(String info) {
+    public void setInfo(NodeInfo info) {
         this.info = info;
     }
 

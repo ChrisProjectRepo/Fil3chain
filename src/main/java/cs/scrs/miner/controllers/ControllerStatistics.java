@@ -5,6 +5,7 @@ import cs.scrs.miner.dao.block.Block;
 import cs.scrs.miner.dao.block.BlockRepository;
 import cs.scrs.miner.models.DndTree;
 import cs.scrs.miner.models.Filechain;
+import cs.scrs.miner.models.NodeInfo;
 import cs.scrs.miner.models.WidgetModel;
 import cs.scrs.service.connection.ConnectionServiceImpl;
 import cs.scrs.service.ip.IPServiceImpl;
@@ -85,9 +86,9 @@ public class ControllerStatistics {
         // se la pagina è la 1 la root è il blocco 0 altrimenti devo creare un 
         // blocco fittizio
         if(val == 1){
-            root= new DndTree("0","{\"style\":\"zeroBlock\",\"last\":\""+last+"\"}");
+            root = new DndTree("0",new NodeInfo("zeroBlock",last,val+""));
         }else{
-            root= new DndTree("0","{\"style\":\"fakeBlock\",\"last\":\""+last+"\"}");
+            root = new DndTree("0",new NodeInfo("fakeBlock",last,val+""));
         }
         Set<String> hashBlocks = new HashSet<>(); // contiene gli hash dei blocchi recuperati
         //popolo l'insieme
@@ -105,9 +106,9 @@ public class ControllerStatistics {
                 father = b.getFatherBlockContainer();
                 hashBlock = b.getHashBlock();
                 if(myHashKey.equals(b.getUserContainer().getPublicKeyHash())){
-                    addedNode.put(hashBlock,new DndTree(hashBlock,"{\"style\":\"myBlock\"}"));
+                    addedNode.put(hashBlock,new DndTree(hashBlock,new NodeInfo("myBlock")));
                 }else{
-                    addedNode.put(hashBlock,new DndTree(hashBlock,"{\"style\":\"otherBlock\"}"));
+                    addedNode.put(hashBlock,new DndTree(hashBlock,new NodeInfo("otherBlock")));
                 }
                 if((father.equals("0"))||(!hashBlocks.contains(father))){
                     root.getChildren().add(addedNode.get(hashBlock));
