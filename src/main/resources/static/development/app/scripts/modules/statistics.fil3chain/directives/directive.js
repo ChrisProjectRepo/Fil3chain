@@ -67,17 +67,35 @@
         $log.debug('Fil3chainDirective','element chart:', element[0])
         angular.element(element[0]).css('width','100%');
         angular.element(element[0]).css('height','100%');
-
         scope.$watch(
-                    "data",
-                    function handleDataChange( newValue, oldValue ) {
-                      if(newValue){
-                        console.log( 'Fil3chainDirective:', newValue );
-                        //var json = JSON.parse(newValue);
-                        initTree(element[0], newValue );
-                      }
-                    }
-                );
+          "data",
+          function handleDataChange( newValue, oldValue ) {
+            if(newValue){
+              console.log( 'Fil3chainDirective:', newValue );
+              //var json = JSON.parse(newValue);
+              angular.element(element[0]).empty();
+              initTree(element[0], newValue );
+            }
+          }
+        );
+        var ConfigWidget = function(type, name, page){
+          return {
+            type:type,
+            name:name,
+            page:page
+          }
+        }
+        scope.pagination = function(page){
+          if(!page)page = 1;
+          Statistics.get(ConfigWidget(scope.type,scope.name,page))
+          .then(function(response){
+            $log.debug('Fil3chainDirective','success',response)
+            scope.data = response.data
+          },function(response){
+            $log.debug('Fil3chainDirective','error',response)
+
+          })
+        }
       }
     }
   }

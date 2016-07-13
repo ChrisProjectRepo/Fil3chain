@@ -56,11 +56,12 @@
   <span class="md-headline">Fil3chain</span>
   <span flex></span>
   <md-button class="md-icon-button" aria-label="Refresh widget">
-    <md-icon  md-menu-origin ng-click="openWidgetMenu($mdOpenMenu, $event)" md-svg-src="icons/ic_keyboard_arrow_left_black_24px.svg" alt="Refresh widget" </md-icon>
+    <md-icon  md-menu-origin ng-click="pagination(data.page)" md-svg-src="icons/ic_keyboard_arrow_left_black_24px.svg" alt="Refresh widget" </md-icon>
     </md-button>
-    <p>Page 1{{data.page}}</p>
+    <p ng-if="data.page !== 'undefined'">Page {{data.page}}</p>
+    <p ng-if="data.page === 'undefined'">Page not available</p>
     <md-button class="md-icon-button" aria-label="Refresh widget">
-      <md-icon  md-menu-origin ng-click="openWidgetMenu($mdOpenMenu, $event)" md-svg-src="icons/ic_keyboard_arrow_right_black_24px.svg" alt="Refresh widget" </md-icon>
+      <md-icon  md-menu-origin ng-click="pagination(data.page)" md-svg-src="icons/ic_keyboard_arrow_right_black_24px.svg" alt="Refresh widget" </md-icon>
       </md-button>
       <md-menu md-position-mode="target">
         <md-button class="md-icon-button" aria-label="Refresh widget">

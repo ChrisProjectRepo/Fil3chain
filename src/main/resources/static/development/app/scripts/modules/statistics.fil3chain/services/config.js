@@ -1,3 +1,6 @@
+/*
+*/
+
 (function() {
   'use strict';
   /**
@@ -23,7 +26,9 @@
     var config = {
       'ips':'fil3chain/statistics/ips',
       'blocks':'fil3chain/statistics/blocks',
-      'fil3chain':'fil3chain/statistics/fil3chain'
+      'fil3chain':'fil3chain/statistics/fil3chain',
+      'power':'fil3chain/statistics/power',
+      'mlevel':'fil3chain/statistics/mlevel'
     };
     var StatisticsServiceConfig={};
     //Prende in ingresso il nome del widget e ritorna il link dell'endpoint
