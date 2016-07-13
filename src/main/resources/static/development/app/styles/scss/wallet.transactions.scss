@@ -39,10 +39,10 @@ $color_alto_approx: #ddd;
       .expanded {
 
         visibility: visible;
-        max-height: 700px;
+        max-height: inherit;
         opacity: 1;
         > * {
-          max-height: 700px;
+          max-height: inherit;
           opacity: 1;
         }
         .md-label {

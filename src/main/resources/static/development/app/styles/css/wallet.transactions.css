@@ -20,10 +20,10 @@
     border-radius: 2px; }
     .item .user.selected .expanded {
       visibility: visible;
-      max-height: 700px;
+      max-height: inherit;
       opacity: 1; }
       .item .user.selected .expanded > * {
-        max-height: 700px;
+        max-height: inherit;
         opacity: 1; }
       .item .user.selected .expanded .md-label {
         border: hidden; }
