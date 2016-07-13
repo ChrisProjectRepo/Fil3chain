@@ -7,7 +7,7 @@ public class WidgetModel {
 
     String type;
     String name;
-    Integer page;
+    Integer page=0;
 
     public WidgetModel() {
     }
