@@ -67,6 +67,9 @@ public class ControllerStatistics {
     }
 
     private String getBlockToDraw(Integer val){
+        if(val==0 || val==null){
+            val=1;
+        }
         Integer inf=10*(val-1);
         Integer sup=10*(val)-1;
 
