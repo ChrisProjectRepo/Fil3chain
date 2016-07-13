@@ -109,7 +109,6 @@
   <md-list ng-repeat="h in headers" ng-if="h.name === 'User'">
     <md-list-item	ng-repeat="innerField in h.innerFields">
       <p>{{ innerField.name }}</p>
-      <p>{{innerField.field}}</p>
       <p>{{ block[h.field][innerField.field]}}</p>
     </md-list-item>
   </md-list>
