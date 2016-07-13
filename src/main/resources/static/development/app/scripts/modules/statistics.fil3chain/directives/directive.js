@@ -43,52 +43,67 @@
       //template:'<svg id="tree-container" style="width:100%"></svg>',
       link: function(scope, element, attrs){
         $log.debug('Fil3chainDirective',scope, element, attrs)
-        var json ={
-          "name": "flare",
-          "children": [{
-            "name": "analytics",
-            "children": [{
-              "name": "cluster",
-              "children": [{
-                "name": "AgglomerativeCluster",
-                "size": 3938
-              }, {
-                "name": "CommunityStructure",
-                "size": 3812
-              }, {
-                "name": "HierarchicalCluster",
-                "size": 6714
-              }, {
-                "name": "MergeEdge",
-                "size": 743
-              }]
-            }]
+        scope.headers=[{
+    			name: 'Chain Level',
+    			field: 'chainLevel'
+    		},{
+    			name: 'Creation Time',
+    			field: 'creationTime'
+    		},{
+    			name:'Hash Block',
+    			field: 'hashBlock'
+    		},{
+    			name: 'Merkle Root',
+    			field: 'merkleRoot'
+    		},{
+    			name: 'Miner Publick Key',
+    			field: 'minerPublicKey'
+    		},{
+    			name: 'Nonce',
+    			field: 'nonce'
+    		},{
+    			name: 'Signature',
+    			field: 'signature'
+    		},{
+          name: 'User',
+          field: 'userContainer',
+          innerFields:[{
+              name: 'Username',
+              field: 'username'
+            },{
+            name: 'Public Key Hash',
+            field: 'publicKeyHash'
           }]
-        }
+        }];
         $log.debug('Fil3chainDirective','element chart:', element[0])
         angular.element(element[0]).css('width','100%');
         angular.element(element[0]).css('height','100%');
+        var node_click = function(d){
+          console.log('CLIIIIIIIIIIIIIIII',d);
+          //if(d.name===0)return;
+          $http({
+            method:'POST',
+            url:'fil3chain/blockDetail',
+            data:{
+              hashBlock:d.name
+            }
+          }).then(function(response){
+            console.log('Fil3chainDirective','Get Block','success',response);
+            scope.block = response.data;
+          },function(response){
+            console.log('Fil3chainDirective','Get Block','error',response);
+
+          })
+        };
         attrs.$observe('data',function(){
           if(attrs.data){
             console.log( 'Fil3chainDirective:', attrs.data );
             //var json = JSON.parse(newValue);
             angular.element(element[0]).empty();
-            initTree(element[0], JSON.parse(attrs.data) );
+            initTree(element[0], JSON.parse(attrs.data) ,node_click);
           }
       });
-/*
-        scope.$watch(
-          "data",
-          function handleDataChange( newValue, oldValue ) {
-            if(newValue){
-              console.log( 'Fil3chainDirective:', newValue );
-              //var json = JSON.parse(newValue);
-              angular.element(element[0]).empty();
-              initTree(element[0], newValue );
-            }
-          }
-        );
-        */
+
         var ConfigWidget = function(type, name, page){
           return {
             type:type,

@@ -55,12 +55,12 @@
 <md-card-header-text layout layout-align="end center">
   <span class="md-headline">Fil3chain</span>
   <span flex></span>
-  <md-button ng-if="data.info.page != undefined" class="md-icon-button" aria-label="Previous Page">
+  <md-button ng-if="data.info.page > 1" class="md-icon-button" aria-label="Previous Page">
     <md-icon  md-menu-origin ng-click="paginationPrev(data.info.page)" md-svg-src="icons/ic_keyboard_arrow_left_black_24px.svg" alt="Refresh widget" </md-icon>
     </md-button>
     <p ng-if="data.info.page != undefined">Page {{data.info.page}}</p>
     <p ng-if="data.info.page === undefined">Pages are not available</p>
-    <md-button ng-if="data.info.page != undefined" class="md-icon-button" aria-label="Next Page">
+    <md-button ng-if="data.info.last !== 'true'" class="md-icon-button" aria-label="Next Page">
       <md-icon  md-menu-origin ng-click="paginationSucc(data.info.page)" md-svg-src="icons/ic_keyboard_arrow_right_black_24px.svg" alt="Refresh widget" </md-icon>
       </md-button>
 
@@ -79,55 +79,38 @@
           </md-menu>
         </md-card-header-text>
       </md-card-header>
-      <!--
-      <img ng-src="{{imagePath}}" class="md-card-image" alt="Washed Out">
-      <md-card-title>
-      <md-card-title-text>
-      <span class="md-headline">In-card mixed actions</span>
-      <span class="md-subhead">Reversed</span>
-    </md-card-title-text>
-  </md-card-title>
 
-  <md-card-actions layout="row" layout-align="start center">
-  <md-button>Action 1</md-button>
-  <md-button>Action 2</md-button>
-  <md-card-icon-actions>
-  <md-button class="md-icon-button" aria-label="toggle">
-  <md-icon md-svg-icon="md-toggle-arrow"></md-icon>
-</md-button>
-</md-card-icon-actions>
-</md-card-actions>
--->
-<md-card-content layout layout-padding>
+<md-card-content layout-padding>
   <div id="tree-container" data="{{data}}" filechain></div>
-  <div layout="column" layout-fill class="expanded">
-		<md-list>
-			<md-subheader class="md-no-sticky">Block details</md-subheader>
-      <md-list-item>
-       <p>ok</p>
-       <p>ok</p>
-       <md-checkbox class="md-secondary"  ng-show="selectionModeItem"></md-checkbox>
-     </md-list-item>
-     <md-list-item>
-      <p>ok</p>
-      <p>ok</p>
-      <md-checkbox class="md-secondary"  ng-show="selectionModeItem"></md-checkbox>
-    </md-list-item>
-    <md-list-item>
-     <p>ok</p>
-     <p>ok</p>
-     <md-checkbox class="md-secondary"  ng-show="selectionModeItem"></md-checkbox>
-   </md-list-item>
-			 <md-list-item	ng-repeat="h in headers">
-				<p>{{ h.name }}</p>
-				<p>{{ block[h.field] }}</p>
-				<md-checkbox class="md-secondary"  ng-show="selectionModeItem"></md-checkbox>
-			</md-list-item>
-		</md-list>
-	</div>
 </md-card-content>
 <md-card-footer layout layout-align="end center">
   Card footer
 
 </md-card-footer>
 </md-card>
+
+<div layout="column" layout-fill >
+  <md-list>
+    <md-subheader class="md-no-sticky">Block details</md-subheader>
+     <md-list-item	ng-repeat="h in headers">
+      <p ng-if="h.name != 'User'">{{ h.name }}</p>
+      <p ng-if="h.name != 'User'">{{ block[h.field] }}</p>
+      <!--
+      <md-list ng-if="h.name === 'User'">
+         <md-list-item	ng-repeat="innerField in h.innerFields">
+           <p>{{ innerField.name }}</p>
+           <p>{{ innerField.field }}</p>
+         </md-list-item>
+      </md-list>
+    -->
+      <md-checkbox class="md-secondary"  ng-show="selectionModeItem"></md-checkbox>
+    </md-list-item>
+  </md-list>
+  <md-list ng-repeat="h in headers" ng-if="h.name === 'User'">
+    <md-list-item	ng-repeat="innerField in h.innerFields">
+      <p>{{ innerField.name }}</p>
+      <p>{{innerField.field}}</p>
+      <p>{{ block[h.field][innerField.field]}}</p>
+    </md-list-item>
+  </md-list>
+</div>

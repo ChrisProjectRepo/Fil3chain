@@ -28,7 +28,7 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.*/
 
 // Get JSON data
 //treeJSON = d3.json("flare.json", function(error, treeData) {
-function initTree(container, treeData){
+function initTree(container, treeData, node_click){
     console.log('DndTree','Init Tree');
     // Calculate total nodes, max label length
     var totalNodes = 0;
@@ -276,9 +276,10 @@ function initTree(container, treeData){
 
     function click(d) {
         if (d3.event.defaultPrevented) return; // click suppressed
-        d = toggleChildren(d);
+        //d = toggleChildren(d);
         update(d);
         //centerNode(d);
+        node_click(d);
     }
 
     function update(source) {
