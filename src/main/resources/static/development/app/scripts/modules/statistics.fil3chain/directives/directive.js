@@ -39,7 +39,6 @@
   function Fil3chainDirective($log, $compile, $http, $state, Statistics, StatisticsConfig) {
     return{
       restrict:'A',
-      scope:{},
       //template:'<svg id="tree-container" style="width:100%"></svg>',
       link: function(scope, element, attrs){
         $log.debug('Fil3chainDirective',scope, element, attrs)
@@ -69,15 +68,16 @@
         angular.element(element[0]).css('width','100%');
         angular.element(element[0]).css('height','100%');
 
-        //var tree = new dndTree( '#chart' );
-        //tree.update(json)
-        var container = $(element[0]);
-        $log.debug('Fil3chainDirective','Container width',element[0].offsetHeight);
-        $log.debug('Fil3chainDirective','Container height',$(element[0]).outerWidth());
-
-        initTree(element[0], json )
-        $log.debug('Fil3chainDirective','result chart:')
-
+        scope.$watch(
+                    "data",
+                    function handleDataChange( newValue, oldValue ) {
+                      if(newValue){
+                        console.log( 'Fil3chainDirective:', newValue );
+                        //var json = JSON.parse(newValue);
+                        initTree(element[0], newValue );
+                      }
+                    }
+                );
       }
     }
   }
