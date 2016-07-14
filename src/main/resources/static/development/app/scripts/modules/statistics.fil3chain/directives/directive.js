@@ -43,6 +43,7 @@
       //template:'<svg id="tree-container" style="width:100%"></svg>',
       link: function(scope, element, attrs){
         $log.debug('Fil3chainDirective',scope, element, attrs)
+        scope.block = null;
         scope.headers=[{
     			name: 'Chain Level',
     			field: 'chainLevel'
@@ -75,9 +76,23 @@
             field: 'publicKeyHash'
           }]
         }];
+        /*
+        ,{
+          name: 'Transaction',
+          field: 'transactionsContainer',
+          innerFields:[{
+              name: 'File name',
+              field: 'filename'
+            },{
+            name: 'Hash File',
+            field: 'hashFile'
+          }]
+        }
+        */
         $log.debug('Fil3chainDirective','element chart:', element[0])
         angular.element(element[0]).css('width','100%');
         angular.element(element[0]).css('height','100%');
+
         var node_click = function(d){
           console.log('CLIIIIIIIIIIIIIIII',d);
           //if(d.name===0)return;
@@ -101,9 +116,29 @@
             //var json = JSON.parse(newValue);
             angular.element(element[0]).empty();
             initTree(element[0], JSON.parse(attrs.data) ,node_click);
+            scope.block = null;
           }
       });
+      //Oggetto atto alla memorizzazione delle indici dei blocchi le cui transazioni sono aperte
+      var openedFields ={};
+      //questa funzione si occupa di gestire i flag di apertura del campo citations//delle varie transazioni
+      scope.toggleInnerField = function(index, block, field){
+          console.log('Toggle transaction',index, block, field);
+          if(!openedFields[block.hashBlock]){
+            openedFields[block.hashBlock]={};
+          }
+          if(!openedFields[block.hashBlock][field])openedFields[block.hashBlock][field] = true;
+          else openedFields[block.hashBlock][field] = !openedFields[block.hashBlock][field]
+          //openedFields[transaction.hashTransBlock] =! openedFields[transaction.hashTransBlock];
+          console.log('Toggle transaction','result', openedFields, openedFields[block.hashBlock]);
+      }
+      scope.openedFields = openedFields;
 
+
+      function deleteDetails(){
+        scope.block=null;
+      }
+      scope.deleteDetails=deleteDetails;
         var ConfigWidget = function(type, name, page){
           return {
             type:type,

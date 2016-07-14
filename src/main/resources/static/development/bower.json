@@ -33,7 +33,6 @@
     "angular-route": "1.5.5",
     "angular-ui-router": "0.2.18",
     "angular-chart.js": "^0.10.2",
-    "d3": "^4.1.1",
     "jquery": "^3.1.0"
   }
 }

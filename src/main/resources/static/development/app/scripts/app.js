@@ -68,7 +68,7 @@ angular
     views: {
       "content@app": {
         templateUrl: 'views/wallet.profile.html',
-        controller:'signupCtrl'
+        controller:'userProfileCtrl'
       }
     }
   })

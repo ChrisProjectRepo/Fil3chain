@@ -75,48 +75,6 @@
 		       },
 		       {
 		    	   states: [
-		    	            'app.wallet.profile',
-		    	            ],
-		    	            show:"true",
-		    	            direction:"up",
-		    	            class:"md-scale md-fab-bottom-right",
-		    	            ngClass:"{ 'md-hover-full': hover }",
-		    	            fabTrigger:{
-		    	            	label:'Update Profile',
-		    	            	icon:'icons/ic_create_white_24px.svg',
-		    	            	action:{
-		    	            		click: function(){
-		    	            			console.log('Action click');
-		    	            		}
-		    	            	}
-		    	            },
-		    	            fabActions:[
-		    	                        {
-		    	                        	name: "Signin",
-		    	                        	icon: "icons/ic_person_black_24px.svg",
-		    	                        	direction: "left",
-		    	                        	sref:"app.welcome.signin",
-		    	                        	click:function(config){
-		    	                        		console.log('FabController','in actionClicked this', this);
-		    	                        		console.log('FabController','in actionClicked state', config);
-		    	                        		config.go(this.sref);
-		    	                        	}
-		    	                        },
-		    	                        {
-		    	                        	name: "Signup",
-		    	                        	icon: "icons/ic_person_add_black_24px.svg",
-		    	                        	direction: "left",
-		    	                        	sref:"app.welcome.signup",
-		    	                        	click:function(config){
-		    	                        		console.log('FabController','in actionClicked this', this);
-		    	                        		console.log('FabController','in actionClicked state', config);
-		    	                        		config.go(this.sref);
-		    	                        	}
-		    	                        }
-		    	                        ]
-		       },
-		       {
-		    	   states: [
 		    	            'app.wallet.transactions',
 		    	            ],
 		    	            show:"true",
