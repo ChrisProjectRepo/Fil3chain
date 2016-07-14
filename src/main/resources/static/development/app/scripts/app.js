@@ -86,7 +86,6 @@ angular
     		   .then(function(transactions){
     			   return transactions;
     		   },function(error){
-    			  console.log('ooooooooooooooooooooooooooooooo1 ERROR')
     			  return undefined;
     		   });
     	}],
@@ -104,16 +103,6 @@ angular
       }
     },
     resolve:{
-    	transactions:['TransactionService',function(TransactionService){
-    		   return TransactionService.get()
-    		   .then(function(transactions){
-    			   return transactions;
-    		   },function(error){
-    			   console.log('ooooooooooooooooooooooooooooooo1 ERROR')
-
-    			  return undefined;
-    		   });
-    	}],
     	transactionHeaders:['TransactionService',function(TransactionService){
     		return TransactionService.getTransactionHeader();
     	}]
@@ -150,8 +139,6 @@ angular
 	 		   .then(function(ips){
 	 			   return ips;
 	 		   },function(error){
-	 			   console.log('ooooooooooooooooooooooooooooooo1 ERROR')
-
 	 			  return undefined;
 	 		   });
 	 	}]
@@ -194,7 +181,6 @@ angular
            .then(function(transactions){
              return transactions;
            },function(error){
-            console.log('ooooooooooooooooooooooooooooooo1 ERROR')
             return undefined;
            });
       }],

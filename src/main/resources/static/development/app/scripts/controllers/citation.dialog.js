@@ -12,6 +12,15 @@ angular.module('blockchainApp')
                                   function($scope, $mdDialog, TransactionService,TransactionsFilter,TransactionsSelectedFilter, transactionHeaders, transactions, citations){
 	console.log('citationDialogCtrl');
 	$scope.headers = transactionHeaders;
+  //Oggetto atto alla memorizzazione degli indici delle transazioni le cui citazioni sono aperte
+  var openedCitations ={};
+  //questa funzione si occupa di gestire i flag di apertura del campo citations//delle varie transazioni
+  $scope.toggleCitation = function(index, transaction){
+      //console.log('Toggle transaction',index, transaction);
+      openedCitations[transaction.hashTransBlock] =! openedCitations[transaction.hashTransBlock];
+      //console.log('Toggle transaction','result', openedCitations);
+  }
+  $scope.openedCitations = openedCitations;
 	//Applico TransactionsSelectedFilter alle transazioni ricevute
 	//Questo filtro verifica in quest array se ci sono transazioni precedentemente selezionate
 	//in tal caso aggiunge il valore selected all'item originale
@@ -49,7 +58,7 @@ angular.module('blockchainApp')
 
 
 	//Variabile utilizzata per identificare l'item della lista da espandere
-	$scope.selectedUserIndex = undefined;
+	$scope.selectedCitationIndex = undefined;
 	//Gestione click sugli elementi della lista di transazioni
 	$scope.selectUserIndex = function (ev, index) {
 		console.log('walletTransactionCtrl','selectUserIndex click',ev.target.parentNode.nodeName,index)
@@ -57,11 +66,11 @@ angular.module('blockchainApp')
 		//per aggiungere la transazione in selectedTransactions
 		if(ev.target.parentNode.nodeName ==='MD-CHECKBOX')return addTransaction($scope.transactions[index])
 		//Controlli per l'espansionde di un list item
-		if ($scope.selectedUserIndex !== index) {
-			$scope.selectedUserIndex = index;
+		if ($scope.selectedCitationIndex !== index) {
+			$scope.selectedCitationIndex = index;
 		}
 		else {
-			$scope.selectedUserIndex = undefined;
+			$scope.selectedCitationIndex = undefined;
 		}
 	};
 

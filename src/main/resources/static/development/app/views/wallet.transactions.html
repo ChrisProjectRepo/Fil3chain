@@ -31,8 +31,8 @@
     </div>
   </div>
   <md-divider layout-fill ng-show="$index == selectedTransactionIndex"></md-divider>
-  <div layout="column" flex="grow" layout-fill class="expanded">
-    <md-subheader class="md-no-sticky">Transaction details</md-subheader>
+  <div layout="column" flex="grow" layout-fill layout-padding class="expanded">
+    <p class="transaction" ng-show="$index == selectedTransactionIndex">Transaction Details</p>
 
     <div ng-repeat="h in headers" flex="grow">
       <div layout layout-align="space-between center" layout-padding ng-if="h.name !== 'Citations'">
