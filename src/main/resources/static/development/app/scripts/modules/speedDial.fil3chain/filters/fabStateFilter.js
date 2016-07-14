@@ -1,12 +1,3 @@
-/**
-* uiBreadcrumbs automatic breadcrumbs directive for AngularJS & Angular ui-router.
-*
-* https://github.com/michaelbromley/angularUtils/tree/master/src/directives/uiBreadcrumbs
-*
-* Copyright 2014 Michael Bromley <michael@michaelbromley.co.uk>'+
-*/
-
-
 (function() {
 
   /**
@@ -29,7 +20,7 @@
     StateSpeedDialFilter.$inject =[];
     function StateSpeedDialFilter(){
       return function(items, match){
-        console.log('Fab State Filter',items, match);
+        //console.log('Fab State Filter',items, match);
         var matching = [];
         angular.forEach(items, function(item){
           if(item.states){

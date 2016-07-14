@@ -22,9 +22,9 @@
   function NavbarService($log, NavbarConfig, StateNavbarFilter) {
     var SidenavService = {};
 
-    $log.info('NavbarService',NavbarConfig, StateNavbarFilter)
+    //$log.info('NavbarService',NavbarConfig, StateNavbarFilter)
     NavbarService.get = function(state){
-      $log.debug('NavbarService','get','state',state);
+      //$log.debug('NavbarService','get','state',state);
       var filtered;
       if(!state)state='default';
       filtered = StateNavbarFilter(NavbarConfig, state)[0];

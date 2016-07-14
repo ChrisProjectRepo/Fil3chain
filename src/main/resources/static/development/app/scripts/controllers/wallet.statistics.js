@@ -11,10 +11,10 @@ angular.module('blockchainApp')
 .controller('walletStatisticsCtrl',[
   '$scope', '$mdDialog', '$mdMedia','$mdToast',
   function($scope,$mdDialog, $mdMedia,$mdToast){
-    console.log('walletStatisticsCtrl');
+    //console.log('walletStatisticsCtrl');
 
 
-  
+
     $scope.datasetOverride = [{ yAxisID: 'y-axis-1' }, { yAxisID: 'y-axis-2' }];
     $scope.options = {
       scales: {

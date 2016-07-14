@@ -1,12 +1,3 @@
-/**
-* uiBreadcrumbs automatic breadcrumbs directive for AngularJS & Angular ui-router.
-*
-* https://github.com/michaelbromley/angularUtils/tree/master/src/directives/uiBreadcrumbs
-*
-* Copyright 2014 Michael Bromley <michael@michaelbromley.co.uk>'+
-*/
-
-
 (function() {
 
   /**
@@ -34,26 +25,26 @@
       compile: function compile(tElement, tAttrs, transclude) {
         return {
           pre: function preLink(scope, iElement, iAttrs, controller) {
-            $log.debug('SpeedDialDirective','pre');
+            //$log.debug('SpeedDialDirective','pre');
             scope.speedDial = SpeedDial.setConfig($state.current.name);
             scope.actionClick = function(action){
-              $log.info('speedDial','action','click',action);
+              //$log.info('speedDial','action','click',action);
               action.click($state);
             }
           },
           post: function postLink(scope, iElement, iAttrs, controller) {
-            $log.debug('SpeedDialDirective','post');
+            //$log.debug('SpeedDialDirective','post');
             $http.get(templateSrc)
             .then(function(template){
-              $log.debug('SpeedDialDirective','post','template load success');
+              //$log.debug('SpeedDialDirective','post','template load success');
               var compiled = $compile(template.data)(scope);
               angular.element(iElement).replaceWith(compiled);
 
               function changeSuccessListener(event, toState, toParams, fromState, fromParams){
-                $log.info('speedDial','$stateChangeSuccess',event, toState, toParams, fromState, fromParams);
+                //$log.info('speedDial','$stateChangeSuccess',event, toState, toParams, fromState, fromParams);
                 scope.speedDial = SpeedDial.setConfig($state.current.name);
 
-                $log.info('speedDial','$viewContentLoading','after',scope.speedDial);
+                //$log.info('speedDial','$viewContentLoading','after',scope.speedDial);
               }
               scope.$on('$stateChangeSuccess', changeSuccessListener);
 

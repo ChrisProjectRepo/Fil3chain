@@ -1,10 +1,6 @@
 /**
-* uiBreadcrumbs automatic breadcrumbs directive for AngularJS & Angular ui-router.
-*
-* https://github.com/michaelbromley/angularUtils/tree/master/src/directives/uiBreadcrumbs
-*
-* Copyright 2014 Michael Bromley <michael@michaelbromley.co.uk>'+
-*/
+* speedDial.fil3chain modulo per la gestione di sppedDial button
+**/
 
 
 (function() {

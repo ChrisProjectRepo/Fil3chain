@@ -42,8 +42,8 @@
 		    	            	action:{
 			    	            	sref:"app.welcome",
 		    	            		click:function(config){
-		    	            			console.log('FabController','in actionClicked this', this);
-		    	            			console.log('FabController','in actionClicked state', config);
+		    	            			//console.log('FabController','in actionClicked this', this);
+		    	            			//console.log('FabController','in actionClicked state', config);
 		    	            			config.go(this.sref);
 		    	            		}
 		    	            	}
@@ -55,8 +55,8 @@
 		    	                        	direction: "left",
 		    	                        	sref:"app.welcome.signin",
 		    	                        	click:function(config){
-		    	                        		console.log('FabController','in actionClicked this', this);
-		    	                        		console.log('FabController','in actionClicked state', config);
+		    	                        		//console.log('FabController','in actionClicked this', this);
+		    	                        		//console.log('FabController','in actionClicked state', config);
 		    	                        		config.go(this.sref);
 		    	                        	}
 		    	                        },
@@ -66,8 +66,8 @@
 		    	                        	direction: "left",
 		    	                        	sref:"app.welcome.signup",
 		    	                        	click:function(config){
-		    	                        		console.log('FabController','in actionClicked this', this);
-		    	                        		console.log('FabController','in actionClicked state', config);
+		    	                        		//log('FabController','in actionClicked this', this);
+		    	                        		//console.log('FabController','in actionClicked state', config);
 		    	                        		config.go(this.sref);
 		    	                        	}
 		    	                        }
@@ -86,7 +86,7 @@
 		    	            	icon:'icons/ic_add_white_24px.svg',
 		    	            	action:{
 		    	            		click: function(state){
-		    	            			console.log('Action click',state);
+		    	            			//console.log('Action click',state);
 		    	            			state.go('app.wallet.transactions.post')
 		    	            		}
 		    	            	}

@@ -36,29 +36,7 @@ angular.module('blockchainApp')
               );
           });
   };
+  $scope.delete = function(user){
+    user={}
+  }
 }]);
-/*
-angular.module('blockchainApp')
-.controller('signinCtrl', ['$scope','$mdToast','$state','AuthenticationService',function ($scope,$mdToast,$state,AuthenticationService) {
-  console.log('signinCtrl');
-  $scope.user={};
-  $scope.signin = function(user){
-    console.log('signin clicked from signinCtrl',$scope.user);
-    AuthenticationService.signin($scope.user)
-    .then(function(user){
-      console.log('Signin','result',user);
-      AuthenticationService.SetCredentials(user.username,user.password);
-      $state.go('app.dashboard',{userId:user.id});
-    },function(message){
-      $mdToast.show(
-        $mdToast.simple()
-        .textContent(message)
-        .position('fil')
-        //.position($scope.getToastPosition())
-        .hideDelay(5000)
-      );
-    })
-  };;
-  //console.log('signinCtrl','scope',$scope);
-}]);
-*/

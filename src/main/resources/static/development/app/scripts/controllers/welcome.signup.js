@@ -11,16 +11,16 @@
 angular.module('blockchainApp')
 .controller('signupCtrl',['$scope','$http', '$state', '$mdToast',
 function ($scope, $http, $state, $mdToast) {
-    console.log('signupCtrl');
+    //console.log('signupCtrl');
     $scope.signup = function(user){
-        console.log(user)
+        //console.log(user)
         $http({
             url:'/fil3chain/sign_up',
             method:'POST',
             data: user
         })
             .then(function(response){
-                console.log('response success',response)
+                //console.log('response success',response)
                 $mdToast.show(
                   $mdToast.simple()
                   .textContent(response.data.response)
@@ -30,7 +30,7 @@ function ($scope, $http, $state, $mdToast) {
                 );
                 $state.go('app.welcome');
             },function(response){
-                console.log('response error ',response)
+                //console.log('response error ',response)
                 $mdToast.show(
                   $mdToast.simple()
                   .textContent('Error '+response)
@@ -40,29 +40,8 @@ function ($scope, $http, $state, $mdToast) {
                 );
             });
     };
+    $scope.delete = function(user){
+      console.log(user)
+      user={};
+    }
 }])
-/*
-angular.module('blockchainApp')
-.controller('signupCtrl', ['$scope','$mdToast','$state','UserService','UserValidatorService',function ($scope,$mdToast,$state,AuthenticationService,UserValidatorService) {
-  console.log('signupCtrl',AuthenticationService);
-  $scope.signup = function(user){
-    console.log('click by signupCtrl',user);
-
-    AuthenticationService.signup(user)
-    .then(function(user){
-      console.log('signupCtrl','signup',user);
-      $state.go('app.dashboard');
-    },function(response){
-
-      $mdToast.show(
-        $mdToast.simple()
-        .textContent(response)
-        .position('fil')
-        //.position($scope.getToastPosition())
-        .hideDelay(5000)
-      );
-    })
-  }
-}]);
-
-*/

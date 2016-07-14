@@ -1,12 +1,3 @@
-/**
-* uiBreadcrumbs automatic breadcrumbs directive for AngularJS & Angular ui-router.
-*
-* https://github.com/michaelbromley/angularUtils/tree/master/src/directives/uiBreadcrumbs
-*
-* Copyright 2014 Michael Bromley <michael@michaelbromley.co.uk>'+
-*/
-
-
 (function() {
 
   /**
@@ -39,10 +30,8 @@
   function Fil3chainDirective($log, $compile, $http, $state, Statistics, StatisticsConfig) {
     return{
       restrict:'A',
-
-      //template:'<svg id="tree-container" style="width:100%"></svg>',
       link: function(scope, element, attrs){
-        $log.debug('Fil3chainDirective',scope, element, attrs)
+        //$log.debug('Fil3chainDirective',scope, element, attrs)
         scope.block = null;
         scope.headers=[{
     			name: 'Chain Level',
@@ -89,12 +78,12 @@
           }]
         }
         */
-        $log.debug('Fil3chainDirective','element chart:', element[0])
+        //$log.debug('Fil3chainDirective','element chart:', element[0])
         angular.element(element[0]).css('width','100%');
         angular.element(element[0]).css('height','100%');
 
         var node_click = function(d){
-          console.log('CLIIIIIIIIIIIIIIII',d);
+          //console.log('CLIIIIIIIIIIIIIIII',d);
           //if(d.name===0)return;
           $http({
             method:'POST',
@@ -103,16 +92,16 @@
               hashBlock:d.name
             }
           }).then(function(response){
-            console.log('Fil3chainDirective','Get Block','success',response);
+            //console.log('Fil3chainDirective','Get Block','success',response);
             scope.block = response.data;
           },function(response){
-            console.log('Fil3chainDirective','Get Block','error',response);
+            //console.log('Fil3chainDirective','Get Block','error',response);
 
           })
         };
         attrs.$observe('data',function(){
           if(attrs.data){
-            console.log( 'Fil3chainDirective:', attrs.data );
+            //console.log( 'Fil3chainDirective:', attrs.data );
             //var json = JSON.parse(newValue);
             angular.element(element[0]).empty();
             initTree(element[0], JSON.parse(attrs.data) ,node_click);
@@ -123,14 +112,13 @@
       var openedFields ={};
       //questa funzione si occupa di gestire i flag di apertura del campo citations//delle varie transazioni
       scope.toggleInnerField = function(index, block, field){
-          console.log('Toggle transaction',index, block, field);
+          //console.log('Toggle transaction',index, block, field);
           if(!openedFields[block.hashBlock]){
             openedFields[block.hashBlock]={};
           }
           if(!openedFields[block.hashBlock][field])openedFields[block.hashBlock][field] = true;
           else openedFields[block.hashBlock][field] = !openedFields[block.hashBlock][field]
-          //openedFields[transaction.hashTransBlock] =! openedFields[transaction.hashTransBlock];
-          console.log('Toggle transaction','result', openedFields, openedFields[block.hashBlock]);
+          //console.log('Toggle transaction','result', openedFields, openedFields[block.hashBlock]);
       }
       scope.openedFields = openedFields;
 
@@ -147,24 +135,24 @@
           }
         }
         scope.paginationPrev = function(page){
-          console.log('Page to send',parseInt(page)-1);
+          //console.log('Page to send',parseInt(page)-1);
           Statistics.get(ConfigWidget(scope.type,scope.name,parseInt(page)-1))
           .then(function(response){
-            $log.debug('Fil3chainDirective','success',response)
+            //$log.debug('Fil3chainDirective','success',response)
             scope.data = response.data
           },function(response){
-            $log.debug('Fil3chainDirective','error',response)
+            //$log.debug('Fil3chainDirective','error',response)
 
           })
         };
         scope.paginationSucc = function(page){
-          console.log('Page to send',parseInt(page)+1);
+          //console.log('Page to send',parseInt(page)+1);
           Statistics.get(ConfigWidget(scope.type, scope.name, parseInt(page)+1))
           .then(function(response){
-            $log.debug('Fil3chainDirective','success',response)
+            //$log.debug('Fil3chainDirective','success',response)
             scope.data = response.data
           },function(response){
-            $log.debug('Fil3chainDirective','error',response)
+            //$log.debug('Fil3chainDirective','error',response)
 
           })
         }
@@ -190,8 +178,8 @@
       compile: function compile(tElement, tAttrs, transclude) {
         return {
           pre: function preLink(scope, iElement, iAttrs, controller) {
-            $log.debug('GraphDirective','pre',$state.current.name);
-            $log.debug('GraphDirective','pre',Statistics, StatisticsConfig);//),Navbar.get($state.current.name));
+            //$log.debug('GraphDirective','pre',$state.current.name);
+            //$log.debug('GraphDirective','pre',Statistics, StatisticsConfig);//),Navbar.get($state.current.name));
             var ConfigWidget = function(type, name){
               return {
                 type:type,
@@ -202,10 +190,10 @@
             scope.refreshWidget = function(){
               Statistics.get(ConfigWidget(scope.type,scope.name,scope.page))
               .then(function(response){
-                $log.debug('GraphDirective','success',response)
+                //$log.debug('GraphDirective','success',response)
                 scope.data = response.data
               },function(response){
-                $log.debug('GraphDirective','error',response)
+                //$log.debug('GraphDirective','error',response)
 
               })
             };
@@ -215,7 +203,7 @@
 
             };
             var openWidgetMenu = function($mdOpenMenu, ev){
-              console.log('Open Widget menu');
+              //console.log('Open Widget menu');
               //originatorEv = ev;
               $mdOpenMenu(ev);
             }
@@ -225,11 +213,11 @@
           post: function postLink(scope, iElement, iAttrs, controller) {
             var templateSrc = 'scripts/modules/statistics.fil3chain/templates/'+
             scope.type+'/'+scope.name+'.html';
-            $log.debug('GraphDirective','post');
-            console.log(scope,  templateSrc);
+            //$log.debug('GraphDirective','post');
+            //console.log(scope,  templateSrc);
             $http.get(templateSrc)
             .then(function(template){
-              $log.debug('GraphDirective','post','template load success');
+              //$log.debug('GraphDirective','post','template load success');
               var compiled = $compile(template.data)(scope);
               if(scope.type==='number'){
                 compiled.css('max-height','8em');

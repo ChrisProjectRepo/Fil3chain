@@ -24,9 +24,9 @@
     var SpeedDialService = {};
     SpeedDialService.config = {};
 
-    $log.info('SpeedDialService',SpeedDialConfig, StateSpeedDialFilter)
+    //$log.info('SpeedDialService',SpeedDialConfig, StateSpeedDialFilter)
     SpeedDialService.getConfig = function(){
-      $log.debug('SpeedDialService','getConfig','state');
+      //$log.debug('SpeedDialService','getConfig','state');
       return SpeedDialService.config;
     }
     SpeedDialService.setConfig = function(state){
@@ -35,7 +35,7 @@
       filtered = StateSpeedDialFilter(SpeedDialConfig, state)[0];
 
       if(!filtered)filtered = StateSpeedDialFilter(SpeedDialConfig, 'default')[0];
-      console.log('uuuuuuuuuuu',filtered);
+      //console.log('uuuuuuuuuuu',filtered);
       SpeedDialService.config = filtered;
       return SpeedDialService.getConfig();
     }

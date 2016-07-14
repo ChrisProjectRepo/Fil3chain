@@ -1,12 +1,3 @@
-/**
-* uiBreadcrumbs automatic breadcrumbs directive for AngularJS & Angular ui-router.
-*
-* https://github.com/michaelbromley/angularUtils/tree/master/src/directives/uiBreadcrumbs
-*
-* Copyright 2014 Michael Bromley <michael@michaelbromley.co.uk>'+
-*/
-
-
 (function() {
 
   /**
@@ -30,7 +21,7 @@
   StateNavbarFilter.$inject =[];
   function StateNavbarFilter(){
     return function(items, match){
-      console.log('StateNavbarFilter',items, match);
+      //console.log('StateNavbarFilter',items, match);
       var matching = [];
       angular.forEach(items, function(item){
         if(item.states){
@@ -51,10 +42,10 @@
   TabNavbarFilter.$inject =[];
   function TabNavbarFilter(){
     return function(items, match){
-      console.log('TabNavbarFilter',items, match);
+      //console.log('TabNavbarFilter',items, match);
       var matching = [];
       angular.forEach(items, function(item,index){
-        console.log('TabNavbarFilter index',item, index);
+        //console.log('TabNavbarFilter index',item, index);
         //angular.forEach(item.links, function(link){
           if(item.state===match){
             matching.push(index);

@@ -23,15 +23,15 @@
   function SidenavService($log, SidenavConfig, StateSidenavFilter) {
     var SidenavService = {};
 
-    $log.info('SidenavService',SidenavConfig, StateSidenavFilter)
+    //$log.info('SidenavService',SidenavConfig, StateSidenavFilter)
     SidenavService.get = function(state){
-      $log.debug('SidenavService','get','state',state);
+      //$log.debug('SidenavService','get','state',state);
       var filtered;
       if(!state)state='default';
       filtered = StateSidenavFilter(SidenavConfig, state)[0];
 
       if(!filtered)filtered = StateSidenavFilter(SidenavConfig, 'default')[0];
-      console.log('uuuuuuuuuuu',filtered);
+      //console.log('uuuuuuuuuuu',filtered);
       return filtered;
     }
     return SidenavService;

@@ -28,12 +28,12 @@
         data: data
       }
     }
-    $log.info('StatisticsService',StatisticsConfig)
+    //$log.info('StatisticsService',StatisticsConfig)
     //Prende in ingresso un oggetto del tipo:
     //{type:"",name:"",page:""}
     StatisticsService.get = function(config){
-      $log.debug('StatisticsService','get','config',config);
-      $log.debug('StatisticsService','get','config',HttpRequestConfig(config));
+      //$log.debug('StatisticsService','get','config',config);
+      //$log.debug('StatisticsService','get','config',HttpRequestConfig(config));
 
       return $http(HttpRequestConfig(config));
     }

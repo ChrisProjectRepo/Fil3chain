@@ -10,11 +10,11 @@
 angular.module('blockchainApp')
 .controller('minerCtrl',function($scope, $mdDialog, $mdMedia,MinerService, ips, miningCheck){
 	//miningCheck conterrà lo stato attuale del mining
-	console.log('minerCtrl',miningCheck);
+	//////console.log('minerCtrl',miningCheck);
 	//Variabile contenente l'ip selezionato dall'utente
 	//lo start_time ed end_time di mining ritornati dal server a seguito dello start
 	$scope.miner={};
-	
+
 	var buttonMinerStart={
 			icon:'icons/ic_play_arrow_white_24px.svg',
 			label:'Start miner'
@@ -23,7 +23,7 @@ angular.module('blockchainApp')
 			icon:'icons/ic_stop_white_24px.svg',
 			label:'Stop miner'
 	};
-	
+
 	var buttonConfig={
 			state: miningCheck,
 			false: buttonMinerStart,
@@ -31,41 +31,41 @@ angular.module('blockchainApp')
 	}
 	//Assegnazione bottone per la gestione del servizio di mining
 	$scope.buttonMiner = buttonConfig[buttonConfig.state];
-	//funzione che si occupa di fare lo switch del bottone  
+	//funzione che si occupa di fare lo switch del bottone
 	//settandolo al valore opposto del suo stato corrente
 	function switchButton(){
 		buttonConfig.state = !buttonConfig.state
 		$scope.buttonMiner = buttonConfig[buttonConfig.state];
 	}
-	
-	
+
+
 	function minerButtonClick(event){
-		console.log('minerCtrl','minerButtonClick');
+		////console.log('minerCtrl','minerButtonClick');
 		//Se lo stato del bottone è false allora devo avviare il mining
 		if(!buttonConfig.state) {
 			//mostro un dialog per far selezionare l'ip all'utente
 			showAlert(event)
 			.then(function(selected_ip) {
-				console.log('You said the information was "' + selected_ip + '".');
+				//console.log('You said the information was "' + selected_ip + '".');
 				$scope.miner.selected_ip = selected_ip;
 				$scope.miner.startTime = Date.now();
 				//Una volta selezionato l'ip chiamo lo start passandogli l'ip scelto   TODO
 				MinerService.start()
 				.then(function(miner) {
 					switchButton();
-					console.log('Mining Start success.',miner);
+					////console.log('Mining Start success.',miner);
 				},function() {
 					console.log('Mining Start error.');
 				})
 			}, function() {
-				console.log('You cancelled the dialog.');
+				//console.log('You cancelled the dialog.');
 			});
 		}
 		else {
 			MinerService.stop()
 			.then(function(selected_ip) {
 				switchButton();
-				console.log('Mining Stop success.',buttonConfig.state);
+				//console.log('Mining Stop success.',buttonConfig.state);
 			},function(selected_ip) {
 				console.log('Mining Stop error.');
 			})

@@ -27,7 +27,7 @@
     </md-card-content>
   </form>
   <md-card-actions layout="row" layout-align-gt-sm="end center">
-    <md-button class="md-button md-ink-ripple" type="button" aria-label="Reset login form"><span class="ng-binding ng-scope">Reset</span><div class="md-ripple-container"></div></md-button>
+    <md-button ng-click="delete(user)" class="md-button md-ink-ripple" type="button" aria-label="Reset login form"><span class="ng-binding ng-scope">Reset</span><div class="md-ripple-container"></div></md-button>
     <md-button ng-disabled="signinForm.$invalid" ng-click="signin(user)" class="md-raised md-primary md-button md-ink-ripple" type="button" aria-label="Send login form"><span class="ng-scope">Login</span><div class="md-ripple-container"></div></md-button>
   </md-card-actions>
 </md-card>

@@ -1,9 +1,5 @@
 /**
-* uiBreadcrumbs automatic breadcrumbs directive for AngularJS & Angular ui-router.
-*
-* https://github.com/michaelbromley/angularUtils/tree/master/src/directives/uiBreadcrumbs
-*
-* Copyright 2014 Michael Bromley <michael@michaelbromley.co.uk>'+
+* Direttive utilizzate dal modulo navbar.fil3chain
 */
 
 
@@ -47,36 +43,30 @@
       compile: function compile(tElement, tAttrs, transclude) {
         return {
           pre: function preLink(scope, iElement, iAttrs, controller) {
-            $log.debug('NavbarDirective','pre',$state.current.name);
+            //$log.debug('NavbarDirective','pre',$state.current.name);
             scope.navbar = Navbar.get($state.current.name);
-            $log.debug('NavbarDirective','pre',Navbar.get($state.current.name));
+            //$log.debug('NavbarDirective','pre',Navbar.get($state.current.name));
 
             scope.actionClick = function(index,action){
-              $log.info('navbar','action','click',action);
+              //$log.info('navbar','action','click',action);
               $state.go(action.state),
               selectedIndex = index;
             }
             function setIndexTab(links,stateName){
               var x = TabNavbarFilter(links,stateName)
-              console.log('link trovati',x);
+              //console.log('link trovati',x);
               return x;
             }
             scope.setIndexTab = setIndexTab;
             //scope.selectedIndex = 0;
             scope.selectedIndex = setIndexTab(scope.navbar.links,$state.current.name);
-            /*
-            scope.$watch('selectedIndex', function(current, old) {
-            $log.info('navbar','selectedIndex',scope.navbar,current, old);
 
-            $state.go(scope.navbar.links[current].state);
-          })
-          */
         },
         post: function postLink(scope, iElement, iAttrs, controller) {
-          $log.debug('NavbarDirective','post');
+          //$log.debug('NavbarDirective','post');
           $http.get(templateSrc)
           .then(function(template){
-            $log.debug('NavbarDirective','post','template load success');
+            //$log.debug('NavbarDirective','post','template load success');
             var compiled = $compile(template.data)(scope);
             angular.element(iElement).replaceWith(compiled);
 
@@ -85,7 +75,7 @@
             function changeSuccessListener(event, toState, toParams, fromState, fromParams){
               //$log.info('NavbarDirective','$stateChangeSuccess',event, toState, toParams, fromState, fromParams);
               scope.navbar = Navbar.get($state.current.name);
-              $log.info('NavbarDirective','$stateChangeSuccess',scope.selectedIndex)
+              //$log.info('NavbarDirective','$stateChangeSuccess',scope.selectedIndex)
               scope.selectedIndex = scope.setIndexTab(scope.navbar.links,$state.current.name);
             }
             scope.$on('$stateChangeSuccess', changeSuccessListener);
@@ -96,12 +86,12 @@
                 $mdSidenav(navID)
                 .toggle()
                 .then(function () {
-                  $log.debug("toggle " + navID + " is done");
+                  //$log.debug("toggle " + navID + " is done");
                 });
               }
             }
           },function(error){
-            $log.error('NavbarDirective','post','template load error',error);
+            //$log.error('NavbarDirective','post','template load error',error);
           })
         }
       }

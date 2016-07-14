@@ -1,9 +1,5 @@
 /**
-* uiBreadcrumbs automatic breadcrumbs directive for AngularJS & Angular ui-router.
-*
-* https://github.com/michaelbromley/angularUtils/tree/master/src/directives/uiBreadcrumbs
-*
-* Copyright 2014 Michael Bromley <michael@michaelbromley.co.uk>'+
+* statistics.fil3chain modulo per la gestione delle statistiche e widget
 */
 
 

@@ -10,7 +10,7 @@
 angular.module('blockchainApp')
 .controller('citationDialogCtrl',['$scope', '$mdDialog', 'TransactionService','TransactionsFilter','TransactionsSelectedFilter','transactionHeaders','transactions','citations',
                                   function($scope, $mdDialog, TransactionService,TransactionsFilter,TransactionsSelectedFilter, transactionHeaders, transactions, citations){
-	console.log('citationDialogCtrl');
+	//console.log('citationDialogCtrl');
 	$scope.headers = transactionHeaders;
   //Oggetto atto alla memorizzazione degli indici delle transazioni le cui citazioni sono aperte
   var openedCitations ={};
@@ -33,26 +33,26 @@ angular.module('blockchainApp')
 	//Funzione che aggiunge una transazione in selectedTransactions nel caso non fosse gia presente
 	//nel caso contrario questa viene rimossa
 	function addTransaction( transaction ){
-		console.log('walletTransactionCtrl','Transaction click',transaction);
+		//console.log('walletTransactionCtrl','Transaction click',transaction);
 		//verifico se la transazione è gia presente nell'array selectedTransactions
 		var selected = TransactionsFilter(selectedTransactions,transaction);
-		console.log('walletTransactionCtrl','Transaction is selected',selected);
+		//console.log('walletTransactionCtrl','Transaction is selected',selected);
 		// Nel caso in cui sia già presente, la elimino
 		if(selected){
 			var index = selectedTransactions.indexOf(selected);
-			console.log('walletTransactionCtrl','Transaction is selected','index',index);
+			//console.log('walletTransactionCtrl','Transaction is selected','index',index);
 			if (index > -1) {
-				console.log('walletTransactionCtrl','Transaction is selected','index','splice',selectedTransactions.splice(index, 1));
-				console.log('walletTransactionCtrl','Transaction is selected','splice',selectedTransactions);
-
+        selectedTransactions.splice(index, 1)
+				//console.log('walletTransactionCtrl','Transaction is selected','index','splice',selectedTransactions.splice(index, 1));
+				//console.log('walletTransactionCtrl','Transaction is selected','splice',selectedTransactions);
 				return;
 			}
 		}else{
 			//Creco la transazione nell'array di transazioni e l'aggiungo al array di transazioni selezionate
 			var matched = TransactionsFilter(transactions,transaction);
-			console.log('walletTransactionCtrl','Transaction matched result',matched);
+			//console.log('walletTransactionCtrl','Transaction matched result',matched);
 			selectedTransactions.push(matched);
-			console.log('walletTransactionCtrl','Selected Transaction result',selectedTransactions);
+			//console.log('walletTransactionCtrl','Selected Transaction result',selectedTransactions);
 		}
 	}
 

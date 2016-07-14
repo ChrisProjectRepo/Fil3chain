@@ -1,12 +1,3 @@
-/**
-* uiBreadcrumbs automatic breadcrumbs directive for AngularJS & Angular ui-router.
-*
-* https://github.com/michaelbromley/angularUtils/tree/master/src/directives/uiBreadcrumbs
-*
-* Copyright 2014 Michael Bromley <michael@michaelbromley.co.uk>'+
-*/
-
-
 (function() {
 
   /**
@@ -37,23 +28,23 @@
       compile: function compile(tElement, tAttrs, transclude) {
         return {
           pre: function preLink(scope, iElement, iAttrs, controller) {
-            $log.debug('SidenavDirective','pre',Sidenav);
+            //$log.debug('SidenavDirective','pre',Sidenav);
             scope.sidenav = Sidenav.get($state.current.name);
             scope.actionClick = function(action){
-              $log.info('sidenav','action','click',action);
               $state.go(action.state)
+              //$log.info('sidenav','action','click',action);
             }
           },
           post: function postLink(scope, iElement, iAttrs, controller) {
-            $log.debug('SidenavDirective','post');
             $http.get(templateSrc)
+            //$log.debug('SidenavDirective','post');
             .then(function(template){
-              $log.debug('SidenavDirective','post','template load success');
+              //$log.debug('SidenavDirective','post','template load success');
               var compiled = $compile(template.data)(scope);
               angular.element(iElement).replaceWith(compiled);
 
               function changeSuccessListener(event, toState, toParams, fromState, fromParams){
-                $log.info('SidenavDirective','$stateChangeSuccess',event, toState, toParams, fromState, fromParams);
+                //$log.info('SidenavDirective','$stateChangeSuccess',event, toState, toParams, fromState, fromParams);
                 scope.sidenav = Sidenav.get($state.current.name);
               }
               scope.$on('$stateChangeSuccess', changeSuccessListener);

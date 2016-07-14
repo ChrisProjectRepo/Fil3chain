@@ -33,7 +33,7 @@
     var StatisticsServiceConfig={};
     //Prende in ingresso il nome del widget e ritorna il link dell'endpoint
     StatisticsServiceConfig.get = function(name){
-      $log.debug('StatisticsServiceConfig','get','name',name);
+      //$log.debug('StatisticsServiceConfig','get','name',name);
       return config[name];
     }
 
