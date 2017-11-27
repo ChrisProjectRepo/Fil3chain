@@ -1,6 +1,6 @@
 # Fil3chain
 
-### Progetto di Sicurezza dei Sistemi Informativi e Reti Complesse
+### Progetto di Sistemi Cooperativi e Reti Sociali
 
 ## Descizione Breve:
 Implementazione del protocollo della blockchain orientata alla realizzazione di un nuovo metodo per esercitare i diritti d'autore su qualsiasi tipo di file.
