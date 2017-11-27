@@ -1,7 +1,7 @@
 # Fil3chain
 
 ## Descizione Breve
-Filechain: implementazione del protocollo della blockchain orientata alla realizzazione di un nuovo metodo per esercitare i diritti d'autore su qualsiasi tipo di file.
+Implementazione del protocollo della blockchain orientata alla realizzazione di un nuovo metodo per esercitare i diritti d'autore su qualsiasi tipo di file.
 
 Sviluppato interamente in Java. La sua architettura è stata definita tramite framework Spring (ed il pattern architetturale MVC).
 L'applicazione comprende:
